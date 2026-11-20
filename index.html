@@ -897,11 +897,25 @@ html.amoled{--bg:#000!important;--bgrgb:0,0,0!important}
 .sp-it img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}
 .sp-new{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:600 11.5px var(--font-body);color:var(--accent)}
 .sp-new b{font-size:28px;line-height:1;font-weight:500}
+.sp-it.sel{box-shadow:inset 0 0 0 2.5px var(--accent)}
+.sp-ck{position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;border:1.5px solid rgba(255,255,255,.7);background:rgba(0,0,0,.35);color:#fff;display:grid;place-items:center;font:700 12px/1 var(--font-body);font-style:normal;pointer-events:none}
+.sp-it.sel .sp-ck{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.sp-grid.sp-list{grid-template-columns:1fr}
+.sp-pk{display:flex;align-items:center;gap:12px;width:100%;padding:10px;border:0;border-radius:16px;background:var(--surface-2);color:var(--fg);text-align:left;cursor:pointer}
+.sp-pk b{flex:1;min-width:0;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-pk em{font-style:normal;font-size:12px;color:var(--muted);flex:none}
+.sp-pkimg{display:grid;grid-template-columns:1fr 1fr;gap:2px;width:56px;height:56px;flex:none}
+.sp-pkimg img{width:100%;height:100%;object-fit:contain;display:block}
+.mp-bar{flex-wrap:wrap}
+.mp-bar .sp-pn{flex-basis:100%;width:100%;height:46px}
 .sp-x{position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#e5484d;color:#fff;display:grid;place-items:center;font:700 14px/1 var(--font-body);font-style:normal;pointer-events:none}
 .sm-wrap{display:flex;justify-content:center;margin:6px 0 8px}
 #sm-cv{width:min(250px,68vw);height:auto;aspect-ratio:1;border-radius:18px;touch-action:none;cursor:grab;background:repeating-conic-gradient(rgba(128,128,128,.28) 0 25%,rgba(128,128,128,.12) 0 50%) 0 0/16px 16px}
 #sm-zoom{width:100%;margin:4px 0 10px;accent-color:var(--accent)}
 .sm-row{margin:0 0 8px}
+.sp-cap{grid-column:1/-1;margin:6px 2px 0;font:600 11.5px var(--font-body);color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.sp-it{transition:transform .15s ease}.sp-it:active{transform:scale(.92)}
+.sm-fx .mp-tab{font-size:12.5px}
 .stk{display:block;width:min(170px,46vw);height:auto;aspect-ratio:1;cursor:pointer}
 .stk-big{display:block;width:min(260px,70vw);height:auto;margin:6px auto 14px}
 .b.sk{background:transparent!important;background-image:none!important;box-shadow:none!important;border:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:2px 4px!important}
@@ -1312,6 +1326,38 @@ html[data-pls=on] .tab.on svg{animation:tpl 1.6s ease-in-out infinite}
 html[data-bub=flow] .b.me:not(.gc):not(.vr):not(.sk){background:linear-gradient(120deg,rgb(var(--acc)),rgb(var(--glow)),#ff7ab0,rgb(var(--acc)));background-size:300% 100%;animation:bflow 6s linear infinite;color:#fff}
 @keyframes bflow{to{background-position:300% 0}}
 html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;color:var(--fg);box-shadow:0 0 0 1.5px rgb(var(--acc)),0 0 14px rgba(var(--glow),.7)}
+
+/* ===== LumoChat Premium ===== */
+.pr-hero{text-align:center;padding:6px 0 2px;background:radial-gradient(60% 80% at 50% 0%,rgba(var(--acc),.38),transparent 72%)}
+.pr-hero h2{font:600 24px/1.2 var(--font-display);margin:6px 0 4px}
+.pr-star{font-size:64px;line-height:1.1;display:inline-block;animation:prFloat 3.2s ease-in-out infinite;filter:drop-shadow(0 10px 22px rgba(var(--acc),.55))}
+@keyframes prFloat{0%,100%{transform:translateY(0) rotate(-6deg) scale(1)}50%{transform:translateY(-9px) rotate(6deg) scale(1.06)}}
+.pr-bal{display:flex;flex-direction:column;gap:8px;margin:14px 0 4px;padding:14px 16px;border-radius:18px;background:var(--surface-2);border:1px solid var(--line)}
+.pr-row{display:flex;justify-content:space-between;align-items:center;font-size:15px}
+.pr-row b{font:600 18px var(--font-display);color:var(--accent)}
+.pr-bar{height:8px;border-radius:8px;background:var(--line);overflow:hidden}
+.pr-bar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--accent),#ff8fc7);transition:width .6s ease}
+.pr-act{color:var(--ok);font-weight:600;margin:10px 4px 0;text-align:center}
+.pr-plans{margin-top:12px}
+.pr-plan{display:flex;align-items:center;gap:12px;width:100%;padding:14px;margin-bottom:8px;border:1.5px solid var(--line);border-radius:16px;background:var(--surface);color:var(--fg);text-align:left;transition:transform .15s ease,border-color .15s}
+.pr-plan:active{transform:scale(.98)}
+.pr-plan.on{border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--acc),.18)}
+.pr-r{width:20px;height:20px;border-radius:50%;border:2px solid var(--muted);flex:none}
+.pr-plan.on .pr-r{background:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 4px var(--surface)}
+.pr-n{flex:1;font-weight:600}
+.pr-n em{font-style:normal;margin-left:6px;padding:2px 7px;border-radius:8px;background:var(--accent);color:var(--on-accent);font-size:11px;font-weight:700}
+.pr-p{font-weight:700}
+.pr-feat{background:var(--surface);border-radius:18px;padding:4px 14px;margin:12px 0}
+.pr-f{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.pr-f:last-child{border-bottom:0}
+.pr-f>i{font-style:normal;font-size:22px;width:30px;text-align:center;flex:none}
+.pr-f>div{flex:1;min-width:0}
+.pr-f b{display:block;font-weight:600}
+.pr-f small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.pr-tag{font-size:11px;padding:3px 8px;border-radius:8px;background:var(--surface-2);color:var(--muted);flex:none;align-self:center}
+.pr-tag.ok{background:rgba(127,214,164,.18);color:var(--ok)}
+.pr-cta{background:linear-gradient(120deg,#8f6ee8,#b8a3f4 50%,#ff8fc7)!important;color:#1b1233!important;font-weight:800;box-shadow:0 10px 30px rgba(var(--acc),.35)}
+.pr-card-sub{color:var(--accent)}
 </style>
 
 <div class="bg-aurora" id="fx" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -1530,7 +1576,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
         <span id="p-user"></span>
       </div>
       <div class="panel"><button class="btn ghost" type="button" data-wallet style="width:100%">Мой баланс: <svg class="lm" aria-hidden="true"><use href="#lumie"/></svg> <span class="bal-val">0</span></button></div>
-      <div class="sgrid"><button class="scard" type="button" data-sc="profile"><span class="sc-i sh0"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4.5 4-6.5 8-6.5s7.5 2 8 6.5"/></svg></span><b>Профиль</b><em>Рамка и форма аватарки, фон звонка</em></button><button class="scard" type="button" data-sc="badges"><span class="sc-i sh3"><svg viewBox="0 0 24 24"><path d="M23.90 12.00L23.73 12.77L23.25 13.48L22.59 14.11L21.90 14.65L21.32 15.17L20.96 15.71L20.83 16.36L20.88 17.12L20.98 18.00L21.00 18.91L20.84 19.75L20.41 20.41L19.75 20.84L18.91 21.00L18.00 20.98L17.12 20.88L16.36 20.83L15.71 20.96L15.17 21.32L14.65 21.90L14.11 22.59L13.48 23.25L12.77 23.73L12.00 23.90L11.23 23.73L10.52 23.25L9.89 22.59L9.35 21.90L8.83 21.32L8.29 20.96L7.64 20.83L6.88 20.88L6.00 20.98L5.09 21.00L4.25 20.84L3.59 20.41L3.16 19.75L3.00 18.91L3.02 18.00L3.12 17.12L3.17 16.36L3.04 15.71L2.68 15.17L2.10 14.65L1.41 14.11L0.75 13.48L0.27 12.77L0.10 12.00L0.27 11.23L0.75 10.52L1.41 9.89L2.10 9.35L2.68 8.83L3.04 8.29L3.17 7.64L3.12 6.87L3.02 6.00L3.00 5.09L3.16 4.25L3.59 3.59L4.25 3.16L5.09 3.00L6.00 3.02L6.87 3.12L7.64 3.17L8.29 3.04L8.83 2.68L9.35 2.10L9.89 1.41L10.52 0.75L11.23 0.27L12.00 0.10L12.77 0.27L13.48 0.75L14.11 1.41L14.65 2.10L15.17 2.68L15.71 3.04L16.36 3.17L17.12 3.12L18.00 3.02L18.91 3.00L19.75 3.16L20.41 3.59L20.84 4.25L21.00 5.09L20.98 6.00L20.88 6.87L20.83 7.64L20.96 8.29L21.32 8.83L21.90 9.35L22.59 9.89L23.25 10.52L23.73 11.23Z"/><path d="M8 12.4l2.8 2.8 5.4-5.8"/></svg></span><b>Галочки</b><em>Пройти проверку и получить галочку</em></button><button class="scard" type="button" data-sc="circles"><span class="sc-i sh1"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="3"/><path d="M16 10.5l5-3v9l-5-3"/></svg></span><b>Кружки</b><em>Рамка вокруг ваших видеокружков</em></button><button class="scard" type="button" data-sc="chatbg"><span class="sc-i sh2"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg></span><b>Фон чата</b><em>Плавающие фигуры на обоях: сколько и какие</em></button><button class="scard" type="button" data-sc="appbg"><span class="sc-i sh4"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 5 5 3-3 5 5"/></svg></span><b>Фон приложения</b><em>Сменить или выключить задний фон</em></button><button class="scard" type="button" data-sc="emoji"><span class="sc-i sh3"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 007 0M9 9.5v.01M15 9.5v.01"/></svg></span><b>Эмодзи</b><em>Набор эмодзи: как рисуются смайлики</em></button><button class="scard" type="button" data-sc="react"><span class="sc-i sh4"><svg viewBox="0 0 24 24"><path d="M12 20C5 15 3 11 3 8a4.5 4.5 0 019-1 4.5 4.5 0 019 1c0 3-2 7-9 12z"/></svg></span><b>Быстрая реакция</b><em>Что ставит двойной тап по сообщению</em></button><button class="scard" type="button" data-sc="icon"><span class="sc-i sh0"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="3.5" height="3.5"/><rect x="10.25" y="4" width="3.5" height="3.5"/><rect x="16.5" y="4" width="3.5" height="3.5"/><rect x="4" y="10.25" width="3.5" height="3.5"/><rect x="10.25" y="10.25" width="3.5" height="3.5"/><rect x="16.5" y="10.25" width="3.5" height="3.5"/><rect x="4" y="16.5" width="3.5" height="3.5"/><rect x="10.25" y="16.5" width="3.5" height="3.5"/><rect x="16.5" y="16.5" width="3.5" height="3.5"/></svg></span><b>Иконка</b><em>Цвет значка на рабочем столе</em></button><button class="scard" type="button" data-sc="case"><span class="sc-i sh2"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M2 5h20v4H2zM12 5v16M12 5c-2-3-6-3-6 0 0 1.500 3 0 6 0zM12 5c2-3 6-3 6 0 0 1.500-3 0-6 0z"/></svg></span><b>Кейс ивента</b><em>Хэллоуин: можно открыть 2 раза</em></button><button class="scard" type="button" data-sc="anim"><span class="sc-i sh1"><svg viewBox="0 0 24 24"><path d="M6 4.500l13 7.500-13 7.500z"/></svg></span><b>Анимации</b><em>Листание, загрузка, нажатие и начальная заставка</em></button><button class="scard" type="button" data-sc="quality"><span class="sc-i sh3"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span><b>Качество</b><em>Видео, кружки, звуки и фото</em></button><button class="scard off" type="button" disabled><span class="sc-i sh1"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><b>Навигация</b><em>В разработке</em></button><button class="scard" type="button" data-sc="theme"><span class="sc-i sh2"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 100 18c1.500 0 2-1 1.500-2s0-2 1.500-2h2a3 3 0 003-3c0-6-3.500-11-8-11z"/></svg></span><b>Оформление</b><em>Цвет темы приложения</em></button><button class="scard" type="button" data-sc="notif"><span class="sc-i sh3"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 21h4"/></svg></span><b>Уведомления и звук</b><em>Разрешения, звук сообщений</em></button><button class="scard" type="button" data-sc="priv"><span class="sc-i sh4"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/></svg></span><b>Конфиденциальность</b><em>Блокировки и статус прочтения</em></button><button class="scard" type="button" data-sc="chats"><span class="sc-i sh0"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></span><b>Чаты и вид</b><em>Текст, вибрация, анимации</em></button><button class="scard" type="button" data-sc="data"><span class="sc-i sh1"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></span><b>Данные</b><em>Очистка и ник</em></button><button class="scard" type="button" data-sc="about"><span class="sc-i sh2"><svg viewBox="0 0 24 24"><path d="M12 8v5M12 16.500v.01M12 3a9 9 0 100 18 9 9 0 000-18z"/></svg></span><b>О приложении</b><em>Версия и сброс</em></button><button class="scard" type="button" data-sc="sec"><span class="sc-i sh3"><svg viewBox="0 0 24 24"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v9H6z"/></svg></span><b>Вход и безопасность</b><em>Пароль и запоминание входа</em></button><button class="scard dng" type="button" data-sc="acc"><span class="sc-i sh4"><svg viewBox="0 0 24 24"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/></svg></span><b>Аккаунт</b><em>Выход из аккаунта</em></button></div><button class="lag-btn" type="button" id="lag-open">Лагает?</button></div><div class="spage" id="sp-profile" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Профиль</h1></div><div class="pr-top"><button class="pr-av-b" type="button" id="s-photo" aria-label="Сменить фото"><div class="avatar pr-av" id="pr-av"></div></button><b class="pr-n" id="pr-n"></b><span class="pr-u" id="pr-u"></span></div><div class="pr-btns"><button class="pr-btn" type="button" data-spto="edit"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16zM14 7l3 3"/></svg>Изменить</button><button class="pr-btn" type="button" data-x="more"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>Ещё</button></div><div id="pr-rows"></div><button class="pr-hid" type="button" id="s-name" hidden></button><button class="pr-hid" type="button" id="s-bio" hidden></button></div><div class="spage" id="sp-edit" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spto="profile"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Профиль</span></button><h3 class="ed-h">Рамка аватарки</h3><div class="ed-card"><div class="ed-pv"><div class="avatar pv-big" id="pv-av"></div></div><div class="ed-opts" id="o-afr"></div><p class="ed-d">Рамку видят все, кто общается с вами. Новые рамки выпадают из кейса ивента.</p></div><h3 class="ed-h">Фон звонка</h3><div class="ed-card"><div class="ed-bgpv" id="pv-cbg"><div class="avatar pv-mid" id="pv-av2"></div></div><div class="ed-opts" id="o-cbg"></div><p class="ed-d">Фон видят собеседники в звонке с вами — за вашей аватаркой, пока нет видео.</p></div><h3 class="ed-h">Форма аватара</h3><div class="ed-card"><div class="ed-row" id="pv-row"></div><div class="ed-shp" id="o-ash"></div></div></div><div class="spage" id="sp-circles" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spback><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Кружки</span></button><h3 class="ed-h">Рамка кружков</h3><div class="ed-card"><div class="ed-pv"><div class="cv-pv" id="pv-cv"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2.500" fill="currentColor" stroke="none"/><path d="M16 10.500l5-3v9l-5-3z" fill="currentColor" stroke="none"/></svg></div></div><div class="ed-opts" id="o-cfr"></div><p class="ed-d">Рамка прикрепляется к кружкам, которые вы отправляете, и видна всем. Новые рамки выпадают из кейса ивента.</p></div><h3 class="ed-h">Размер кружков</h3><div class="ed-card"><div class="ed-chips" id="o-csz"></div></div></div><div class="spage" id="sp-chatbg" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spback><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Фон чата</span></button><div class="ed-card ed-tg"><span class="ed-tgi"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><div class="ed-tgt"><b>Плавающие фигуры</b><em>Плывут по фону переписки</em></div><button class="sw" type="button" role="switch" id="o-bgon" aria-label="Плавающие фигуры"><i></i></button></div><div class="ed-card"><div class="ed-lb">Сколько фигур</div><div class="ed-chips" id="o-bgc"></div><div class="ed-lb" style="margin-top:18px">Отображаемые фигуры</div><div class="ed-bgs" id="o-bgs"></div><div class="ed-lb" style="margin-top:18px">Скорость</div><div class="ed-chips" id="o-bgsp"></div></div></div><div class="spage" id="sp-emoji" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spback><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Эмодзи</span></button><h3 class="ed-h">Набор эмодзи</h3><div class="ed-card"><div class="ed-emg" id="pv-emo"></div><div class="ed-opts" id="o-emset"></div><p class="ed-d">Набор меняется во всём приложении: в переписке, реакциях и панели эмодзи. Наборы Apple, Google, Twitter и Facebook подгружаются из интернета.</p></div><h3 class="ed-h">Стиль стикеров</h3><div class="ed-card"><div class="ed-chips" id="o-emo"></div><p class="ed-d">Как выглядят эмодзи-стикеры, которые вы отправляете.</p></div></div><div class="spage" id="sp-react" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spback><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Быстрая реакция</span></button><h3 class="ed-h">Быстрая реакция</h3><div class="ed-card"><p class="ed-p">Двойной тап по сообщению ставит эту реакцию.<br>Ещё один двойной тап снимает её.</p><div class="ed-rx" id="o-qr"></div><button class="ed-off" type="button" id="o-qroff">Выкл</button></div></div><div class="spage" id="sp-icon" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spback><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Иконка</span></button><h3 class="ed-h">Цвет значка</h3><div class="ed-card"><div class="ed-pv"><div class="ico-pv" id="pv-ico"></div></div><div class="ed-ico" id="o-ico"></div><p class="ed-d">Значок сменится, когда вы выйдете из приложения. Если на рабочем столе его не стало — добавьте заново из списка приложений.</p></div></div><div class="spage" id="sp-appbg" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Фон приложения</h1></div><div class="ed-card ed-tg" style="margin-top:10px"><div class="ed-tgt"><b>Анимация фона</b><em>Плавные световые пятна и звёздочки. Выключите, чтобы остался чистый фон</em></div><button class="sw" type="button" role="switch" id="o-aur" aria-label="Анимация фона"><i></i></button></div><div class="ed-card ed-tg" style="margin-top:10px"><div class="ed-tgt"><b>Чёрный фон (AMOLED)</b><em>Полностью чёрный фон для экономии заряда</em></div><button class="sw" type="button" role="switch" id="o-amo" aria-label="Чёрный фон (AMOLED)"><i></i></button></div><h3 class="ed-h">Задний фон</h3><div class="ed-card"><div class="abg-g" id="o-abg"></div><p class="ed-d">«Однотонный» и «Чёрный» полностью убирают цветное свечение фона. «По теме» возвращает стандартный фон.</p></div><h3 class="ed-h">Фон в чате</h3><div class="ed-card"><button class="btn ghost" type="button" data-spto="chatbg" style="width:100%">Плавающие фигуры в чате: включить или выключить</button></div></div><div class="spage" id="sp-case" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Кейс ивента</h1></div><p class="sub" style="margin:4px 4px 0">Хэллоуин. В кейсе — одна из трёх тематических наград. Открыть можно 2 раза.</p><div class="cs-stage" id="cs-stage"><div class="cs-glow"></div><div class="cs-box" id="cs-box"></div><div class="cs-ps" id="cs-ps"></div></div><button class="btn" type="button" id="cs-go" style="width:100%">Открыть кейс</button><p class="cs-left" id="cs-left"></p><h3 class="ed-h">Что может выпасть</h3><div class="cs-list" id="cs-list"></div></div><div class="spage" id="sp-theme" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Оформление</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-theme" style="width:100%">Тема оформления: Фиолетовая</button></div><div class="panel"><button class="btn ghost" type="button" id="s-random" style="width:100%">Случайная тема</button></div><div class="sgrid" style="margin-top:6px"><button class="scard" type="button" data-spto="th1"><span class="sc-i sh2"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></span><b>Основное</b><em>Текст, сообщения, список чатов, фон, базовые эффекты</em></button><button class="scard" type="button" data-spto="th2"><span class="sc-i sh4"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span><b>Крутые функции</b><em>Частицы, неон, живые пузыри, свечение экрана и другое</em></button></div><div class="panel" style="margin-top:12px"><button class="btn ghost" type="button" id="s-reset2" style="width:100%">Сбросить оформление</button></div></div><div class="spage" id="sp-th1" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spto="theme" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Основное</h1></div><div class="panel"><button class="btn ghost" type="button" data-spto="appbg" style="width:100%">Фон приложения…</button></div><h3 class="th-sec">Текст</h3><div class="panel"><button class="btn ghost" type="button" data-pref="fs" style="width:100%">Размер текста: обычный</button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="fnt" style="width:100%"></button></div><h3 class="th-sec">Сообщения</h3><div class="panel"><button class="btn ghost" type="button" data-cyc="br" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="bsh" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="tm" style="width:100%"></button></div><h3 class="th-sec">Список чатов</h3><div class="panel"><button class="btn ghost" type="button" data-cyc="dens" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="avs" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="nlb" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="rad" style="width:100%"></button></div><h3 class="th-sec">Эффекты</h3><div class="panel"><button class="btn ghost" type="button" data-pref="glass" style="width:100%">Эффект стекла: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="aur" style="width:100%">Анимация фона: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="shn" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-pref="amoled" style="width:100%">Чёрный фон (AMOLED): выкл</button></div><h3 class="th-sec">Ещё оформление</h3><div class="panel"><button class="btn ghost" type="button" data-spto="edit" style="width:100%">Рамки и форма аватарки…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="circles" style="width:100%">Рамки кружков…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="chatbg" style="width:100%">Фон чата…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="emoji" style="width:100%">Набор эмодзи…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="react" style="width:100%">Быстрая реакция…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="icon" style="width:100%">Иконка приложения…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="anim" style="width:100%">Анимации…</button></div></div><div class="spage" id="sp-th2" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spto="theme" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Крутые функции</h1></div><p class="sub" style="margin:4px 4px 0">Необычные эффекты. Включайте по одному и смотрите, что нравится.</p><h3 class="th-sec">Частицы на экране</h3><div class="panel"><button class="btn ghost" type="button" data-cyc="fx" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="fxn" style="width:100%"></button></div><h3 class="th-sec">Свечение и неон</h3><div class="panel"><button class="btn ghost" type="button" data-cyc="edge" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="neon" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="bub" style="width:100%"></button></div><h3 class="th-sec">Живые цвета</h3><div class="panel"><button class="btn ghost" type="button" data-cyc="hue" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="ttl" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="gls" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="pls" style="width:100%"></button></div></div><div class="spage" id="sp-notif" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Уведомления и звук</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-perm" style="width:100%">Разрешения: уведомления, фото, звонки</button></div><div class="panel"><button class="btn ghost" type="button" id="s-sound" style="width:100%">Звук сообщений: вкл</button></div></div><div class="spage" id="sp-priv" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Конфиденциальность</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-blocked" style="width:100%">Заблокированные</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="rd" style="width:100%">Статус «прочитано»: вкл</button></div></div><div class="spage" id="sp-chats" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Чаты и вид</h1></div><div class="panel"><button class="btn ghost" type="button" data-pref="vib" style="width:100%">Вибрация: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="vol" style="width:100%">Громкость звуков: средняя</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="ssnd" style="width:100%">Звук отправки: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="ring" style="width:100%">Звук звонка: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="prev" style="width:100%">Текст в уведомлениях: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="gan" style="width:100%"></button></div></div><div class="spage" id="sp-quality" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Качество</h1></div><p class="sub" style="margin:4px 4px 0">Выберите качество для каждого вида. «Максимальное» не помещается в сообщение, поэтому после отправки приложение предложит скачать оригинал к себе (не в галерею). Смотреть его можно здесь же.</p><div id="q-body"></div></div><div class="spage" id="sp-anim" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Анимации</h1></div><div class="an-tabs" id="an-tabs"></div><div id="an-body"></div></div><div class="spage" id="sp-data" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Данные</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-clearall" style="width:100%">Очистить все чаты</button></div><div class="panel"><button class="btn ghost" type="button" id="s-copynick" style="width:100%">Скопировать мой ник</button></div><div class="panel"><button class="btn ghost" type="button" id="s-share" style="width:100%">Поделиться LumoChat</button></div><div class="panel"><button class="btn ghost" type="button" id="s-export" style="width:100%">Скачать данные профиля</button></div></div><div class="spage" id="sp-badges" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Галочки</h1></div><p class="sub">Пройдите проверку: бот посмотрит профиль и ответы и через 15–20 минут сообщит результат.</p><div id="vb-list"></div></div><div class="spage" id="sp-about" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>О приложении</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-about" style="width:100%">О LumoChat</button></div><div class="panel"><button class="btn ghost" type="button" id="s-reset" style="width:100%">Сбросить настройки вида</button></div></div><div class="spage" id="sp-sec" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Вход и безопасность</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-keep" style="width:100%">Оставаться в аккаунте: вкл</button></div><div class="panel"><button class="btn ghost" type="button" id="s-pass" style="width:100%">Сменить пароль</button></div></div><div class="spage" id="sp-acc" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Аккаунт</h1></div><div class="panel"><button class="btn ghost danger" type="button" id="logout" style="width:100%">Выйти из аккаунта</button></div></div>
+      <div class="sgrid"><button class="scard" type="button" data-prem><span class="sc-i sh0"><span style="font-size:20px;line-height:1">⭐</span></span><b>LumoChat Premium</b><small class="pr-card-sub" style="display:block;font-size:12px;opacity:.85">за звёзды из времени в приложении</small></button><button class="scard" type="button" data-sc="profile"><span class="sc-i sh0"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-4.5 4-6.5 8-6.5s7.5 2 8 6.5"/></svg></span><b>Профиль</b><em>Рамка и форма аватарки, фон звонка</em></button><button class="scard" type="button" data-sc="badges"><span class="sc-i sh3"><svg viewBox="0 0 24 24"><path d="M23.90 12.00L23.73 12.77L23.25 13.48L22.59 14.11L21.90 14.65L21.32 15.17L20.96 15.71L20.83 16.36L20.88 17.12L20.98 18.00L21.00 18.91L20.84 19.75L20.41 20.41L19.75 20.84L18.91 21.00L18.00 20.98L17.12 20.88L16.36 20.83L15.71 20.96L15.17 21.32L14.65 21.90L14.11 22.59L13.48 23.25L12.77 23.73L12.00 23.90L11.23 23.73L10.52 23.25L9.89 22.59L9.35 21.90L8.83 21.32L8.29 20.96L7.64 20.83L6.88 20.88L6.00 20.98L5.09 21.00L4.25 20.84L3.59 20.41L3.16 19.75L3.00 18.91L3.02 18.00L3.12 17.12L3.17 16.36L3.04 15.71L2.68 15.17L2.10 14.65L1.41 14.11L0.75 13.48L0.27 12.77L0.10 12.00L0.27 11.23L0.75 10.52L1.41 9.89L2.10 9.35L2.68 8.83L3.04 8.29L3.17 7.64L3.12 6.87L3.02 6.00L3.00 5.09L3.16 4.25L3.59 3.59L4.25 3.16L5.09 3.00L6.00 3.02L6.87 3.12L7.64 3.17L8.29 3.04L8.83 2.68L9.35 2.10L9.89 1.41L10.52 0.75L11.23 0.27L12.00 0.10L12.77 0.27L13.48 0.75L14.11 1.41L14.65 2.10L15.17 2.68L15.71 3.04L16.36 3.17L17.12 3.12L18.00 3.02L18.91 3.00L19.75 3.16L20.41 3.59L20.84 4.25L21.00 5.09L20.98 6.00L20.88 6.87L20.83 7.64L20.96 8.29L21.32 8.83L21.90 9.35L22.59 9.89L23.25 10.52L23.73 11.23Z"/><path d="M8 12.4l2.8 2.8 5.4-5.8"/></svg></span><b>Галочки</b><em>Пройти проверку и получить галочку</em></button><button class="scard" type="button" data-sc="circles"><span class="sc-i sh1"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="3"/><path d="M16 10.5l5-3v9l-5-3"/></svg></span><b>Кружки</b><em>Рамка вокруг ваших видеокружков</em></button><button class="scard" type="button" data-sc="chatbg"><span class="sc-i sh2"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg></span><b>Фон чата</b><em>Плавающие фигуры на обоях: сколько и какие</em></button><button class="scard" type="button" data-sc="appbg"><span class="sc-i sh4"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 5 5 3-3 5 5"/></svg></span><b>Фон приложения</b><em>Сменить или выключить задний фон</em></button><button class="scard" type="button" data-sc="emoji"><span class="sc-i sh3"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 007 0M9 9.5v.01M15 9.5v.01"/></svg></span><b>Эмодзи</b><em>Набор эмодзи: как рисуются смайлики</em></button><button class="scard" type="button" data-sc="react"><span class="sc-i sh4"><svg viewBox="0 0 24 24"><path d="M12 20C5 15 3 11 3 8a4.5 4.5 0 019-1 4.5 4.5 0 019 1c0 3-2 7-9 12z"/></svg></span><b>Быстрая реакция</b><em>Что ставит двойной тап по сообщению</em></button><button class="scard" type="button" data-sc="icon"><span class="sc-i sh0"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="3.5" height="3.5"/><rect x="10.25" y="4" width="3.5" height="3.5"/><rect x="16.5" y="4" width="3.5" height="3.5"/><rect x="4" y="10.25" width="3.5" height="3.5"/><rect x="10.25" y="10.25" width="3.5" height="3.5"/><rect x="16.5" y="10.25" width="3.5" height="3.5"/><rect x="4" y="16.5" width="3.5" height="3.5"/><rect x="10.25" y="16.5" width="3.5" height="3.5"/><rect x="16.5" y="16.5" width="3.5" height="3.5"/></svg></span><b>Иконка</b><em>Цвет значка на рабочем столе</em></button><button class="scard" type="button" data-sc="case"><span class="sc-i sh2"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M2 5h20v4H2zM12 5v16M12 5c-2-3-6-3-6 0 0 1.500 3 0 6 0zM12 5c2-3 6-3 6 0 0 1.500-3 0-6 0z"/></svg></span><b>Кейс ивента</b><em>Хэллоуин: можно открыть 2 раза</em></button><button class="scard" type="button" data-sc="anim"><span class="sc-i sh1"><svg viewBox="0 0 24 24"><path d="M6 4.500l13 7.500-13 7.500z"/></svg></span><b>Анимации</b><em>Листание, загрузка, нажатие и начальная заставка</em></button><button class="scard" type="button" data-sc="quality"><span class="sc-i sh3"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></span><b>Качество</b><em>Видео, кружки, звуки и фото</em></button><button class="scard off" type="button" disabled><span class="sc-i sh1"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><b>Навигация</b><em>В разработке</em></button><button class="scard" type="button" data-sc="theme"><span class="sc-i sh2"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 100 18c1.500 0 2-1 1.500-2s0-2 1.500-2h2a3 3 0 003-3c0-6-3.500-11-8-11z"/></svg></span><b>Оформление</b><em>Цвет темы приложения</em></button><button class="scard" type="button" data-sc="notif"><span class="sc-i sh3"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 21h4"/></svg></span><b>Уведомления и звук</b><em>Разрешения, звук сообщений</em></button><button class="scard" type="button" data-sc="priv"><span class="sc-i sh4"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/></svg></span><b>Конфиденциальность</b><em>Блокировки и статус прочтения</em></button><button class="scard" type="button" data-sc="chats"><span class="sc-i sh0"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg></span><b>Чаты и вид</b><em>Текст, вибрация, анимации</em></button><button class="scard" type="button" data-sc="data"><span class="sc-i sh1"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg></span><b>Данные</b><em>Очистка и ник</em></button><button class="scard" type="button" data-sc="about"><span class="sc-i sh2"><svg viewBox="0 0 24 24"><path d="M12 8v5M12 16.500v.01M12 3a9 9 0 100 18 9 9 0 000-18z"/></svg></span><b>О приложении</b><em>Версия и сброс</em></button><button class="scard" type="button" data-sc="sec"><span class="sc-i sh3"><svg viewBox="0 0 24 24"><path d="M7 11V8a5 5 0 0110 0v3M6 11h12v9H6z"/></svg></span><b>Вход и безопасность</b><em>Пароль и запоминание входа</em></button><button class="scard dng" type="button" data-sc="acc"><span class="sc-i sh4"><svg viewBox="0 0 24 24"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/></svg></span><b>Аккаунт</b><em>Выход из аккаунта</em></button></div><button class="lag-btn" type="button" id="lag-open">Лагает?</button></div><div class="spage" id="sp-profile" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Профиль</h1></div><div class="pr-top"><button class="pr-av-b" type="button" id="s-photo" aria-label="Сменить фото"><div class="avatar pr-av" id="pr-av"></div></button><b class="pr-n" id="pr-n"></b><span class="pr-u" id="pr-u"></span></div><div class="pr-btns"><button class="pr-btn" type="button" data-spto="edit"><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11-3-3L5 16zM14 7l3 3"/></svg>Изменить</button><button class="pr-btn" type="button" data-x="more"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>Ещё</button></div><div id="pr-rows"></div><button class="pr-hid" type="button" id="s-name" hidden></button><button class="pr-hid" type="button" id="s-bio" hidden></button></div><div class="spage" id="sp-edit" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spto="profile"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Профиль</span></button><h3 class="ed-h">Рамка аватарки</h3><div class="ed-card"><div class="ed-pv"><div class="avatar pv-big" id="pv-av"></div></div><div class="ed-opts" id="o-afr"></div><p class="ed-d">Рамку видят все, кто общается с вами. Новые рамки выпадают из кейса ивента.</p></div><h3 class="ed-h">Фон звонка</h3><div class="ed-card"><div class="ed-bgpv" id="pv-cbg"><div class="avatar pv-mid" id="pv-av2"></div></div><div class="ed-opts" id="o-cbg"></div><p class="ed-d">Фон видят собеседники в звонке с вами — за вашей аватаркой, пока нет видео.</p></div><h3 class="ed-h">Форма аватара</h3><div class="ed-card"><div class="ed-row" id="pv-row"></div><div class="ed-shp" id="o-ash"></div></div></div><div class="spage" id="sp-circles" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spback><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Кружки</span></button><h3 class="ed-h">Рамка кружков</h3><div class="ed-card"><div class="ed-pv"><div class="cv-pv" id="pv-cv"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2.500" fill="currentColor" stroke="none"/><path d="M16 10.500l5-3v9l-5-3z" fill="currentColor" stroke="none"/></svg></div></div><div class="ed-opts" id="o-cfr"></div><p class="ed-d">Рамка прикрепляется к кружкам, которые вы отправляете, и видна всем. Новые рамки выпадают из кейса ивента.</p></div><h3 class="ed-h">Размер кружков</h3><div class="ed-card"><div class="ed-chips" id="o-csz"></div></div></div><div class="spage" id="sp-chatbg" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spback><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Фон чата</span></button><div class="ed-card ed-tg"><span class="ed-tgi"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><div class="ed-tgt"><b>Плавающие фигуры</b><em>Плывут по фону переписки</em></div><button class="sw" type="button" role="switch" id="o-bgon" aria-label="Плавающие фигуры"><i></i></button></div><div class="ed-card"><div class="ed-lb">Сколько фигур</div><div class="ed-chips" id="o-bgc"></div><div class="ed-lb" style="margin-top:18px">Отображаемые фигуры</div><div class="ed-bgs" id="o-bgs"></div><div class="ed-lb" style="margin-top:18px">Скорость</div><div class="ed-chips" id="o-bgsp"></div></div></div><div class="spage" id="sp-emoji" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spback><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Эмодзи</span></button><h3 class="ed-h">Набор эмодзи</h3><div class="ed-card"><div class="ed-emg" id="pv-emo"></div><div class="ed-opts" id="o-emset"></div><p class="ed-d">Набор меняется во всём приложении: в переписке, реакциях и панели эмодзи. Наборы Apple, Google, Twitter и Facebook подгружаются из интернета.</p></div><h3 class="ed-h">Стиль стикеров</h3><div class="ed-card"><div class="ed-chips" id="o-emo"></div><p class="ed-d">Как выглядят эмодзи-стикеры, которые вы отправляете.</p></div></div><div class="spage" id="sp-react" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spback><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Быстрая реакция</span></button><h3 class="ed-h">Быстрая реакция</h3><div class="ed-card"><p class="ed-p">Двойной тап по сообщению ставит эту реакцию.<br>Ещё один двойной тап снимает её.</p><div class="ed-rx" id="o-qr"></div><button class="ed-off" type="button" id="o-qroff">Выкл</button></div></div><div class="spage" id="sp-icon" hidden><div class="home-head sp-head ed-top"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><span class="ed-ic"><svg viewBox="0 0 24 24"><path d="M8 4l9 2-2 12-9-2z" fill="currentColor" stroke="none"/></svg></span><h1>Изменить</h1></div><button class="ed-chip" type="button" data-spback><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Иконка</span></button><h3 class="ed-h">Цвет значка</h3><div class="ed-card"><div class="ed-pv"><div class="ico-pv" id="pv-ico"></div></div><div class="ed-ico" id="o-ico"></div><p class="ed-d">Значок сменится, когда вы выйдете из приложения. Если на рабочем столе его не стало — добавьте заново из списка приложений.</p></div></div><div class="spage" id="sp-appbg" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Фон приложения</h1></div><div class="ed-card ed-tg" style="margin-top:10px"><div class="ed-tgt"><b>Анимация фона</b><em>Плавные световые пятна и звёздочки. Выключите, чтобы остался чистый фон</em></div><button class="sw" type="button" role="switch" id="o-aur" aria-label="Анимация фона"><i></i></button></div><div class="ed-card ed-tg" style="margin-top:10px"><div class="ed-tgt"><b>Чёрный фон (AMOLED)</b><em>Полностью чёрный фон для экономии заряда</em></div><button class="sw" type="button" role="switch" id="o-amo" aria-label="Чёрный фон (AMOLED)"><i></i></button></div><h3 class="ed-h">Задний фон</h3><div class="ed-card"><div class="abg-g" id="o-abg"></div><p class="ed-d">«Однотонный» и «Чёрный» полностью убирают цветное свечение фона. «По теме» возвращает стандартный фон.</p></div><h3 class="ed-h">Фон в чате</h3><div class="ed-card"><button class="btn ghost" type="button" data-spto="chatbg" style="width:100%">Плавающие фигуры в чате: включить или выключить</button></div></div><div class="spage" id="sp-case" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Кейс ивента</h1></div><p class="sub" style="margin:4px 4px 0">Хэллоуин. В кейсе — одна из трёх тематических наград. Открыть можно 2 раза.</p><div class="cs-stage" id="cs-stage"><div class="cs-glow"></div><div class="cs-box" id="cs-box"></div><div class="cs-ps" id="cs-ps"></div></div><button class="btn" type="button" id="cs-go" style="width:100%">Открыть кейс</button><p class="cs-left" id="cs-left"></p><h3 class="ed-h">Что может выпасть</h3><div class="cs-list" id="cs-list"></div></div><div class="spage" id="sp-theme" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Оформление</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-theme" style="width:100%">Тема оформления: Фиолетовая</button></div><div class="panel"><button class="btn ghost" type="button" id="s-random" style="width:100%">Случайная тема</button></div><div class="sgrid" style="margin-top:6px"><button class="scard" type="button" data-spto="th1"><span class="sc-i sh2"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></span><b>Основное</b><em>Текст, сообщения, список чатов, фон, базовые эффекты</em></button><button class="scard" type="button" data-spto="th2"><span class="sc-i sh4"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></span><b>Крутые функции</b><em>Частицы, неон, живые пузыри, свечение экрана и другое</em></button></div><div class="panel" style="margin-top:12px"><button class="btn ghost" type="button" id="s-reset2" style="width:100%">Сбросить оформление</button></div></div><div class="spage" id="sp-th1" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spto="theme" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Основное</h1></div><div class="panel"><button class="btn ghost" type="button" data-spto="appbg" style="width:100%">Фон приложения…</button></div><h3 class="th-sec">Текст</h3><div class="panel"><button class="btn ghost" type="button" data-pref="fs" style="width:100%">Размер текста: обычный</button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="fnt" style="width:100%"></button></div><h3 class="th-sec">Сообщения</h3><div class="panel"><button class="btn ghost" type="button" data-cyc="br" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="bsh" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="tm" style="width:100%"></button></div><h3 class="th-sec">Список чатов</h3><div class="panel"><button class="btn ghost" type="button" data-cyc="dens" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="avs" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="nlb" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="rad" style="width:100%"></button></div><h3 class="th-sec">Эффекты</h3><div class="panel"><button class="btn ghost" type="button" data-pref="glass" style="width:100%">Эффект стекла: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="aur" style="width:100%">Анимация фона: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="shn" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-pref="amoled" style="width:100%">Чёрный фон (AMOLED): выкл</button></div><h3 class="th-sec">Ещё оформление</h3><div class="panel"><button class="btn ghost" type="button" data-spto="edit" style="width:100%">Рамки и форма аватарки…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="circles" style="width:100%">Рамки кружков…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="chatbg" style="width:100%">Фон чата…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="emoji" style="width:100%">Набор эмодзи…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="react" style="width:100%">Быстрая реакция…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="icon" style="width:100%">Иконка приложения…</button></div><div class="panel"><button class="btn ghost" type="button" data-spto="anim" style="width:100%">Анимации…</button></div></div><div class="spage" id="sp-th2" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spto="theme" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Крутые функции</h1></div><p class="sub" style="margin:4px 4px 0">Необычные эффекты. Включайте по одному и смотрите, что нравится.</p><h3 class="th-sec">Частицы на экране</h3><div class="panel"><button class="btn ghost" type="button" data-cyc="fx" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="fxn" style="width:100%"></button></div><h3 class="th-sec">Свечение и неон</h3><div class="panel"><button class="btn ghost" type="button" data-cyc="edge" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="neon" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="bub" style="width:100%"></button></div><h3 class="th-sec">Живые цвета</h3><div class="panel"><button class="btn ghost" type="button" data-cyc="hue" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="ttl" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="gls" style="width:100%"></button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="pls" style="width:100%"></button></div></div><div class="spage" id="sp-notif" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Уведомления и звук</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-perm" style="width:100%">Разрешения: уведомления, фото, звонки</button></div><div class="panel"><button class="btn ghost" type="button" id="s-sound" style="width:100%">Звук сообщений: вкл</button></div></div><div class="spage" id="sp-priv" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Конфиденциальность</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-blocked" style="width:100%">Заблокированные</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="rd" style="width:100%">Статус «прочитано»: вкл</button></div></div><div class="spage" id="sp-chats" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Чаты и вид</h1></div><div class="panel"><button class="btn ghost" type="button" data-pref="vib" style="width:100%">Вибрация: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="vol" style="width:100%">Громкость звуков: средняя</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="ssnd" style="width:100%">Звук отправки: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="ring" style="width:100%">Звук звонка: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-pref="prev" style="width:100%">Текст в уведомлениях: вкл</button></div><div class="panel"><button class="btn ghost" type="button" data-cyc="gan" style="width:100%"></button></div></div><div class="spage" id="sp-quality" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Качество</h1></div><p class="sub" style="margin:4px 4px 0">Выберите качество для каждого вида. «Максимальное» не помещается в сообщение, поэтому после отправки приложение предложит скачать оригинал к себе (не в галерею). Смотреть его можно здесь же.</p><div id="q-body"></div></div><div class="spage" id="sp-anim" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Анимации</h1></div><div class="an-tabs" id="an-tabs"></div><div id="an-body"></div></div><div class="spage" id="sp-data" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Данные</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-clearall" style="width:100%">Очистить все чаты</button></div><div class="panel"><button class="btn ghost" type="button" id="s-copynick" style="width:100%">Скопировать мой ник</button></div><div class="panel"><button class="btn ghost" type="button" id="s-share" style="width:100%">Поделиться LumoChat</button></div><div class="panel"><button class="btn ghost" type="button" id="s-export" style="width:100%">Скачать данные профиля</button></div></div><div class="spage" id="sp-badges" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Галочки</h1></div><p class="sub">Пройдите проверку: бот посмотрит профиль и ответы и через 15–20 минут сообщит результат.</p><div id="vb-list"></div></div><div class="spage" id="sp-about" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>О приложении</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-about" style="width:100%">О LumoChat</button></div><div class="panel"><button class="btn ghost" type="button" id="s-reset" style="width:100%">Сбросить настройки вида</button></div></div><div class="spage" id="sp-sec" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Вход и безопасность</h1></div><div class="panel"><button class="btn ghost" type="button" id="s-keep" style="width:100%">Оставаться в аккаунте: вкл</button></div><div class="panel"><button class="btn ghost" type="button" id="s-pass" style="width:100%">Сменить пароль</button></div></div><div class="spage" id="sp-acc" hidden><div class="home-head sp-head"><button class="icon-btn" type="button" data-spback aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><h1>Аккаунт</h1></div><div class="panel"><button class="btn ghost danger" type="button" id="logout" style="width:100%">Выйти из аккаунта</button></div></div>
     </div>
     <nav class="nav" aria-label="Разделы">
       <div class="pill" role="tablist"><span class="slider"></span>
@@ -1648,7 +1694,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
   if (CFG && CFG.apiKey && window.firebase) { firebase.initializeApp(CFG); auth = firebase.auth(); db = firebase.firestore(); db.settings({ experimentalAutoDetectLongPolling: true, merge: true }); db.enablePersistence({ synchronizeTabs: true }).catch(function () {}); }
   function users() { return UC; }
   var KEEP = store.get('lumo_keep', true), NOPERSIST = false;
-  function credSave(u, p) { if (!KEEP) return; try { store.set('lumo_cred', btoa(unescape(encodeURIComponent(JSON.stringify({ u: u, p: p }))))); } catch (e) {} }
+  function credSave(u, p) { if (!KEEP || !NOPERSIST) return; try { store.set('lumo_cred', btoa(unescape(encodeURIComponent(JSON.stringify({ u: u, p: p }))))); } catch (e) {} }
   function credGet() { try { var v = store.get('lumo_cred', null); return v ? JSON.parse(decodeURIComponent(escape(atob(v)))) : null; } catch (e) { return null; } }
   function credClear() { store.set('lumo_cred', null); }
   if (auth) {
@@ -1657,9 +1703,8 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
   }
   function authCall(fn) {
     return fn().catch(function (e) {
-      if (e && e.code === 'auth/operation-not-supported-in-this-environment') {
+      if (e && e.code === 'auth/operation-not-supported-in-this-environment')
         NOPERSIST = true; return auth.setPersistence(firebase.auth.Auth.Persistence.NONE).then(fn);
-      }
       throw e;
     });
   }
@@ -2380,6 +2425,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
   }
   function sendMsg(p, payload, preview, ts0) {
     if (isBlocked(p.id) || p.blockedMe) { toast(isBlocked(p.id) ? 'Вы заблокировали этого пользователя' : 'Пользователь ограничил вам сообщения'); return Promise.reject(new Error('blocked')); }
+    prOnSend();
     var ts = ts0 || Date.now(), ref = db.collection('chats').doc(chatId(uid, p.id));
     return ensureChat(p).then(function () { var up = { last: preview, lastTs: ts, lastFrom: uid }; if (p.id !== uid) up['unread.' + p.id] = FV ? FV.increment(1) : 1; return ref.update(up); })
       .then(function () { return ref.collection('messages').add(Object.assign({ from: uid, ts: ts }, payload)); });
@@ -3402,6 +3448,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
      Любое поле можно убрать — тогда эта проверка не нужна. Три галочки ниже — примеры, замените на свои. */
   var VB_OWNER = 'arti_rbx15052';
 var BADGES = [
+    { id: 'premium', name: 'LumoChat Premium', label: 'Подписчик LumoChat Premium', color: '#b8a3f4', desc: 'Значок появляется, пока действует подписка LumoChat Premium.' },
     { id: 'verified', name: 'Подтверждённый', color: '#3b9cff', desc: 'Настоящий аккаунт: заполнен профиль и привязана почта.', req: { photo: 1, bio: 10, mail: 1, quiz: 2, text: 20 } },
   { id: 'creator', name: 'Создатель', label: 'Создатель LumoChat', only: VB_OWNER, color: '#c9b8ff', desc: 'Галочка самого приложения. Выдана автоматически создателю LumoChat.', svg: '<path d="M12.25 2.2c5.5 0 10 3.4 10 8.1s-4.5 8.1-10 8.1c-.9 0-1.8-.1-2.6-.3L4.4 21.8l.4-5.3C3.2 15 2.25 12.8 2.25 10.3c0-4.7 4.5-8.1 10-8.1z" fill="#c9b8ff"/><path d="M12.25 5.20L13.51 8.56L17.10 8.72L14.29 10.96L15.25 14.43L12.25 12.45L9.25 14.43L10.21 10.96L7.40 8.72L10.99 8.56Z" fill="#2b1a57"/>', req: {} }
   ];
@@ -3421,7 +3468,7 @@ var BADGES = [
   function bdChips(list) { return bdgClean(list).map(function (id) { var b = bdgById(id); return '<span class="vb-chip">' + bdgSvg(b) + esc(b.name) + '</span>'; }).join(''); }
   function paintMyBadges() { var r = me(), n = $('#p-name'); if (r && n) n.innerHTML = esc(r.name || '') + bdgHtml(bdgMine(r)); }
   function bdgOf(id) { var l = BDG[id]; if (!l && P[id] && P[id].nick === VB_OWNER) return ['creator']; return l; }
-  function bdgMine(r) { return (cur === VB_OWNER ? ['creator'] : []).concat(r.badges || []); }
+  function bdgMine(r) { return (cur === VB_OWNER ? ['creator'] : []).concat(r.badges || [], prActive(r) ? ['premium'] : []); }
   function setBdg(id, list) {
     if (P[id] && P[id].nick === VB_OWNER) list = ['creator'].concat(Array.isArray(list) ? list : []);
     var n = bdgClean(list), old = bdgClean(BDG[id]), ch = n.join() !== old.join();
@@ -4268,7 +4315,7 @@ var BADGES = [
   var EMO = '😀 😃 😄 😁 😆 😅 🤣 😂 🙂 🙃 😉 😊 😇 🥰 😍 🤩 😘 😗 😚 😙 😋 😛 😜 🤪 😝 🤑 🤗 🤭 🤫 🤔 🤐 😐 😑 😶 😏 😒 🙄 😬 😌 😔 😪 😴 😷 🤒 🤕 🤢 🤮 🥵 🥶 🥴 😵 🤯 🤠 🥳 😎 🤓 😕 😟 🙁 😮 😯 😲 😳 🥺 😦 😧 😨 😰 😥 😢 😭 😱 😖 😣 😞 😓 😩 😫 😤 😡 😠 🤬 😈 👿 💀 💩 🤡 👻 👽 🤖 👋 🤚 ✋ 🖖 👌 ✌️ 🤞 🤟 🤘 🤙 👈 👉 👆 👇 ☝️ 👍 👎 ✊ 👊 👏 🙌 👐 🤝 🙏 💪 🙈 🙉 🙊 👀 🧠 ❤️ 🧡 💛 💚 💙 💜 🖤 🤍 🤎 💔 💕 💞 💓 💗 💖 💘 💝 💯 💢 💥 💫 💦 💨 ✨ ⭐ 🌟 🔥 🎉 🎊 🎁 🎈 🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐔 🐧 🐦 🦆 🦉 🦄 🐝 🦋 🐌 🐢 🐍 🐙 🐬 🐳 🦈 🍎 🍌 🍉 🍓 🍒 🍑 🍍 🥑 🍅 🌽 🥕 🍞 🧀 🍕 🍔 🍟 🌭 🌮 🍣 🍩 🍪 🎂 🍰 🍫 🍬 🍦 ☕ 🍵 🍺 🍷 🥂 🌸 🌹 🌻 🍀 🌈 ☀️ 🌙 ⚡ ❄️ ☔ 🌊 🏆 ⚽ 🏀 🎮 🎵 🎧 🎤 🎬 📷 💻 📱 💡 💎 👑 🚀 ✈️ 🚗 🏠 💰 🔔 ✅ ❌ ❓ ‼️'.split(' ');
   function safeStk(x) { return typeof x === 'string' && x.length <= 300000 && /^data:image\/(png|webp);base64,[A-Za-z0-9+\/=]+$/.test(x); }
   function emoUrl(ch) {
-    var st = PREFS.emo || 'sys', key = st + ch;
+    var st = PREFS.emo || 'sys'; if (PR_EMO.indexOf(st) >= 0 && !prActive()) st = 'sys'; var key = st + ch;
     if (EMO_C[key]) return EMO_C[key];
     var c = document.createElement('canvas'); c.width = c.height = 256; var g = c.getContext('2d'), fs = st === 'big' ? 224 : st === 'disc' ? 140 : 180;
     if (st === 'disc') { g.fillStyle = 'rgba(255,255,255,.16)'; g.beginPath(); g.arc(128, 128, 120, 0, 6.2832); g.fill(); }
@@ -4283,31 +4330,130 @@ var BADGES = [
 
   /* --- панель стикеров --- */
   function openStickers(ctx) {
-    SP = { p: ctx.peer, tab: ctx.tab || 'my', items: [], edit: false };
-    openSheet('<div class="grab"></div><h2>Стикеры</h2><div class="mp-tabs"><button type="button" class="mp-tab on" data-spt="my">Мои</button><button type="button" class="mp-tab" data-spt="emo">Эмодзи</button></div><div class="mp-grid sp-grid" id="sp-grid"></div><div class="mp-bar" id="sp-bar"></div>');
+    SP = { p: ctx.peer, tab: ctx.tab || 'my', items: [], packs: [], pk: null, edit: false };
+    openSheet('<div class="grab"></div><h2>Стикеры</h2><div class="mp-tabs"><button type="button" class="mp-tab on" data-spt="my">Мои</button><button type="button" class="mp-tab" data-spt="packs">Паки</button><button type="button" class="mp-tab" data-spt="emo">Эмодзи</button></div><div class="mp-grid sp-grid" id="sp-grid"></div><div class="mp-bar" id="sp-bar"></div>');
     spPaint(); spReload();
   }
   function spReload() {
     var c0 = SP;
     return libAll().then(function (a) {
       if (!SP || SP !== c0) return;
-      SP.items = a.filter(function (x) { return x.kind === 'sticker' && safeStk(x.url); }); spPaint();
+      SP.items = a.filter(function (x) { return x.kind === 'sticker' && safeStk(x.url); }); SP.packs = a.filter(function (x) { return x.kind === 'stkpack' && Array.isArray(x.urls) && x.urls.length; });
+        if (SP.want) { var w = SP.want; SP.want = null; SP.tab = 'my'; SP.pk = { id: w.id, ts: w.ts, name: w.name, sel: SP.items.filter(function (x) { return w.urls.indexOf(x.url) >= 0; }).map(function (x) { return x.id; }) }; }
+        spPaint();
     });
   }
+  var PACK_FILE = '4_7lumochat_hd.json', PACK_MAX = 60;
   function spPaint() {
     if (!SP) return; var g = $('#sp-grid'); if (!g) return;
-    var h = '', st = g.scrollTop;
+    var h = '', st = g.scrollTop, pk = SP.pk, packs = SP.packs || [];
+    g.classList.toggle('sp-list', SP.tab === 'packs');
     if (SP.tab === 'my') {
-      h += '<button class="sp-it sp-new" type="button" data-sp="new"><b>+</b><span>Создать</span></button>';
-      SP.items.forEach(function (x) { h += '<button class="sp-it" type="button" data-spi="' + esc(x.id) + '"><img alt="" src="' + x.url + '">' + (SP.edit ? '<i class="sp-x">×</i>' : '') + '</button>'; });
+      if (!pk) h += '<button class="sp-it sp-new" type="button" data-sp="new"><b>+</b><span>Создать</span></button>';
+      SP.items.forEach(function (x) {
+        var on = !!pk && pk.sel.indexOf(x.id) >= 0;
+        h += '<button class="sp-it' + (on ? ' sel' : '') + '" type="button" data-spi="' + esc(x.id) + '"><img alt="" src="' + x.url + '">' + (SP.edit && !pk ? '<i class="sp-x">×</i>' : '') + (pk ? '<i class="sp-ck">' + (on ? '✓' : '') + '</i>' : '') + '</button>';
+      });
       if (!SP.items.length) h += '<p class="mp-empty">Здесь будут ваши стикеры. Создайте из фото или сохраните чужой: нажмите на него в чате.</p>';
+    } else if (SP.tab === 'packs') {
+      packs.forEach(function (x) {
+        h += '<button class="sp-pk" type="button" data-spk="' + esc(x.id) + '"><span class="sp-pkimg">' + x.urls.slice(0, 4).map(function (u) { return '<img alt="" src="' + u + '">'; }).join('') + '</span><b>' + esc(x.name) + '</b><em>' + x.urls.length + ' шт.</em></button>';
+      });
+      if (!packs.length) h += '<p class="mp-empty">Паков пока нет. Откройте «Мои», нажмите «Создать пак» и выберите стикеры.</p>';
     } else {
+      var rec = PREFS.emoRec || [];
+      if (rec.length) {
+        h += '<p class="sp-cap">Недавние</p>';
+        rec.forEach(function (ch) { h += '<button class="sp-it" type="button" data-spe-ch="' + esc(ch) + '"><span class="sp-e">' + ch + '</span></button>'; });
+        h += '<p class="sp-cap">Все</p>';
+      }
       EMO.forEach(function (ch, i) { h += '<button class="sp-it" type="button" data-spe="' + i + '"><span class="sp-e">' + ch + '</span></button>'; });
     }
     g.innerHTML = h; g.scrollTop = st;
     Array.prototype.forEach.call(document.querySelectorAll('[data-spt]'), function (b) { b.classList.toggle('on', b.dataset.spt === SP.tab); });
-    $('#sp-bar').innerHTML = '<button class="btn ghost" type="button" data-close>Закрыть</button>' +
-      (SP.tab === 'my' && SP.items.length ? '<button class="btn ghost" type="button" data-sp="edit">' + (SP.edit ? 'Готово' : 'Изменить') + '</button>' : '');
+    var bar = '';
+    if (pk) {
+      bar = '<div class="input sp-pn"><input id="sp-pn" maxlength="24" placeholder="Название пака" value="' + esc(pk.name) + '"></div>' +
+        '<button class="btn ghost" type="button" data-sp="pcancel">Отмена</button>' +
+        '<button class="btn" type="button" data-sp="psave"' + (pk.sel.length ? '' : ' disabled') + '>Сохранить (' + pk.sel.length + ')</button>';
+    } else if (SP.tab === 'my') {
+      bar = '<button class="btn ghost" type="button" data-close>Закрыть</button>' +
+        (SP.items.length ? '<button class="btn ghost" type="button" data-sp="pack">Создать пак</button><button class="btn ghost" type="button" data-sp="edit">' + (SP.edit ? 'Готово' : 'Изменить') + '</button>' : '');
+    } else {
+      bar = '<button class="btn ghost" type="button" data-close>Закрыть</button>' + (SP.tab === 'packs' ? '<button class="btn" type="button" data-sp="import">Импорт пака</button>' : '');
+    }
+    $('#sp-bar').innerHTML = bar;
+  }
+  function spToggle(id) {
+    if (!SP || !SP.pk) return; var s = SP.pk.sel, i = s.indexOf(id);
+    if (i >= 0) s.splice(i, 1);
+    else if (s.length < prPackMax()) s.push(id);
+    else { toast('В паке до ' + prPackMax() + ' стикеров'); return; }
+    spPaint();
+  }
+  function spPackById(id) {
+    if (!SP) return null; return (SP.packs || []).filter(function (x) { return x.id === id; })[0] || null;
+  }
+  function spPackOpen(id) {
+    var pk = spPackById(id); if (!pk) return;
+    var imgs = pk.urls.map(function (u) { return '<button class="sp-it" type="button"><img alt="" src="' + u + '"></button>'; }).join('');
+    openSheet('<div class="grab"></div><h2>' + esc(pk.name) + '</h2><p class="sub" style="margin:4px 0 12px">' + pk.urls.length + ' стикеров</p><div class="mp-grid sp-grid">' + imgs + '</div>' +
+      '<div class="acts"><button class="btn" type="button" data-pkdl="' + esc(pk.id) + '">Скачать файл</button><button class="btn ghost" type="button" data-pkedit="' + esc(pk.id) + '">Изменить</button><button class="btn ghost" type="button" data-pkdel="' + esc(pk.id) + '">Удалить пак</button><button class="btn ghost" type="button" data-close>Закрыть</button></div>');
+  }
+  function spPackDl(id) {
+    var pk = spPackById(id); if (!pk) return;
+    try {
+      var blob = new Blob([JSON.stringify({ name: pk.name, stickers: pk.urls })], { type: 'application/json' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = PACK_FILE;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+      toast('Пак сохранён в файл');
+    } catch (e) { toast('Не удалось скачать пак'); }
+  }
+  function spPackDel(id) {
+    var p = SP ? SP.p : null;
+    libDel([id]).then(function () {
+      closeSheet(); toast('Пак удалён');
+      setTimeout(function () { openStickers({ peer: p, tab: 'packs' }); }, 260);
+    });
+  }
+  function spPackEdit(id) {
+    var pk = spPackById(id); if (!pk) return; var p = SP ? SP.p : null;
+    closeSheet();
+    setTimeout(function () { openStickers({ peer: p, tab: 'my' }); if (SP) SP.want = pk; }, 260);
+  }
+  function spPickFile() {
+    var inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = '.json,application/json'; inp.style.display = 'none';
+    document.body.appendChild(inp);
+    inp.addEventListener('change', function () {
+      var f = inp.files && inp.files[0]; inp.remove();
+      if (f) spImport(f);
+    });
+    inp.click();
+  }
+  function spImport(file) {
+    var fr = new FileReader();
+    fr.onload = function () {
+      var d = null; try { d = JSON.parse(String(fr.result)); } catch (e) { d = null; }
+      var list = Array.isArray(d) ? d : (d && Array.isArray(d.stickers) ? d.stickers : []);
+      var urls = list.filter(safeStk).slice(0, prPackMax());
+      if (!urls.length) { toast('В файле нет стикеров'); return; }
+      var nm = (d && !Array.isArray(d) && d.name ? String(d.name) : file.name.replace(/\.json$/i, '')).trim().slice(0, 24) || 'Импорт';
+      libPut({ id: mkId(), uid: uid, kind: 'stkpack', name: nm, urls: urls, ts: Date.now() }).then(function () {
+        toast('Пак импортирован');
+        if (SP) { SP.tab = 'packs'; return spReload(); }
+      });
+    };
+    fr.onerror = function () { toast('Не удалось прочитать файл'); };
+    fr.readAsText(file);
+  }
+  function emoRecord(ch) {
+    var r = (PREFS.emoRec || []).filter(function (x) { return x !== ch; });
+    r.unshift(ch); setPref('emoRec', r.slice(0, 16));
+  }
+  function sendEmo(p, ch) {
+    closeSheet(); sendSticker(p, emoUrl(ch)); emoRecord(ch);
   }
   function spAct(a) {
     if (!SP) return;
@@ -4317,6 +4463,17 @@ var BADGES = [
         openMedia({ single: true, photosOnly: true, title: 'Фото для стикера', sendLabel: 'Выбрать', onPick: function (items) { setTimeout(function () { openMaker(items[0].blob, p); }, 260); } });
       }, 260);
     } else if (a === 'edit') { SP.edit = !SP.edit; spPaint(); }
+    else if (a === 'pack') { SP.pk = { sel: [], name: 'Мой пак' }; SP.edit = false; spPaint(); }
+    else if (a === 'import') { spPickFile(); }
+    else if (a === 'pcancel') { SP.pk = null; spPaint(); }
+    else if (a === 'psave') {
+      var pk = SP.pk; if (!pk || !pk.sel.length) return;
+      var urls = SP.items.filter(function (x) { return pk.sel.indexOf(x.id) >= 0; }).map(function (x) { return x.url; });
+      var nm = String(pk.name || '').trim().slice(0, 24) || 'Мой пак';
+      libPut({ id: pk.id || mkId(), uid: uid, kind: 'stkpack', name: nm, urls: urls, ts: pk.ts || Date.now() }).then(function () {
+        if (!SP) return; SP.pk = null; SP.tab = 'packs'; toast('Пак сохранён'); return spReload();
+      });
+    }
   }
 
   /* --- создание стикера --- */
@@ -4333,7 +4490,10 @@ var BADGES = [
     var iw = S.img.naturalWidth || S.img.width, ih = S.img.naturalHeight || S.img.height, k = Math.max(w / iw, w / ih) * S.zoom, dw = iw * k, dh = ih * k;
     var mx = Math.max(0, (dw - w) / 2), my = Math.max(0, (dh - w) / 2);
     S.ox = Math.max(-mx, Math.min(mx, S.ox)); S.oy = Math.max(-my, Math.min(my, S.oy));
+    var FX = { mono: 'grayscale(1) contrast(1.1)', warm: 'sepia(.35) saturate(1.25)', neon: 'saturate(2.2) contrast(1.12) brightness(1.06)', pastel: 'saturate(.7) brightness(1.12)' };
+    if (S.fx && FX[S.fx] && 'filter' in g) g.filter = FX[S.fx];
     g.drawImage(S.img, p + (w - dw) / 2 + S.ox, p + (w - dh) / 2 + S.oy, dw, dh);
+    g.filter = 'none';
     if (S.text) {
       var fs = 34, FF = '"Segoe UI",Roboto,Arial,sans-serif';
       g.font = '800 ' + fs + 'px ' + FF;
@@ -4354,16 +4514,17 @@ var BADGES = [
   function smMarks() {
     if (!SM) return;
     Array.prototype.forEach.call(document.querySelectorAll('[data-sm]'), function (b) {
-      var a = b.dataset.sm, on = a === 'shape:' + SM.shape || a === 'pos:' + SM.pos || (a === 'outline' && SM.outline);
+      var a = b.dataset.sm, on = a === 'shape:' + SM.shape || a === 'pos:' + SM.pos || a === 'fx:' + SM.fx || (a === 'outline' && SM.outline);
       if (a === 'save' || a === 'send') return; b.classList.toggle('on', !!on);
     });
   }
   function openMaker(blob, p) {
     loadImg(blob).then(function (im) {
-      SM = { img: im, p: p, shape: 'round', zoom: 1, ox: 0, oy: 0, text: '', pos: 'bottom', outline: true };
+      SM = { img: im, p: p, shape: 'round', zoom: 1, ox: 0, oy: 0, text: '', pos: 'bottom', outline: true, fx: 'none' };
       openSheet('<div class="grab"></div><h2>Новый стикер</h2><div class="sm-wrap"><canvas id="sm-cv" width="256" height="256"></canvas></div>' +
         '<p class="mp-hint" style="margin:0 0 6px">Двигайте фото пальцем, масштаб — ползунком</p><input type="range" id="sm-zoom" min="1" max="3" step="0.01" value="1">' +
         '<div class="mp-tabs sm-row"><button type="button" class="mp-tab" data-sm="shape:round">Скругление</button><button type="button" class="mp-tab" data-sm="shape:circle">Круг</button><button type="button" class="mp-tab" data-sm="shape:square">Квадрат</button></div>' +
+        '<div class="mp-tabs sm-row sm-fx"><button type="button" class="mp-tab" data-sm="fx:none">Без</button><button type="button" class="mp-tab" data-sm="fx:mono">Ч/Б</button><button type="button" class="mp-tab" data-sm="fx:warm">Тёплый</button><button type="button" class="mp-tab" data-sm="fx:neon">Неон</button><button type="button" class="mp-tab" data-sm="fx:pastel">Пастель</button></div>' +
         '<div class="input sm-row"><input id="sm-text" maxlength="24" placeholder="Подпись (необязательно)"></div>' +
         '<div class="mp-tabs sm-row"><button type="button" class="mp-tab" data-sm="pos:bottom">Подпись снизу</button><button type="button" class="mp-tab" data-sm="pos:top">Сверху</button><button type="button" class="mp-tab" data-sm="outline">Обводка</button></div>' +
         '<div class="mp-bar"><button class="btn ghost" type="button" data-sm="save">Сохранить</button><button class="btn" type="button" data-sm="send">Отправить</button></div>');
@@ -4381,6 +4542,7 @@ var BADGES = [
     if (!SM) return;
     if (a.indexOf('shape:') === 0) SM.shape = a.slice(6);
     else if (a.indexOf('pos:') === 0) SM.pos = a.slice(4);
+    else if (a.indexOf('fx:') === 0) SM.fx = a.slice(3);
     else if (a === 'outline') SM.outline = !SM.outline;
     else if (a === 'save' || a === 'send') {
       var u = exportSticker(SM), p = SM.p;
@@ -4396,6 +4558,7 @@ var BADGES = [
     smDraw(); smMarks();
   }
 
+  document.addEventListener('input', function (e) { if (SP && SP.pk && e.target.id === 'sp-pn') SP.pk.name = e.target.value; });
   $('#m-stk').addEventListener('click', function () { if (curPeer) openStickers({ peer: curPeer }); });
   document.addEventListener('input', function (e) {
     if (!SM) return;
@@ -4406,14 +4569,20 @@ var BADGES = [
     var t;
     if (SM && (t = e.target.closest('[data-sm]'))) { smAct(t.dataset.sm); return; }
     if (SP && (t = e.target.closest('[data-sp]'))) { spAct(t.dataset.sp); return; }
-    if (SP && (t = e.target.closest('[data-spt]'))) { SP.tab = t.dataset.spt; SP.edit = false; spPaint(); return; }
+    if (SP && (t = e.target.closest('[data-spt]'))) { SP.tab = t.dataset.spt; SP.edit = false; SP.pk = null; spPaint(); return; }
+    if (SP && SP.pk && (t = e.target.closest('[data-spi]'))) { spToggle(t.dataset.spi); return; }
+    if (SP && (t = e.target.closest('[data-spk]'))) { spPackOpen(t.dataset.spk); return; }
+    if (SP && (t = e.target.closest('[data-pkedit]'))) { spPackEdit(t.dataset.pkedit); return; }
+    if (SP && (t = e.target.closest('[data-pkdl]'))) { spPackDl(t.dataset.pkdl); return; }
+    if (SP && (t = e.target.closest('[data-pkdel]'))) { spPackDel(t.dataset.pkdel); return; }
     if (SP && (t = e.target.closest('[data-spi]'))) {
       var id = t.dataset.spi, it = SP.items.filter(function (x) { return x.id === id; })[0]; if (!it) return;
       if (SP.edit) { libDel([id]).then(function () { toast('Стикер удалён'); return spReload(); }); }
       else { var p = SP.p; closeSheet(); sendSticker(p, it.url); }
       return;
     }
-    if (SP && (t = e.target.closest('[data-spe]'))) { var p2 = SP.p, ch = EMO[+t.dataset.spe]; closeSheet(); sendSticker(p2, emoUrl(ch)); return; }
+    if (SP && (t = e.target.closest('[data-spe]'))) { sendEmo(SP.p, EMO[+t.dataset.spe]); return; }
+    if (SP && (t = e.target.closest('[data-spe-ch]'))) { sendEmo(SP.p, t.dataset.speCh); return; }
     if ((t = e.target.closest('.stk')) && !selOn) {
       var src = t.getAttribute('src'); if (!safeStk(src)) return;
       openSheet('<div class="grab"></div><img class="stk-big" alt=""><div class="acts"><button class="btn" type="button" data-sk="save">Добавить в мои стикеры</button><button class="btn ghost" type="button" data-close>Закрыть</button></div>');
@@ -4692,7 +4861,7 @@ var BADGES = [
     var booted = false;
     auth.onAuthStateChanged(function (u) {
       if (booted) return; booted = true;
-      if (u) loadMe().catch(function () { return new Promise(function (ok) { setTimeout(ok, 2500); }).then(loadMe); }).then(function (r) { enterHome(r.nick); }).catch(function () { show('login'); });
+      if (u) loadMe().then(function (r) { enterHome(r.nick); }).catch(function () { show('login'); });
       else {
         var cr = KEEP && credGet();
         if (cr) authCall(function () { return auth.signInWithEmailAndPassword(cr.u + MAIL, cr.p); }).then(loadMe).then(function (r) { enterHome(r.nick); })
@@ -4719,8 +4888,110 @@ var BADGES = [
   var CB_ICON = { theme: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.600 5.600l12.800 12.800"/></svg>', aurora: '<svg viewBox="0 0 24 24"><path d="M3 16c3-6 6-6 9 0s6 6 9 0M3 10c3-6 6-6 9 0s6 6 9 0"/></svg>', night: '<svg viewBox="0 0 24 24"><path d="M20 14.500A8 8 0 019.500 4 8 8 0 1020 14.500z"/></svg>', sunset: '<svg viewBox="0 0 24 24"><path d="M4 17h16M7 17a5 5 0 0110 0M12 5v3M5 9l2 2M19 9l-2 2"/></svg>', halloween: FR_ICON.halloween };
 
   function owned(k, v) { var r = me() || {}, o = r.owned || []; return o.indexOf(k + ':' + v) >= 0; }
+  /* ===== LumoChat Premium и звёзды ===== */
+  var PR_PLANS = [
+    { id: 'm', name: 'Ежемесячно', days: 30, price: 300, off: '' },
+    { id: 'y', name: 'Ежегодно', days: 365, price: 1990, off: '-45%' },
+    { id: 't', name: 'На 2 года', days: 730, price: 2990, off: '-58%' }
+  ];
+  var PR_EMO = ['disc', 'shadow', 'big'];
+  var PR_STEP = 5 * 60000, PR_DAY_CAP = 24, PR_SEL = 'y', PR_SAVED = 0, PR_LAST = Date.now();
+  var PR_FEAT = [
+    ['✨', 'Эксклюзивные стили эмодзи', 'Крупный, в кружке и с тенью в эмодзи-стикерах', true],
+    ['📦', 'Больше стикеров в паке', 'До 200 стикеров вместо 60', true],
+    ['🏅', 'Значок Premium', 'Виден рядом с вашим именем', true],
+    ['🎨', 'Цвета имени и профиля', '', false],
+    ['🎬', 'Видеоаватары', '', false],
+    ['🌍', 'Перевод сообщений', 'Нужен внешний сервис перевода', false],
+    ['🎙', 'Расшифровка голосовых', 'Нужен внешний сервис распознавания речи', false],
+    ['🗂', 'Расширенное форматирование', '', false]
+  ];
+  function prActive(r) { r = r || me(); return !!(r && r.prem && r.prem.until > Date.now()); }
+  function prPackMax() { return prActive() ? 200 : PACK_MAX; }
+  var PR_VER = 2; // версия сброса звёзд: при новой версии у всех снова станет PR_START
+  var PR_START = 150;
+  function prMigrate(r) {
+    if (r.starsV === PR_VER) return;
+    r.starsV = PR_VER; r.stars = PR_START; r.starMs = 0; r.starDay = new Date().toDateString(); r.starDayN = 0;
+    saveUser({ starsV: PR_VER, stars: PR_START, starMs: 0, starDay: r.starDay, starDayN: 0 });
+    toast('Звёзды обновлены: ' + PR_START + ' ⭐');
+  }
+  /* звёзды копятся за время, когда приложение открыто и видно; не больше PR_DAY_CAP в день */
+  function prTick() {
+    var now = Date.now(), dt = now - PR_LAST; PR_LAST = now;
+    var r = me(); if (!r || !uid) return;
+    prMigrate(r);
+    if (document.hidden || dt <= 0 || dt > 120000) return;
+    var day = new Date(now).toDateString();
+    if (r.starDay !== day) { r.starDay = day; r.starDayN = 0; }
+    r.starMs = (r.starMs || 0) + dt;
+    var got = 0;
+    while (r.starMs >= PR_STEP && r.starDayN < PR_DAY_CAP) { r.starMs -= PR_STEP; r.starDayN++; got++; }
+    if (r.starDayN >= PR_DAY_CAP) r.starMs = Math.min(r.starMs, PR_STEP);
+    if (got) r.stars = (r.stars || 0) + got;
+    if (got || now - PR_SAVED > 60000) {
+      PR_SAVED = now;
+      saveUser({ stars: r.stars || 0, starMs: r.starMs, starDay: r.starDay, starDayN: r.starDayN });
+    }
+    if (got) toast('+' + got + ' ⭐ за время в LumoChat');
+  }
+  setInterval(prTick, 30000);
+  function prBuy(id) {
+    var pl = PR_PLANS.filter(function (x) { return x.id === id; })[0], r = me();
+    if (!pl || !r) return;
+    if ((r.stars || 0) < pl.price) { toast('Не хватает ' + (pl.price - (r.stars || 0)) + ' ⭐. Звёзды копятся за время в приложении'); return; }
+    var base = prActive(r) ? r.prem.until : Date.now();
+    r.stars = (r.stars || 0) - pl.price;
+    r.prem = { until: base + pl.days * 86400000, plan: pl.id };
+    saveUser({ stars: r.stars, prem: r.prem });
+    if (typeof paintMyBadges === 'function') paintMyBadges();
+    toast('LumoChat Premium активирован');
+    prOpen();
+  }
+  var PR_MSG = 0;
+  function prOnSend() {
+    var r = me(); if (!r || !uid) return;
+    var now = Date.now(); if (now - PR_MSG < 60000) return;
+    var day = new Date(now).toDateString();
+    if (r.starDay !== day) { r.starDay = day; r.starDayN = 0; }
+    if ((r.starDayN || 0) >= PR_DAY_CAP) return;
+    PR_MSG = now; r.starDayN = (r.starDayN || 0) + 1; r.stars = (r.stars || 0) + 1;
+    saveUser({ stars: r.stars, starDay: r.starDay, starDayN: r.starDayN });
+    toast('+1 ⭐ за сообщение');
+  }
+  function prSel(id) { PR_SEL = id; prOpen(); }
+  function prOpen() {
+    var r = me() || {}, act = prActive(r), stars = r.stars || 0;
+    var sel = PR_PLANS.filter(function (x) { return x.id === PR_SEL; })[0] || PR_PLANS[1];
+    var pct = Math.min(100, Math.round(((r.starMs || 0) / PR_STEP) * 100));
+    var left = Math.max(1, Math.ceil((PR_STEP - (r.starMs || 0)) / 60000));
+    var capped = (r.starDayN || 0) >= PR_DAY_CAP && r.starDay === new Date().toDateString();
+    var plans = PR_PLANS.map(function (x) {
+      return '<button class="pr-plan' + (x.id === sel.id ? ' on' : '') + '" type="button" data-prsel="' + x.id + '"><span class="pr-r"></span><span class="pr-n">' + x.name + (x.off ? '<em>' + x.off + '</em>' : '') + '</span><span class="pr-p">' + x.price + ' ⭐</span></button>';
+    }).join('');
+    var feat = PR_FEAT.map(function (f) {
+      return '<div class="pr-f"><i>' + f[0] + '</i><div><b>' + f[1] + '</b>' + (f[2] ? '<small>' + f[2] + '</small>' : '') + '</div><span class="pr-tag' + (f[3] ? ' ok' : '') + '">' + (f[3] ? 'Работает' : 'Скоро') + '</span></div>';
+    }).join('');
+    openSheet('<div class="grab"></div>' +
+      '<div class="pr-hero"><div class="pr-star">⭐</div><h2>LumoChat Premium</h2><p class="sub">Больше возможностей. Платите звёздами: они копятся, пока вы в приложении и переписываетесь. Покупка звёзд за деньги скоро.</p></div>' +
+      '<div class="pr-bal"><div class="pr-row"><span>Ваши звёзды</span><b>' + stars + ' ⭐</b></div>' +
+      '<div class="pr-bar"><i style="width:' + pct + '%"></i></div>' +
+      '<p class="sub" style="margin:0">' + (capped ? 'Дневной лимит ' + PR_DAY_CAP + ' ⭐ достигнут, завтра будет больше' : 'До следующей звезды: ' + left + ' мин. Лимит ' + PR_DAY_CAP + ' ⭐ в день') + '</p></div>' +
+      (act ? '<p class="pr-act">Подписка активна до ' + new Date(r.prem.until).toLocaleDateString('ru-RU') + '</p>' : '') +
+      '<div class="pr-plans">' + plans + '</div>' +
+      '<div class="pr-feat">' + feat + '</div>' +
+      '<button class="btn ghost" type="button" disabled style="width:100%;margin-bottom:10px;opacity:.6">Купить звёзды за деньги — скоро</button><div class="acts"><button class="btn pr-cta" type="button" data-prbuy="' + sel.id + '">' + (act ? 'Продлить' : 'Подключить') + ' за ' + sel.price + ' ⭐</button><button class="btn ghost" type="button" data-close>Закрыть</button></div>');
+  }
+  document.addEventListener('click', function (e) {
+    var t;
+    if ((t = e.target.closest('[data-prem]'))) { prOpen(); return; }
+    if ((t = e.target.closest('[data-prsel]'))) { prSel(t.dataset.prsel); return; }
+    if ((t = e.target.closest('[data-prbuy]'))) { prBuy(t.dataset.prbuy); return; }
+  });
+
   function isLocked(k, v) { return v === 'halloween' && !owned(k, v); }
   function setPref(k, v) {
+    if (k === 'emo' && PR_EMO.indexOf(v) >= 0 && !prActive()) { toast('Этот стиль есть в LumoChat Premium'); prOpen(); return; }
     if (k === 'afr' || k === 'cfr' || k === 'cbg') { if (isLocked(k, v)) { toast('Хэллоуин можно получить в кейсе ивента'); var cp = $('#sp-' + spOpen); if (cp) cp.hidden = true; spOpen = null; openSP('case'); return; } }
     var n = Object.assign({}, PREFS); n[k] = v;
     applyPrefs(n); var r = me(); if (r) { r.prefs = n; UC[cur] = r; } saveUser({ prefs: n }); vib(10);
