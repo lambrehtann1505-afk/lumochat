@@ -1358,6 +1358,28 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
 .pr-tag.ok{background:rgba(127,214,164,.18);color:var(--ok)}
 .pr-cta{background:linear-gradient(120deg,#8f6ee8,#b8a3f4 50%,#ff8fc7)!important;color:#1b1233!important;font-weight:800;box-shadow:0 10px 30px rgba(var(--acc),.35)}
 .pr-card-sub{color:var(--accent)}
+
+/* ===== ВХОД И РЕГИСТРАЦИЯ: обновлённый вид ===== */
+#v-login,#v-reg1,#v-regmail,#v-regcode,#v-reg2{position:relative}
+#v-login::before,#v-reg1::before,#v-regmail::before,#v-regcode::before,#v-reg2::before{content:"";position:absolute;left:50%;top:-40px;width:340px;height:340px;margin-left:-170px;border-radius:50%;background:radial-gradient(closest-side,rgba(var(--glow),.38),transparent);filter:blur(10px);pointer-events:none;z-index:0}
+#v-login>*,#v-reg1>*,#v-regmail>*,#v-regcode>*,#v-reg2>*{position:relative;z-index:1}
+#v-login .brand{flex-direction:column;gap:14px;margin-top:44px}
+#v-login .mark{width:68px;height:68px;border-radius:22px;background:linear-gradient(145deg,rgb(var(--acc2)),rgb(var(--glow)));box-shadow:0 14px 40px -8px rgba(var(--glow),.7),inset 0 1px 0 rgba(255,255,255,.35)}
+#v-login .mark svg{width:34px;height:34px}
+#v-login .login-title,#v-login .sub{text-align:center}
+#v-login .login-title{margin-top:22px;font-size:27px}
+#v-reg1 h1,#v-regmail h1,#v-regcode h1,#v-reg2 h1{font-size:26px;margin-top:14px}
+#v-login .fields,#v-reg1 .fields,#v-regmail .fields,#v-regcode .fields,#v-reg2 .fields{margin-top:26px;padding:18px 16px 16px;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:24px;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 20px 50px -24px rgba(0,0,0,.7)}
+#v-login .field label,#v-reg1 .field label,#v-regmail .field label,#v-reg2 .field label{text-transform:none;letter-spacing:0;font-size:13px;color:var(--fg);opacity:.8}
+#v-login .input,#v-reg1 .input,#v-regmail .input,#v-regcode .input,#v-reg2 .input{height:54px;border-radius:17px;background:rgba(var(--bgrgb),.55);border-width:1.5px;transition:border-color .2s,box-shadow .2s}
+#v-login .input:focus-within,#v-reg1 .input:focus-within,#v-regmail .input:focus-within,#v-regcode .input:focus-within,#v-reg2 .input:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px rgba(var(--acc),.18)}
+#v-login .input.invalid,#v-reg1 .input.invalid,#v-regmail .input.invalid,#v-regcode .input.invalid,#v-reg2 .input.invalid{box-shadow:0 0 0 4px rgba(238,106,126,.16)}
+.at{color:var(--accent);font-weight:700;margin-right:6px}
+#v-login .btn,#v-reg1 .btn,#v-regmail .btn,#v-regcode .btn,#v-reg2 .btn{height:54px;border-radius:17px;font-weight:700;font-size:16px;background:linear-gradient(135deg,rgb(var(--acc2)),rgb(var(--acc)));box-shadow:0 12px 28px -10px rgba(var(--glow),.8)}
+#v-login .login-switch{text-align:center;margin-top:6px}
+#v-login .hint.err,#v-reg1 .hint.err,#v-regmail .hint.err,#v-regcode .hint.err,#v-reg2 .hint.err{display:flex;align-items:center;gap:6px;background:rgba(238,106,126,.1);padding:7px 10px;border-radius:10px}
+.input input{-webkit-appearance:none;appearance:none}
+@media (prefers-reduced-motion:reduce){#v-login .mark,#v-login .mark::after{animation:none}}
 </style>
 
 <div class="bg-aurora" id="fx" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -1439,7 +1461,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
       <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5c5.2 0 9.5 3.6 9.5 8.3 0 4.7-4.300 8.300-9.500 8.300-.9 0-1.800-.1-2.600-.3L5 21.500v-4.200C3.300 15.800 2.500 13.400 2.500 10.800 2.500 6.100 6.800 2.500 12 2.500z"/></svg></div>
       <b>LumoChat</b>
     </div>
-    <h1 class="login-title" id="t-login"><span class="shimmer">С возвращением</span></h1>
+    <h1 class="login-title" id="t-login">С возвращением</h1>
     <p class="sub">Войдите, чтобы продолжить переписку.</p>
     <form id="f-login" novalidate>
       <div class="fields">
@@ -1467,7 +1489,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
   <!-- РЕГИСТРАЦИЯ, шаг 1 -->
   <section class="view" id="v-reg1" aria-labelledby="t-reg1" hidden>
     <div class="topbar"><button class="icon-btn" type="button" data-go="login" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button></div>
-    <h1 id="t-reg1"><span class="shimmer">Новый аккаунт</span></h1>
+    <h1 id="t-reg1">Новый аккаунт</h1>
     <p class="sub">Шаг 1 из 4</p>
     <div class="steps" data-step="1"></div>
     <form id="f-reg1" novalidate>
@@ -1494,7 +1516,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
     <!-- Регистрация: почта -->
   <section class="view" id="v-regmail" hidden>
     <div class="topbar"><button class="icon-btn" type="button" data-go="reg1" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button></div>
-    <h1><span class="shimmer">Ваша почта</span></h1>
+    <h1>Ваша почта</h1>
     <p class="sub">Шаг 2 из 4. Мы отправим на неё код подтверждения.</p>
     <div class="steps" data-step="2"></div>
     <form id="f-regmail" novalidate>
@@ -1510,7 +1532,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
   <!-- Регистрация: код -->
   <section class="view" id="v-regcode" hidden>
     <div class="topbar"><button class="icon-btn" type="button" data-go="regmail" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button></div>
-    <h1><span class="shimmer">Введите код</span></h1>
+    <h1>Введите код</h1>
     <p class="sub" id="code-sub">Шаг 3 из 4</p>
     <div class="steps" data-step="3"></div>
     <form id="f-regcode" novalidate>
@@ -1526,8 +1548,8 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
 
 <!-- РЕГИСТРАЦИЯ, шаг 2 -->
   <section class="view" id="v-reg2" aria-labelledby="t-reg2" hidden>
-    <div class="topbar"><button class="icon-btn" type="button" data-go="regmail" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button></div>
-    <h1 id="t-reg2"><span class="shimmer">Придумайте пароль</span></h1>
+    <div class="topbar"><button class="icon-btn" type="button" data-go="regcode" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button></div>
+    <h1 id="t-reg2">Придумайте пароль</h1>
     <p class="sub">Шаг 4 из 4</p>
     <div class="steps" data-step="4"></div>
     <form id="f-reg2" novalidate>
@@ -1657,7 +1679,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
   });
 
   /* навигация между экранами */
-  var views = ['login', 'reg1', 'reg2', 'home', 'chat', 'regmail', 'regcode'];
+  var views = ['login', 'reg1', 'regmail', 'regcode', 'reg2', 'home', 'chat'];
   function show(name) {
     var prev = views.filter(function (v) { return !$('#v-' + v).hidden; })[0];
     var dx = prev && prev !== 'home' && name !== 'home' ? (views.indexOf(name) > views.indexOf(prev) ? 28 : -28) : 0;
@@ -1703,8 +1725,10 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
   }
   function authCall(fn) {
     return fn().catch(function (e) {
-      if (e && e.code === 'auth/operation-not-supported-in-this-environment')
-        NOPERSIST = true; return auth.setPersistence(firebase.auth.Auth.Persistence.NONE).then(fn);
+      if (e && e.code === 'auth/operation-not-supported-in-this-environment') {
+        NOPERSIST = true;
+        return auth.setPersistence(firebase.auth.Auth.Persistence.NONE).then(fn);
+      }
       throw e;
     });
   }
@@ -1757,7 +1781,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
     var u = $('#l-user').value.trim().toLowerCase().replace(/^@/, ''), p = $('#l-pass').value;
     if (!auth) { setErr('l-pass-box', 'l-hint', NOCFG); return; }
     if (!u || !p) { setErr(!u ? 'l-user-box' : 'l-pass-box', 'l-hint', !u ? 'Введите ник.' : 'Введите пароль.'); return; }
-    var lb = $('#l-submit'); lb.classList.add('loading');
+    var lb = $('#l-submit'); if (lb.classList.contains('loading')) return; lb.classList.add('loading');
     authCall(function () { return auth.signInWithEmailAndPassword(u + MAIL, p); }).then(loadMe).then(function (rec) {
       $('#f-login').reset(); credSave(u, p);
       celebrate(rec.name, false, function () { lb.classList.remove('loading'); enterHome(rec.nick); });
@@ -1819,7 +1843,9 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
       reg.email = em; $('#code-sub').textContent = 'Шаг 3 из 4. Код отправлен на ' + em; $('#r-code').value = ''; show('regcode'); resendTick(); setTimeout(function () { $('#r-code').focus(); }, 300);
     }).catch(function (er) { setErr('r-email-box', 'r-email-hint', mailErr(er)); }).then(function () { b.disabled = false; b.classList.remove('loading'); });
   });
+  var codeBusy = false;
   function checkCode() {
+    if (codeBusy) return; codeBusy = true; setTimeout(function () { codeBusy = false; }, 400);
     var v = $('#r-code').value.replace(/\D/g, '');
     if (v.length !== 6) { setErr('r-code-box', 'r-code-hint', 'Введите 6 цифр из письма.'); return; }
     if (Date.now() > MC.exp) { setErr('r-code-box', 'r-code-hint', 'Код устарел. Запросите новый.'); return; }
@@ -1854,7 +1880,7 @@ html[data-bub=neon] .b.me:not(.gc):not(.vr):not(.sk){background:transparent;colo
     if (p2 !== p) { setErr('r-pass2-box', 'r-pass2-hint', 'Пароли не совпадают.'); ok = false; }
     if (!ok) return;
     if (!MC.ok || !reg.email) { show('regmail'); toast('Сначала подтвердите почту'); return; }
-    var btn = $('#r-submit'); btn.disabled = true; btn.classList.add('loading');
+    var btn = $('#r-submit'); if (btn.disabled) return; btn.disabled = true; btn.classList.add('loading');
     var done = function () { btn.disabled = false; btn.classList.remove('loading'); };
     authCall(function () { return auth.createUserWithEmailAndPassword(reg.user + MAIL, p); }).then(function (c) {
       uid = c.user.uid; credSave(reg.user, p);
