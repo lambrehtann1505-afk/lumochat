@@ -5584,7 +5584,7 @@ var BADGES = [
     return h;
   }
   function plPick() {
-    var f = document.createElement('input'); f.type = 'file';
+    var f = document.createElement('input'); f.type = 'file'; f.accept = '*/*';
     f.onchange = function () {
       var file = f.files && f.files[0]; if (!file) return;
       if (!/\.(lumo|js|json)(\.txt)?$/i.test(file.name)) { toast('Нужен файл плагина с расширением .lumo'); return; }
