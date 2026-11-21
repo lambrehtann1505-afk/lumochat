@@ -5380,7 +5380,7 @@ var BADGES = [
       if (r.banner && safeImg(r.banner)) { bn.style.backgroundImage = 'url(' + r.banner + ')'; bn.classList.add('has'); bn.textContent = ''; }
       else { bn.style.backgroundImage = ''; bn.classList.remove('has'); bn.textContent = '+ Добавить баннер'; }
     }
-    avPv($('#pr-av')); $('#pr-n').innerHTML = esc(r.name || '') + bdgHtml(bdgMine(r)); $('#pr-u').textContent = '@' + cur;
+    avPv($('#pr-av')); setHtml('#pm-n', esc(r.name || '') + bdgHtml(bdgMine(r))); var pu = $('#pr-u'); if (pu) pu.textContent = '@' + cur;
     var mu = r.music && safeAud(r.music.d) ? r.music : null;
     var h = '<h3 class="pr-l">Музыка</h3><button type="button" class="pr-r mu" data-x="music"><span class="mi" data-x="play" role="button" aria-label="Играть"><svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none">' + (mu && MUS && !MUS.paused ? '<path d="M7 5h3.500v14H7zM13.500 5H17v14h-3.500z"/>' : (mu ? '<path d="M8 5l11 7-11 7z"/>' : '<path d="M14 3v11.500A3.500 3.500 0 1112 11.500V6l7-1.500v8A3.500 3.500 0 1117 10V3.500z"/>')) + '</svg></span>' +
       '<span class="mt"><b>' + (mu ? esc(mu.n) : 'Музыка в профиле') + '</b><span>' + (mu ? 'Нажмите на значок, чтобы послушать. Остальное — в меню.' : 'Добавьте трек, и он появится в профиле') + '</span></span>' + CHEV + '</button>';
