@@ -1490,6 +1490,77 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
 .pr-r.act .nw.new{background:#3b9cff;color:#fff}
 .pr-r.act .nw.dev{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
 .pr-r.act.red .pt b{color:#ff6b7f}
+/* ===== Круче кнопки профиля ===== */
+.pr-r.act{position:relative;height:auto!important;min-height:76px;padding:14px 16px;gap:14px;margin-top:10px;border-radius:26px;overflow:hidden;
+ background:linear-gradient(135deg,rgba(255,255,255,.09),rgba(255,255,255,.02) 60%),color-mix(in srgb,var(--surface) 80%,transparent);
+ border:1px solid rgba(255,255,255,.11);box-shadow:0 14px 28px -18px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.14);
+ -webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);
+ transition:transform .2s cubic-bezier(.3,1.6,.4,1),box-shadow .2s,border-color .2s;-webkit-tap-highlight-color:transparent}
+.pr-r.act::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 140% at 0% 0%,rgba(var(--glow),.22),transparent 55%);opacity:.7;pointer-events:none}
+.pr-r.act>*{position:relative}
+.pr-r.act:active{transform:scale(.965);border-color:rgba(var(--acc),.5)}
+.pr-r.act .pic{width:48px;height:48px;border-radius:16px;font-size:23px;box-shadow:0 10px 20px -8px rgba(var(--glow),.95),inset 0 1px 0 rgba(255,255,255,.4)}
+.pr-r.act .pt{gap:3px}
+.pr-r.act .pt b{font:700 16.5px/1.2 var(--font-body);letter-spacing:.1px}
+.pr-r.act .pt small{font-size:13px;line-height:1.3;color:var(--muted)}
+.pr-r.act .pa{padding:7px 14px;border-radius:14px;background:rgba(var(--acc),.16);color:var(--accent);font-weight:800;font-size:13.5px}
+.pr-r.act .nw{border-radius:12px;padding:5px 11px;font-size:11.5px;letter-spacing:.3px}
+.pr-r.act .nw.new{background:linear-gradient(135deg,#3b9cff,#7a6bff);box-shadow:0 6px 14px -6px #3b9cff}
+.pr-r.act.red{border-color:rgba(255,107,127,.28)}
+.pr-r.act.red::before{background:radial-gradient(120% 140% at 0% 0%,rgba(255,90,120,.2),transparent 55%)}
+.pr-r.act .gxc{width:20px;height:20px;stroke:var(--muted);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.pr-l{font-size:17px!important;letter-spacing:.2px;margin-top:24px!important}
+/* ===== Группы и каналы ===== */
+.gx{position:fixed;left:0;right:0;top:0;height:100%;z-index:19;display:flex;flex-direction:column;background:radial-gradient(80% 30% at 85% 100%,rgba(var(--glow),.28),transparent 70%),radial-gradient(60% 24% at 10% 0%,rgba(var(--glow),.16),transparent 70%),var(--bg);animation:gxin .25s ease both}
+.gx[hidden]{display:none}
+@keyframes gxin{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+.gx-top{display:flex;align-items:center;gap:6px;padding:max(8px,env(safe-area-inset-top,0px)) max(10px,env(safe-area-inset-right,0px)) 8px max(10px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--surface) 70%,transparent);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);flex:none}
+.gx-who{display:flex;align-items:center;gap:10px;flex:1;min-width:0;border:0;background:none;color:var(--fg);text-align:left;padding:2px 4px;font:inherit}
+.gx-av{width:40px;height:40px;font-size:16px;border-radius:50%;display:grid;place-items:center;flex:none;font-weight:700;color:var(--on-accent)}
+.gx-t{display:flex;flex-direction:column;min-width:0}.gx-t b{font:700 16px/1.2 var(--font-body);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gx-t span{font-size:12.5px;color:var(--muted)}
+.gx-msgs{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:12px max(14px,env(safe-area-inset-left,0px));-webkit-overflow-scrolling:touch}
+.gx-empty{margin:auto;text-align:center;color:var(--muted);font-size:14px;line-height:1.45;padding:20px;max-width:280px}
+.gx-m{max-width:82%;padding:8px 12px 6px;border-radius:18px 18px 18px 6px;background:var(--surface-2);align-self:flex-start;overflow-wrap:anywhere;font-size:15px;line-height:1.38;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.gx-m.me{align-self:flex-end;background:var(--accent);color:var(--on-accent);border-radius:18px 18px 6px 18px}
+.gx-m .gx-n{display:block;font:700 12.5px var(--font-body);color:var(--accent);margin-bottom:2px}
+.gx-m .gx-tm{display:block;text-align:right;font-size:11px;opacity:.55;margin-top:2px}
+.gx-m.post{max-width:100%;align-self:stretch;border-radius:20px;padding:12px 14px 8px;background:linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,255,255,.02)),var(--surface-2);border:1px solid var(--line)}
+.gx-foot{flex:none;padding:8px max(12px,env(safe-area-inset-left,0px)) max(12px,env(safe-area-inset-bottom,0px));display:flex;gap:8px;align-items:center;background:color-mix(in srgb,var(--surface) 70%,transparent);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border-top:1px solid var(--line)}
+.gx-foot .input{flex:1;min-width:0}.gx-foot .btn{width:100%}
+.gx-send{flex:none;width:46px;height:46px;border-radius:50%;border:0;background:var(--accent);color:var(--on-accent);display:grid;place-items:center}
+.gx-send svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+.gx-note{flex:1;text-align:center;color:var(--muted);font-size:13.5px}
+.gx-big{display:flex;align-items:center;gap:14px;width:100%;margin:0 0 10px;padding:14px 16px;border:1px solid rgba(255,255,255,.1);border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02)),var(--surface-2);color:var(--fg);text-align:left;font:inherit}
+.gx-big .pic{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-size:23px;flex:none;box-shadow:0 10px 20px -8px rgba(var(--glow),.95),inset 0 1px 0 rgba(255,255,255,.4)}
+.gx-big b{display:block;font:700 16px var(--font-body)}.gx-big small{display:block;color:var(--muted);font-size:13px;margin-top:2px;line-height:1.3}
+.gx-big:active{transform:scale(.97)}
+.gx-pa{display:flex;align-items:center;gap:14px;margin:4px 0 12px}
+.gx-pbtn{width:72px;height:72px;border-radius:50%;border:2px dashed rgba(var(--acc),.55);background:rgba(var(--acc),.1);color:var(--accent);display:grid;place-items:center;overflow:hidden;flex:none;font-size:26px;padding:0}
+.gx-pbtn img{width:100%;height:100%;object-fit:cover}
+.gx-pl{max-height:210px;overflow-y:auto;border-radius:16px;background:var(--surface-2);margin:2px 0 10px}
+.gx-pick{display:flex;align-items:center;gap:12px;width:100%;padding:9px 12px;border:0;background:none;color:var(--fg);text-align:left;font:600 15px var(--font-body)}
+.gx-pick .avatar{width:36px;height:36px;font-size:14px;flex:none}.gx-pick span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gx-pick i{width:22px;height:22px;border-radius:50%;border:2px solid var(--muted);flex:none;display:grid;place-items:center;font-style:normal;font-size:13px;color:var(--on-accent)}
+.gx-pick.on i{background:var(--accent);border-color:var(--accent)}.gx-pick.on i::after{content:"✓"}
+.gx-seg{display:flex;gap:6px;margin:4px 0 10px}.gx-seg button{flex:1;border:0;border-radius:12px;padding:10px 0;background:var(--surface-2);color:var(--muted);font:700 14px var(--font-body)}.gx-seg button.on{background:var(--accent);color:var(--on-accent)}
+.gx-lb{font:700 13px var(--font-body);color:var(--accent);margin:8px 2px 6px}
+.gx-mem{display:flex;align-items:center;gap:12px;width:100%;padding:8px 4px;border:0;background:none;color:var(--fg);text-align:left;font:600 15px var(--font-body)}
+.gx-mem .avatar{width:38px;height:38px;font-size:15px;flex:none}.gx-mem span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gx-mem em{font-style:normal;font-size:12px;color:var(--muted)}
+.gx-hero{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;margin:4px 0 10px}.gx-hero .avatar{width:84px;height:84px;font-size:32px;margin-bottom:6px}.gx-hero b{font:700 20px var(--font-body)}.gx-hero span{color:var(--muted);font-size:13.5px}.gx-hero p{margin:6px 0 0;font-size:14px;line-height:1.4;overflow-wrap:anywhere}
+.gx-hb{display:flex;align-items:center;gap:8px}
+
+/* плагины */
+.pl-card .pl-main{flex:1;min-width:0;display:flex;align-items:center;gap:14px;background:none;border:0;padding:0;margin:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.pl-card .sw{flex:none;transform:scale(.74);transform-origin:right center;margin-left:-18px}
+.pl-card.off .pic{filter:grayscale(1);opacity:.55}.pl-card.off .pt b{opacity:.7}
+.pl-empty{margin:10px 4px 0}
+.pl-hd{display:flex;align-items:center;gap:14px;margin-bottom:6px}.pl-hd h2{margin:0}.pl-hd .sub{margin:2px 0 0}
+.pl-ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:26px;background:linear-gradient(135deg,#8f6ee8,#ff7ab0);flex:none}
+.pl-err{color:#ff6b7f;font-size:13px;line-height:1.4;margin:8px 4px}
+.pl-fd{margin-top:6px}
+.pl-in{width:100%;box-sizing:border-box;min-height:46px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface-2);color:var(--fg);font:inherit;padding:0 14px}
+.pl-in.pl-col{padding:4px;height:50px}.pl-in[type=range]{padding:0;min-height:36px;accent-color:var(--accent)}
+.pl-rv{display:block;text-align:right;color:var(--muted);font-size:13px}
 </style>
 
 <div class="bg-aurora" id="fx" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -1527,6 +1598,7 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
   </svg>
   <div class="welcome" id="welcome" hidden role="status"><div class="wc"><svg viewBox="0 0 52 52" aria-hidden="true"><path d="M13 27l9 9 17-19"/></svg></div><h2 id="w-title"></h2><p id="w-sub"></p></div>
   <div class="sheet" id="sheet" hidden><div class="sheet-panel" id="sheet-body" role="dialog" aria-modal="true"></div></div>
+  <section class="gx" id="gx" hidden><div class="gx-top"><button class="icon-btn" type="button" id="gx-back" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><button class="gx-who" type="button" id="gx-who"><div class="avatar gx-av" id="gx-av"></div><div class="gx-t"><b id="gx-name"></b><span id="gx-sub"></span></div></button><button class="icon-btn" type="button" id="gx-info" aria-label="О чате"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></button></div><div class="gx-msgs" id="gx-msgs"></div><div class="gx-foot" id="gx-foot"></div></section>
   <div id="crec" hidden role="dialog" aria-modal="true" aria-label="Запись кружка">
     <div class="cr-top"><i class="rdot"></i><span id="cr-t">0:00</span></div>
     <div class="cr-wrap">
@@ -1693,7 +1765,7 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
   <!-- ГЛАВНЫЙ ЭКРАН -->
   <section class="view" id="v-home" hidden>
     <div id="tab-chats" class="view">
-      <div class="home-head hh"><h1>Чаты</h1><button class="bal" type="button" data-wallet aria-label="Баланс Lumies"><svg class="lm" aria-hidden="true"><use href="#lumie"/></svg><span class="bal-val">0</span></button></div>
+      <div class="home-head hh"><h1>Чаты</h1><div class="gx-hb"><button class="icon-btn" type="button" id="gx-plus" aria-label="Создать группу или канал"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button><button class="bal" type="button" data-wallet aria-label="Баланс Lumies"><svg class="lm" aria-hidden="true"><use href="#lumie"/></svg><span class="bal-val">0</span></button></div></div>
       <div class="list" id="chat-list"></div>
     </div>
     <div id="tab-contacts" class="view" hidden>
@@ -2198,7 +2270,7 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
     if (document.hidden || !db || !uid || !cur) return;
     db.enableNetwork().catch(function () {}); if (!unChats) watchChats(); if (!unCalls) watchCalls();
   });
-  function doLogout() { closeSP(); credClear(); RC = {}; PRE = {}; if (unChats) unChats(); if (unMsgs) unMsgs(); CH = []; P = {}; SEEN = {}; GCHK = {}; SHOWN = null; RDW = {}; DLW = {}; if (unCalls) unCalls(); endCall(true); auth.signOut(); closeSheet(); cur = null; uid = null; applyTheme(DEF_THEME); BLK = []; CLR = {}; applyPrefs({}); show('login'); }
+  function doLogout() { closeSP(); credClear(); RC = {}; PRE = {}; if (unChats) unChats(); if (unMsgs) unMsgs(); gxStop(); CH = []; P = {}; SEEN = {}; GCHK = {}; SHOWN = null; RDW = {}; DLW = {}; if (unCalls) unCalls(); endCall(true); auth.signOut(); closeSheet(); cur = null; uid = null; applyTheme(DEF_THEME); BLK = []; CLR = {}; applyPrefs({}); show('login'); }
   $('#logout').addEventListener('click', function () {
     openSheet('<div class="grab"></div><div class="lo-ic"><svg viewBox="0 0 24 24"><path d="M12 4l9 16H3zM12 10v4M12 17.500v.01"/></svg></div><h2 class="lo-t">Выйти из аккаунта?</h2><p class="sub lo-t">Вы выйдете из @' + esc(cur || '') + '. Чтобы войти снова, понадобятся ник и пароль — запомните их заранее.</p><div style="height:14px"></div><button class="btn" type="button" data-close>Остаться</button><div style="height:8px"></div><button class="btn ghost danger" id="lo-go" type="button">Да, выйти</button>');
   });
@@ -2415,6 +2487,7 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
   }
   function watchChats() {
     if (unChats) unChats();
+    gxWatch();
     unChats = db.collection('chats').where('members', 'array-contains', uid).onSnapshot(function (snap) {
       CH = snap.docs.map(function (d) { return d.data(); }).filter(function (c) { var o0 = otherOf(c), cl = (c.clr && +c.clr[uid]) || 0; CLR[o0] = cl; return c.last && c.lastTs > cl; });
       CH.forEach(function (c) { var o = otherOf(c); if (o === uid) favPeer(); else mkPeer(o, c.names[o], c.nicks[o], (c.photos || {})[o]); c.o = o; });
@@ -5390,16 +5463,231 @@ var BADGES = [
     h += row('Почта', esc(ME_MAIL == null ? '…' : (ME_MAIL || 'Не указана')), 'mail', ME_MAIL ? '' : ' dim');
     h += row('Пол', esc(r.gender || 'Не указан'), 'gender', r.gender ? '' : ' dim');
     h += row('День рождения', esc(birthText(r.birth)), 'birth', r.birth ? '' : ' dim');
+    h += '<h3 class="pr-l">Группы и каналы</h3>' +
+      actRow('👥', 'linear-gradient(135deg,#7c5cff,#ff7ab0)', 'Создать группу', 'Общий чат с друзьями', 'gxg', '<span class="pa">Создать</span>') +
+      actRow('📣', 'linear-gradient(135deg,#ffb347,#f5731d)', 'Создать канал', 'Публикуйте записи для подписчиков', 'gxc', '<span class="pa">Создать</span>') +
+      actRow('🔎', 'linear-gradient(135deg,#3b9cff,#2bd4c0)', 'Найти по ссылке или коду', '@ссылка или код приглашения', 'gxf', '<svg class="gxc" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>');
     h += '<h3 class="pr-l">Ещё</h3>' +
       actRow('🖼', 'linear-gradient(135deg,#3b9cff,#8f6ee8)', 'Баннер', r.banner ? 'Установлен' : 'Не добавлен', 'banner', '<span class="pa">' + (r.banner ? 'Изменить' : 'Добавить') + '</span>') +
       actRow('📣', 'linear-gradient(135deg,#ffb347,#f5731d)', 'Личный канал', r.channel ? esc(r.channel) : '', 'chan', '<span class="pa">' + (r.channel ? 'Изменить' : 'Добавить') + '</span>') +
       actRow('✨', 'linear-gradient(135deg,#b06cff,#7a4ff0)', 'Автоматизация чатов', 'Бот будет отвечать от вашего имени', 'soon', '<span class="nw new">NEW</span>', 0, 'Автоматизация чатов скоро появится') +
       actRow('👤', 'linear-gradient(135deg,#3b9cff,#2b6fe0)', 'Добавить аккаунт', 'Несколько аккаунтов в одном приложении', 'soon', '<span class="nw dev">Скоро</span>', 0, 'Несколько аккаунтов скоро появятся') +
       actRow('🚪', 'linear-gradient(135deg,#ff7a8a,#e0405a)', 'Выход', '', 'logout', '', 1);
-    h += '<h3 class="pr-l">Плагины</h3>' + actRow('🧩', 'linear-gradient(135deg,#8f6ee8,#ff7ab0)', 'Добавить плагин', 'Темы, боты и виджеты для LumoChat', 'soon', '<span class="nw dev">В разработке</span>', 0, 'Плагины в разработке. Скоро добавим!');
+    h += '<h3 class="pr-l">Плагины</h3>' + plCards();
     setHtml('#pr-rows', h);
     if (ME_MAIL == null && db && uid) { ME_MAIL = ''; db.collection('private').doc(uid).get().then(function (d) { ME_MAIL = (d.exists && d.data().email) || ''; if (spOpen === 'profile') renderProfile(me() || r); }).catch(function () { if (spOpen === 'profile') renderProfile(me() || r); }); }
   }
+
+  /* ---------- ПЛАГИНЫ ---------- */
+  var PL_KEY = 'lumo_plugins', PL_RUN = {}, PL_PEND = null, PL_OPEN = '';
+  function plList() { var l = store.get(PL_KEY, []); return Array.isArray(l) ? l : []; }
+  function plGet(id) { return plList().filter(function (p) { return p.id === id; })[0]; }
+  function plPut(p) { var l = plList(), i = -1; l.forEach(function (x, k) { if (x.id === p.id) i = k; }); if (i >= 0) l[i] = p; else l.push(p); store.set(PL_KEY, l); }
+  function plIcon(p) { return esc(String(p.icon || '🧩').slice(0, 4)); }
+  function plDef(p, k) { var s = (p.set || []).filter(function (x) { return x.key === k; })[0]; return s ? s.default : undefined; }
+  function plCfg(p, k) { var c = p.cfg || {}; return k in c ? c[k] : plDef(p, k); }
+  function plSub(p) { return p.err ? 'Ошибка: ' + esc(p.err) : (p.on ? 'Включён' : 'Выключен') + (p.ver ? ' · v' + esc(p.ver) : ''); }
+
+  /* читаем файл плагина: .js (вызывает LumoPlugin({...})) или .json */
+  function plParse(text, name) {
+    var def = null;
+    if (/\.json(\.txt)?$/i.test(name) || /^\s*\{/.test(text)) {
+      var j = JSON.parse(text);
+      var apply = function (api) { if (j.css) api.css(String(j.css).replace(/\{\{([\w-]+)\}\}/g, function (_, k) { var v = api.settings.get(k); return v == null ? '' : v; })); };
+      def = { id: j.id, name: j.name, version: j.version, description: j.description, author: j.author, icon: j.icon, settings: j.settings,
+        enable: apply, settingChanged: function (k, v, api) { apply(api); } };
+    } else {
+      new Function('LumoPlugin', '"use strict";\n' + text)(function (d) { def = d; });
+    }
+    if (!def || typeof def !== 'object') throw new Error('в файле нет LumoPlugin({...})');
+    if (!/^[a-z0-9_-]{2,40}$/i.test(String(def.id || ''))) throw new Error('нужен id: латиница, цифры, - и _');
+    if (!def.name || typeof def.name !== 'string') throw new Error('нужно имя плагина (name)');
+    var set = Array.isArray(def.settings) ? def.settings.filter(function (s) { return s && /^[\w-]{1,40}$/.test(String(s.key || '')) && /^(toggle|text|number|range|color|select)$/.test(s.type); }) : [];
+    def.settings = JSON.parse(JSON.stringify(set));
+    return def;
+  }
+
+  /* то, что плагин получает в enable(api) */
+  function plApi(p, ctx) {
+    var sk = 'lumo_pl_' + p.id;
+    return {
+      id: p.id,
+      toast: function (m) { toast(String(m)); },
+      css: function (text, k) {
+        k = k || 'main'; var id = 'plcss-' + p.id + '-' + k, s = document.getElementById(id);
+        if (!s) { s = document.createElement('style'); s.id = id; s.setAttribute('data-plugin', p.id); document.head.appendChild(s); }
+        s.textContent = String(text);
+      },
+      removeCss: function (k) { var s = document.getElementById('plcss-' + p.id + '-' + (k || 'main')); if (s) s.remove(); },
+      settings: {
+        get: function (k) { var q = plGet(p.id) || p; return plCfg(q, k); },
+        set: function (k, v) { plSetCfg(p.id, k, v); },
+        all: function () { var q = plGet(p.id) || p, o = {}; (q.set || []).forEach(function (s) { o[s.key] = plCfg(q, s.key); }); return o; }
+      },
+      storage: {
+        get: function (k, d) { var o = store.get(sk, {}); return k in o ? o[k] : d; },
+        set: function (k, v) { var o = store.get(sk, {}); o[k] = v; store.set(sk, o); },
+        del: function (k) { var o = store.get(sk, {}); delete o[k]; store.set(sk, o); }
+      },
+      me: function () { var r = me() || {}; return { username: cur || '', name: r.name || '' }; },
+      $: function (s) { return document.querySelector(s); },
+      $$: function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); },
+      on: function (target, ev, fn, opt) { target.addEventListener(ev, fn, opt); ctx.undo.push(function () { target.removeEventListener(ev, fn, opt); }); },
+      every: function (fn, ms) { var t = setInterval(fn, Math.max(100, ms || 1000)); ctx.undo.push(function () { clearInterval(t); }); return t; },
+      after: function (fn, ms) { var t = setTimeout(fn, ms || 0); ctx.undo.push(function () { clearTimeout(t); }); return t; },
+      mount: function (el, parent) { (parent || document.body).appendChild(el); ctx.undo.push(function () { if (el.parentNode) el.parentNode.removeChild(el); }); return el; }
+    };
+  }
+  function plStop(id) {
+    var r = PL_RUN[id]; if (!r) return;
+    delete PL_RUN[id];
+    try { if (r.def.disable) r.def.disable(r.api); } catch (e) {}
+    r.ctx.undo.splice(0).reverse().forEach(function (f) { try { f(); } catch (e) {} });
+    document.querySelectorAll('style[data-plugin="' + id + '"]').forEach(function (s) { s.remove(); });
+  }
+  function plStart(p) {
+    plStop(p.id);
+    var ctx = { undo: [] };
+    try {
+      var code = store.get('lumo_plc_' + p.id, '');
+      if (!code) throw new Error('файл плагина не найден');
+      var def = plParse(code, p.json ? 'x.json' : 'x.js'), api = plApi(p, ctx);
+      PL_RUN[p.id] = { def: def, ctx: ctx, api: api };
+      var ret = def.enable && def.enable(api);
+      if (typeof ret === 'function') ctx.undo.push(ret);
+      if (p.err) { p.err = ''; plPut(p); }
+      return true;
+    } catch (e) {
+      plStop(p.id);
+      p.on = false; p.err = String((e && e.message) || e).slice(0, 120); plPut(p);
+      toast('Плагин «' + p.name + '» не запустился');
+      return false;
+    }
+  }
+  function plSetCfg(id, k, v) {
+    var p = plGet(id); if (!p) return;
+    p.cfg = p.cfg || {}; p.cfg[k] = v; plPut(p);
+    var r = PL_RUN[id];
+    if (r && r.def.settingChanged) { try { r.def.settingChanged(k, v, r.api); } catch (e) { toast('Ошибка в плагине «' + p.name + '»'); } }
+  }
+  function plBoot() { plList().forEach(function (p) { if (p.on) plStart(p); }); }
+  setTimeout(plBoot, 0);
+
+  /* карточки в профиле */
+  function plCards() {
+    var h = actRow('🧩', 'linear-gradient(135deg,#8f6ee8,#ff7ab0)', 'Добавить плагин', 'Выберите файл плагина (.lumo) на телефоне', 'plpick', '<span class="pa">Выбрать</span>');
+    plList().forEach(function (p) {
+      h += '<div class="pr-r act pl-card' + (p.on ? '' : ' off') + '" data-pid="' + esc(p.id) + '"><button type="button" class="pl-main" data-x="plopen" data-id="' + esc(p.id) + '"><span class="pic" style="background:linear-gradient(135deg,#8f6ee8,#ff7ab0)">' + plIcon(p) + '</span><span class="pt"><b>' + esc(p.name) + '</b><small>' + plSub(p) + '</small></span></button>' +
+        '<button type="button" class="sw" role="switch" aria-checked="' + !!p.on + '" aria-label="Включить или выключить" data-x="pltog" data-id="' + esc(p.id) + '"><i></i></button></div>';
+    });
+    if (!plList().length) h += '<p class="sub pl-empty">Плагинов пока нет. Добавьте файл — его можно будет включать, выключать, настраивать и удалять.</p>';
+    return h;
+  }
+  function plPick() {
+    var f = document.createElement('input'); f.type = 'file';
+    f.onchange = function () {
+      var file = f.files && f.files[0]; if (!file) return;
+      if (!/\.(lumo|js|json)(\.txt)?$/i.test(file.name)) { toast('Нужен файл плагина с расширением .lumo'); return; }
+      if (file.size > 300 * 1024) { toast('Файл слишком большой (максимум 300 КБ)'); return; }
+      var rd = new FileReader();
+      rd.onerror = function () { toast('Не удалось открыть файл'); };
+      rd.onload = function () {
+        var text = String(rd.result || ''), def;
+        try { def = plParse(text, file.name); } catch (e) { toast('Это не плагин: ' + String((e && e.message) || e).slice(0, 80)); return; }
+        PL_PEND = { id: def.id, name: String(def.name).slice(0, 40), ver: String(def.version || '1.0').slice(0, 12), desc: String(def.description || '').slice(0, 200), author: String(def.author || '').slice(0, 40), icon: def.icon ? String(def.icon).slice(0, 4) : '🧩', set: def.settings, json: /\.json(\.txt)?$/i.test(file.name) || /^\s*\{/.test(text), code: text };
+        var old = plGet(def.id), P = PL_PEND;
+        openSheet(mmHead(old ? 'Обновить плагин?' : 'Добавить плагин?') +
+          '<div class="pl-hd"><span class="pl-ic">' + plIcon(P) + '</span><div><h2>' + esc(P.name) + '</h2><p class="sub">v' + esc(P.ver) + (P.author ? ' · ' + esc(P.author) : '') + '</p></div></div>' +
+          (P.desc ? '<p class="sub">' + esc(P.desc) + '</p>' : '') +
+          '<p class="sub">' + (P.set.length ? 'Настроек: ' + P.set.length + '. Их можно будет менять после добавления.' : 'У плагина нет настроек.') + '</p>' +
+          '<p class="pl-err">Плагин получает полный доступ к приложению. Ставьте только те, которым доверяете.</p>' +
+          '<div class="acts"><button class="btn" type="button" data-x="plinst">' + (old ? 'Обновить' : 'Добавить') + '</button><button class="btn ghost" type="button" data-close>Отмена</button></div>');
+      };
+      rd.readAsText(file);
+    };
+    f.click();
+  }
+  function plField(p, s) {
+    var v = plCfg(p, s.key), k = esc(s.key), lbl = esc(s.label || s.key), d = s.description ? esc(s.description) : '', inp = '';
+    if (s.type === 'toggle') return '<div class="ed-card ed-tg"><div class="ed-tgt"><b>' + lbl + '</b>' + (d ? '<em>' + d + '</em>' : '') + '</div><button class="sw" type="button" role="switch" aria-checked="' + !!v + '" data-x="plsw" data-k="' + k + '"><i></i></button></div>';
+    if (s.type === 'select') inp = '<select class="pl-in" data-plk="' + k + '">' + (Array.isArray(s.options) ? s.options : []).map(function (o) { var ov = (o && typeof o === 'object') ? o.value : o, ol = (o && typeof o === 'object') ? (o.label != null ? o.label : o.value) : o; return '<option value="' + esc(ov) + '"' + (String(ov) === String(v) ? ' selected' : '') + '>' + esc(ol) + '</option>'; }).join('') + '</select>';
+    else if (s.type === 'color') inp = '<input class="pl-in pl-col" type="color" data-plk="' + k + '" value="' + (/^#[0-9a-f]{6}$/i.test(v) ? esc(v) : '#8f6ee8') + '">';
+    else if (s.type === 'range') inp = '<input class="pl-in" type="range" data-plk="' + k + '" min="' + (+s.min || 0) + '" max="' + (s.max != null ? +s.max : 100) + '" step="' + (+s.step || 1) + '" value="' + esc(v == null ? (+s.min || 0) : v) + '"><span class="pl-rv">' + esc(v == null ? '' : v) + '</span>';
+    else if (s.type === 'number') inp = '<input class="pl-in" type="number" inputmode="decimal" data-plk="' + k + '" value="' + esc(v == null ? '' : v) + '">';
+    else inp = '<input class="pl-in" type="text" maxlength="200" data-plk="' + k + '" value="' + esc(v == null ? '' : v) + '">';
+    return '<div class="ed-card pl-fd"><div class="ed-lb">' + lbl + '</div>' + inp + (d ? '<p class="ed-d">' + d + '</p>' : '') + '</div>';
+  }
+  function plSheet(id) {
+    var p = plGet(id); if (!p) return; PL_OPEN = id;
+    var h = '<div class="grab"></div><div class="pl-hd"><span class="pl-ic">' + plIcon(p) + '</span><div><h2>' + esc(p.name) + '</h2><p class="sub">v' + esc(p.ver || '1.0') + (p.author ? ' · ' + esc(p.author) : '') + '</p></div></div>';
+    if (p.desc) h += '<p class="sub">' + esc(p.desc) + '</p>';
+    if (p.err) h += '<p class="pl-err">Ошибка: ' + esc(p.err) + '</p>';
+    h += '<div class="ed-card ed-tg"><div class="ed-tgt"><b>Плагин включён</b><em>Выключите, чтобы он перестал работать</em></div><button class="sw" type="button" role="switch" aria-checked="' + !!p.on + '" data-x="pltog2" data-id="' + esc(id) + '"><i></i></button></div>';
+    if ((p.set || []).length) h += '<h3 class="ed-h">Настройки</h3>' + p.set.map(function (s) { return plField(p, s); }).join('');
+    else h += '<p class="sub" style="margin-top:12px">У этого плагина нет настроек.</p>';
+    h += '<div class="acts"><button class="btn ghost danger" type="button" data-x="pldel" data-id="' + esc(id) + '">Удалить плагин</button><button class="btn ghost" type="button" data-close>Закрыть</button></div>';
+    openSheet(h);
+  }
+  function plToggle(id) {
+    var p = plGet(id); if (!p) return false;
+    p.on = !p.on; p.err = ''; plPut(p);
+    if (p.on) plStart(p); else plStop(id);
+    return plGet(id);
+  }
+  function plX(a, el) {
+    if (a === 'plpick') { plPick(); return true; }
+    if (a === 'plopen') { plSheet(el.dataset.id); return true; }
+    if (a === 'pltog') {
+      var p = plToggle(el.dataset.id); if (!p) return true;
+      el.setAttribute('aria-checked', String(!!p.on));
+      var card = el.closest('.pl-card'); if (card) { card.classList.toggle('off', !p.on); var sm = card.querySelector('small'); if (sm) sm.innerHTML = plSub(p); }
+      toast(p.on ? 'Плагин включён' : (p.err ? 'Плагин не запустился' : 'Плагин выключен'));
+      return true;
+    }
+    if (a === 'pltog2') {
+      var q = plToggle(el.dataset.id); if (!q) return true;
+      if (q.err) { plSheet(q.id); toast('Плагин не запустился'); return true; }
+      el.setAttribute('aria-checked', String(!!q.on)); toast(q.on ? 'Плагин включён' : 'Плагин выключен');
+      return true;
+    }
+    if (a === 'plsw') {
+      var k = el.dataset.k, v = el.getAttribute('aria-checked') !== 'true';
+      el.setAttribute('aria-checked', String(v)); plSetCfg(PL_OPEN, k, v); return true;
+    }
+    if (a === 'plinst') {
+      var P = PL_PEND; if (!P) return true;
+      var old = plGet(P.id); plStop(P.id);
+      store.set('lumo_plc_' + P.id, P.code);
+      var rec = { id: P.id, name: P.name, ver: P.ver, desc: P.desc, author: P.author, icon: P.icon, set: P.set, json: P.json, on: true, cfg: old ? (old.cfg || {}) : {}, err: '' };
+      plPut(rec); PL_PEND = null;
+      var ok = plStart(rec); closeSheet();
+      toast(ok ? (old ? 'Плагин обновлён' : 'Плагин добавлен') : 'Плагин добавлен, но не запустился');
+      return true;
+    }
+    if (a === 'pldel') {
+      var d = plGet(el.dataset.id); if (!d) return true;
+      openSheet(mmHead('Удалить плагин?', '«' + esc(d.name) + '» и все его настройки будут удалены.') + '<div class="acts"><button class="btn ghost danger" type="button" data-x="pldel-ok" data-id="' + esc(d.id) + '">Удалить</button><button class="btn ghost" type="button" data-x="plopen" data-id="' + esc(d.id) + '">Назад</button></div>');
+      return true;
+    }
+    if (a === 'pldel-ok') {
+      var id = el.dataset.id; plStop(id);
+      store.set(PL_KEY, plList().filter(function (x) { return x.id !== id; }));
+      store.del('lumo_plc_' + id); store.del('lumo_pl_' + id);
+      PL_OPEN = ''; closeSheet(); toast('Плагин удалён');
+      return true;
+    }
+    return false;
+  }
+  document.addEventListener('input', function (e) {
+    var t = e.target; if (!t || !t.dataset || t.dataset.plk == null || !PL_OPEN) return;
+    var p = plGet(PL_OPEN); if (!p) return;
+    var s = (p.set || []).filter(function (x) { return x.key === t.dataset.plk; })[0]; if (!s) return;
+    var v = t.value;
+    if (s.type === 'number' || s.type === 'range') { v = parseFloat(v); if (isNaN(v)) return; }
+    if (s.type === 'range') { var rv = t.parentNode.querySelector('.pl-rv'); if (rv) rv.textContent = v; }
+    plSetCfg(PL_OPEN, s.key, v);
+  });
+
   /* --- ПОЧТА В ПРОФИЛЕ: привязать / изменить / удалить по коду --- */
   var MS = { email: '', code: '', exp: 0, tries: 0, last: 0, mode: '', to: '' };
   function mmHead(t, s) { return '<div class="grab"></div><h2>' + t + '</h2>' + (s ? '<p class="sub">' + s + '</p>' : ''); }
@@ -5460,6 +5748,8 @@ var BADGES = [
   }
   function onX(a, el) {
     if (mmX(a, el)) return;
+    if (plX(a, el)) return;
+    if (a === 'gxg' || a === 'gxc' || a === 'gxf') { gxProfileAct(a); return; }
     if (a === 'more') { openSheet('<div class="grab"></div><div class="acts"><button class="btn ghost" type="button" data-x="avs"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;margin-right:8px;vertical-align:-4px"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 16l5-5 5 5 3-3 5 5"/></svg>Аватарки</button>' +
       '<button class="btn ghost" type="button" data-x="delavs"><svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;margin-right:8px;vertical-align:-4px"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>Удалить все аватарки</button>' +
       '<div style="height:10px"></div><button class="btn out" type="button" data-x="logout">Выйти из аккаунта</button></div>'); return; }
@@ -6276,6 +6566,281 @@ var BADGES = [
     anStBuild(sp, p, { k: 1 }); sp.style.gap = '0';
     window.__stGo = function () { setTimeout(function () { anStOut(sp, p.out, function () { sp.remove(); }); }, Math.max(0, (+p.hold || 1400) - 900)); };
   })();
+
+  /* ===== ГРУППЫ И КАНАЛЫ (коллекция groups в Firestore) ===== */
+  var GX = { list: [], cur: null, unList: null, unMsgs: null, msgs: [], sel: {}, photo: '', type: 'group', err: null, mn: {}, hashDone: false, seen: store.get('lumo_gx_seen', {}) };
+  var GX_H = /^[a-z][a-z0-9_]{3,23}$/;
+  function gxPl(n, a, b, c) { var m = n % 100, k = n % 10; return n + ' ' + (m > 10 && m < 20 ? c : k === 1 ? a : k > 1 && k < 5 ? b : c); }
+  function gxErr(e) { return e && e.code === 'permission-denied' ? 'Нет доступа. Добавьте правила для groups в Firebase (файл firestore-rules-groups.txt).' : errText(e); }
+  function gxColor(id) { var h = 0; id = String(id || ''); for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0; return COLORS[Math.abs(h) % COLORS.length]; }
+  function gxAv(g) { return avHtml({ n: g.name, photo: g.photo }); }
+  function gxIsAdm(g) { return !!g && (g.owner === uid || (g.admins || []).indexOf(uid) > -1); }
+  function gxIsMem(g) { return !!g && (g.members || []).indexOf(uid) > -1; }
+  function gxSub(g) { var n = (g.members || []).length; return g.type === 'channel' ? gxPl(n, 'подписчик', 'подписчика', 'подписчиков') : gxPl(n, 'участник', 'участника', 'участников'); }
+  function gxLink(g) { return location.href.split('#')[0] + '#join=' + g.id; }
+  function gxCopy(t) {
+    function fb() { var a = document.createElement('textarea'); a.value = t; a.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); } catch (e) {} a.remove(); toast('Скопировано'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function () { toast('Скопировано'); }).catch(fb); else fb();
+  }
+  function gxById(id) { for (var i = 0; i < GX.list.length; i++) if (GX.list[i].id === id) return GX.list[i]; return null; }
+
+  function gxWatch() {
+    if (GX.unList) { GX.unList(); GX.unList = null; }
+    if (!db || !uid) return;
+    GX.unList = db.collection('groups').where('members', 'array-contains', uid).onSnapshot(function (s) {
+      GX.list = s.docs.map(function (d) { var x = d.data(); x.id = d.id; return x; });
+      GX.list.sort(function (a, b) { return (b.lastTs || b.ts || 0) - (a.lastTs || a.ts || 0); });
+      if (GX.cur && GX.cur.joined) {
+        var g = gxById(GX.cur.id);
+        if (g) { g.joined = true; GX.cur = g; gxHead(); gxFoot(); } else if (!GX.cur.leaving) { gxClose(); toast('Вас больше нет в этом чате'); }
+      }
+      renderChats();
+    }, function () {});
+    if (!GX.hashDone) setTimeout(gxHash, 1800);
+  }
+  function gxStop() { if (GX.unList) { GX.unList(); GX.unList = null; } gxClose(); GX.list = []; GX.hashDone = false; }
+  function gxHash() {
+    if (GX.hashDone) return; GX.hashDone = true;
+    var m = /[#&]join=([A-Za-z0-9]{10,40})/.exec(location.hash || ''); if (!m || !db || !uid) return;
+    db.collection('groups').doc(m[1]).get().then(function (d) {
+      if (!d.exists) { toast('Приглашение недействительно'); return; }
+      var g = d.data(); g.id = d.id; try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} gxOpen(g);
+    }).catch(function () {});
+  }
+
+  function gxRow(g) {
+    var unread = g.lastFrom && g.lastFrom !== uid && (g.lastTs || 0) > (GX.seen[g.id] || 0) && !(GX.cur && GX.cur.id === g.id);
+    var last = g.last ? ((g.lastFrom === uid ? 'Вы: ' : (g.type === 'group' && g.lastName ? esc(g.lastName) + ': ' : '')) + esc(g.last)) : (g.type === 'channel' ? 'Канал создан' : 'Группа создана');
+    var h = chatRow({ n: (g.type === 'channel' ? '📣 ' : '👥 ') + esc(g.name), a: gxAv(g), c: gxColor(g.id), time: fmtTime(g.lastTs || g.ts || Date.now()), t: last, badge: unread ? 1 : 0 });
+    if (unread) h = h.replace('<span class="badge">1</span>', '<span class="badge">•</span>');
+    return h.replace('<div class="chat">', '<div class="chat" data-gx="' + esc(g.id) + '" style="cursor:pointer">');
+  }
+  function gxPaint() {
+    var box = $('#chat-list'); if (!box || !GX.list.length) return;
+    var html = GX.list.map(gxRow).join('');
+    if (box.children.length) box.children[0].insertAdjacentHTML('afterend', html); else box.insertAdjacentHTML('afterbegin', html);
+  }
+  var __gxRC = renderChats; renderChats = function () { __gxRC(); gxPaint(); };
+
+  /* --- экран группы / канала --- */
+  function gxFit() { var el = $('#gx'); if (!el || el.hidden) return; var v = window.visualViewport; if (v) { el.style.height = v.height + 'px'; el.style.top = v.offsetTop + 'px'; } }
+  if (window.visualViewport) { visualViewport.addEventListener('resize', gxFit); visualViewport.addEventListener('scroll', gxFit); }
+  function gxUnsub() { if (GX.unMsgs) { GX.unMsgs(); GX.unMsgs = null; } }
+  function gxSeen() { if (GX.cur && GX.cur.joined) { GX.seen[GX.cur.id] = Date.now(); store.set('lumo_gx_seen', GX.seen); } }
+  function gxOpen(g) {
+    if (!g || !db) return; gxUnsub();
+    g.joined = gxIsMem(g); GX.cur = g; GX.msgs = []; GX.err = null; GX.mn = {};
+    var el = $('#gx'); el.hidden = false; el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; gxFit();
+    $('#gx-foot').dataset.k = ''; gxHead(); gxFoot(); gxRender(); gxSeen();
+    GX.unMsgs = db.collection('groups').doc(g.id).collection('messages').orderBy('ts').limitToLast(100).onSnapshot(function (s) {
+      GX.msgs = s.docs.map(function (d) { var m = d.data(); m.id = d.id; return m; }); GX.err = null; gxRender(); gxSeen();
+    }, function (e) { GX.err = e; gxRender(); });
+  }
+  function gxClose() {
+    gxUnsub(); gxSeen(); GX.cur = null; var el = $('#gx'); if (el) el.hidden = true;
+    var f = $('#gx-foot'); if (f) { f.innerHTML = ''; f.dataset.k = ''; }
+    renderChats();
+  }
+  function gxHead() {
+    var g = GX.cur; if (!g) return;
+    var av = $('#gx-av'); av.style.background = gxColor(g.id); av.innerHTML = gxAv(g);
+    $('#gx-name').textContent = g.name; $('#gx-sub').textContent = gxSub(g);
+  }
+  function gxFoot() {
+    var g = GX.cur, f = $('#gx-foot'); if (!g || !f) return;
+    var ch = g.type === 'channel', k = !g.joined ? 'join' + (ch ? 'c' : 'g') : (ch && !gxIsAdm(g) ? 'ro' : 'in' + (ch ? 'c' : 'g'));
+    if (f.dataset.k === k) return; f.dataset.k = k;
+    if (k === 'joinc' || k === 'joing') f.innerHTML = '<button class="btn" type="button" data-gxa="join">' + (ch ? 'Подписаться' : 'Вступить в группу') + '</button>';
+    else if (k === 'ro') f.innerHTML = '<span class="gx-note">Писать в канал могут только админы</span>';
+    else f.innerHTML = '<div class="input"><input id="gx-in" maxlength="2000" autocomplete="off" placeholder="' + (ch ? 'Новая запись' : 'Сообщение') + '"></div><button class="gx-send" type="button" data-gxa="send" aria-label="Отправить"><svg viewBox="0 0 24 24"><path d="M5 12l14-7-5 14-2-6z"/></svg></button>';
+  }
+  function gxRender() {
+    var box = $('#gx-msgs'), g = GX.cur; if (!box || !g) return;
+    var near = !box.children.length || box.scrollHeight - box.scrollTop - box.clientHeight < 150;
+    if (!GX.msgs.length) { box.innerHTML = '<div class="gx-empty">' + (GX.err ? esc(gxErr(GX.err)) : (g.type === 'channel' ? 'В канале пока нет записей.' : 'Сообщений пока нет. Напишите первым!')) + '</div>'; return; }
+    var post = g.type === 'channel';
+    box.innerHTML = GX.msgs.map(function (m) {
+      var mine = m.from === uid;
+      return '<div class="gx-m' + (mine && !post ? ' me' : '') + (post ? ' post' : '') + '" data-gxm="' + esc(m.id) + '">' + (post ? '<span class="gx-n">' + esc(g.name) + '</span>' : (!mine ? '<span class="gx-n">' + esc(m.name || 'Участник') + '</span>' : '')) + esc(m.text || '').replace(/\n/g, '<br>') + '<span class="gx-tm">' + fmtTime(m.ts) + '</span></div>';
+    }).join('');
+    if (near) box.scrollTop = box.scrollHeight;
+  }
+  function gxSend() {
+    var i = $('#gx-in'), g = GX.cur; if (!i || !g || !g.joined || !db) return;
+    if (g.type === 'channel' && !gxIsAdm(g)) return;
+    var t = i.value.trim(); if (!t) return; i.value = '';
+    var ts = Date.now(), ref = db.collection('groups').doc(g.id), nm = (me() || {}).name || cur;
+    ref.collection('messages').add({ from: uid, name: nm, text: t, ts: ts })
+      .then(function () { return ref.update({ last: t.slice(0, 80), lastTs: ts, lastFrom: uid, lastName: nm }); })
+      .catch(function (e) { i.value = t; toast(gxErr(e)); });
+    i.focus();
+  }
+  function gxJoin() {
+    var g = GX.cur; if (!g || !db) return;
+    db.collection('groups').doc(g.id).update({ members: FV.arrayUnion(uid) }).then(function () {
+      if (!gxIsMem(g)) g.members = (g.members || []).concat([uid]);
+      g.joined = true; gxHead(); gxFoot(); gxSeen(); toast(g.type === 'channel' ? 'Вы подписались' : 'Вы вступили в группу');
+    }).catch(function (e) { toast(gxErr(e)); });
+  }
+  function gxMsgMenu(id) {
+    var g = GX.cur, m = null; GX.msgs.forEach(function (x) { if (x.id === id) m = x; }); if (!g || !m) return;
+    var can = m.from === uid || gxIsAdm(g);
+    openSheet('<div class="grab"></div><div class="acts"><button class="btn ghost" type="button" data-gxa="mcopy" data-id="' + esc(id) + '">Копировать текст</button>' + (can ? '<button class="btn ghost danger" type="button" data-gxa="mdel" data-id="' + esc(id) + '">Удалить</button>' : '') + '<button class="btn ghost" type="button" data-close>Отмена</button></div>');
+  }
+
+  /* --- создание --- */
+  function gxPlus() {
+    openSheet('<div class="grab"></div><h2>Создать</h2><p class="sub">Общайтесь с друзьями в группе или ведите свой канал.</p>' +
+      '<button class="gx-big" type="button" data-gxa="new-group"><span class="pic" style="background:linear-gradient(135deg,#7c5cff,#ff7ab0)">👥</span><span><b>Новая группа</b><small>Общий чат: пишут все участники</small></span></button>' +
+      '<button class="gx-big" type="button" data-gxa="new-channel"><span class="pic" style="background:linear-gradient(135deg,#ffb347,#f5731d)">📣</span><span><b>Новый канал</b><small>Записи публикуют админы, остальные читают</small></span></button>' +
+      '<button class="gx-big" type="button" data-gxa="find"><span class="pic" style="background:linear-gradient(135deg,#3b9cff,#2bd4c0)">🔎</span><span><b>Найти группу или канал</b><small>По @ссылке или коду приглашения</small></span></button>');
+  }
+  function gxPickRow(p, on) { return '<button type="button" class="gx-pick' + (on ? ' on' : '') + '" data-gxp="' + esc(p.id) + '"><div class="avatar" style="background:' + p.c + '">' + avHtml(p) + '</div><span>' + esc(p.n) + '</span><i></i></button>'; }
+  function gxPeers(skip) { return visCH().map(function (c) { return P[c.o]; }).filter(function (p) { return p && !p.fav && (!skip || skip.indexOf(p.id) < 0); }); }
+  function gxForm(type) {
+    GX.type = type; GX.sel = {}; GX.photo = '';
+    var ch = type === 'channel', peers = gxPeers();
+    openSheet('<div class="grab"></div><h2>' + (ch ? 'Новый канал' : 'Новая группа') + '</h2>' +
+      '<div class="gx-pa"><button class="gx-pbtn" id="gx-ph" type="button" data-gxa="photo" aria-label="Фото">📷</button><div class="field" style="flex:1;margin:0"><div class="input"><input id="gx-n" maxlength="40" autocomplete="off" placeholder="' + (ch ? 'Название канала' : 'Название группы') + '"></div></div></div>' +
+      '<div class="field"><div class="input"><input id="gx-a" maxlength="120" autocomplete="off" placeholder="Описание (необязательно)"></div></div>' +
+      '<div class="field"><div class="input"><span class="at">@</span><input id="gx-h" maxlength="24" autocapitalize="none" spellcheck="false" placeholder="публичная_ссылка"></div><p class="hint" id="gx-hint">Необязательно. Латиница, цифры и «_», от 4 символов. Без ссылки ' + (ch ? 'канал' : 'группа') + ' приватн' + (ch ? 'ый' : 'ая') + ': войти можно по коду приглашения.</p></div>' +
+      (peers.length ? '<div class="gx-lb">' + (ch ? 'Добавить подписчиков' : 'Добавить участников') + '</div><div class="gx-pl">' + peers.map(function (p) { return gxPickRow(p, false); }).join('') + '</div>' : '') +
+      '<button class="btn" id="gx-go" type="button" data-gxa="create">Создать</button>');
+  }
+  function gxPickPhoto(cb) {
+    var f = document.createElement('input'); f.type = 'file'; f.accept = 'image/*';
+    f.onchange = function () {
+      var file = f.files && f.files[0]; if (!file) return; if (!/^image\//.test(file.type)) { toast('Выберите картинку'); return; }
+      var img = new Image(), url = URL.createObjectURL(file);
+      img.onload = function () { var S = 160, c = document.createElement('canvas'); c.width = c.height = S; var k = Math.max(S / img.width, S / img.height), w = img.width * k, h = img.height * k; c.getContext('2d').drawImage(img, (S - w) / 2, (S - h) / 2, w, h); URL.revokeObjectURL(url); cb(c.toDataURL('image/jpeg', 0.8)); };
+      img.onerror = function () { URL.revokeObjectURL(url); toast('Не удалось открыть картинку'); };
+      img.src = url;
+    };
+    f.click();
+  }
+  function gxCreate() {
+    var ch = GX.type === 'channel', name = ($('#gx-n').value || '').trim(), about = ($('#gx-a').value || '').trim(), h = ($('#gx-h').value || '').trim().toLowerCase().replace(/^@/, ''), hint = $('#gx-hint'), btn = $('#gx-go');
+    if (name.length < 2) { toast('Введите название'); return; }
+    if (h && !GX_H.test(h)) { hint.textContent = 'Ссылка: латиница, цифры и «_», от 4 до 24 символов, начинается с буквы.'; hint.classList.add('err'); return; }
+    if (!db || !uid) { toast('Нет соединения'); return; }
+    btn.disabled = true;
+    var gref = db.collection('groups').doc(), now = Date.now();
+    var rec = { type: GX.type, name: name, about: about, handle: h, owner: uid, admins: [uid], members: [uid].concat(Object.keys(GX.sel)), photo: GX.photo || '', ts: now, last: '', lastTs: now, lastFrom: '', lastName: '' };
+    var chk = h ? db.collection('handles').doc(h).get().then(function (d) { if (d.exists) throw { code: 'gx/taken' }; }) : Promise.resolve();
+    chk.then(function () { var b = db.batch(); b.set(gref, rec); if (h) b.set(db.collection('handles').doc(h), { gid: gref.id, owner: uid }); return b.commit(); })
+      .then(function () { closeSheet(); rec.id = gref.id; setTimeout(function () { gxOpen(rec); }, 260); toast(ch ? 'Канал создан' : 'Группа создана'); })
+      .catch(function (e) { btn.disabled = false; if (e && e.code === 'gx/taken') { hint.textContent = 'Эта ссылка уже занята.'; hint.classList.add('err'); } else toast(gxErr(e)); });
+  }
+
+  /* --- поиск по ссылке / коду --- */
+  function gxFind() {
+    openSheet('<div class="grab"></div><h2>Найти группу или канал</h2><p class="sub">Введите @ссылку, код приглашения или вставьте ссылку-приглашение.</p><div class="field"><div class="input"><input id="gx-q" autocapitalize="none" spellcheck="false" autocomplete="off" placeholder="@ссылка или код"></div><p class="hint" id="gx-qh"></p></div><div style="height:14px"></div><button class="btn" type="button" data-gxa="find-go">Найти</button>');
+    setTimeout(function () { var i = $('#gx-q'); i && i.focus(); }, 260);
+  }
+  function gxFindGo() {
+    var q = ($('#gx-q').value || '').trim(), h = $('#gx-qh'); if (!q) return; if (!db) { h.textContent = 'Нет соединения.'; return; }
+    var m = /join=([A-Za-z0-9]+)/.exec(q); if (m) q = m[1];
+    var code = q.charAt(0) !== '@' && q.length === 20 && /^[A-Za-z0-9]+$/.test(q), hd = q.replace(/^@/, '').toLowerCase();
+    if (!code && !GX_H.test(hd)) { h.textContent = 'Не похоже на ссылку или код.'; return; }
+    h.textContent = 'Ищем…';
+    var p = code ? db.collection('groups').doc(q).get() : db.collection('handles').doc(hd).get().then(function (d) { if (!d.exists) throw 0; return db.collection('groups').doc(d.data().gid).get(); });
+    p.then(function (d) { if (!d.exists) throw 0; var g = d.data(); g.id = d.id; closeSheet(); setTimeout(function () { gxOpen(g); }, 260); })
+      .catch(function (e) { h.textContent = e && e.code ? gxErr(e) : 'Ничего не найдено.'; });
+  }
+
+  /* --- информация, участники, управление --- */
+  function gxInfo() {
+    var g = GX.cur; if (!g) return; var adm = gxIsAdm(g), own = g.owner === uid, ch = g.type === 'channel';
+    var h = '<div class="grab"></div><div class="gx-hero"><div class="avatar" style="background:' + gxColor(g.id) + '">' + gxAv(g) + '</div><b>' + esc(g.name) + '</b><span>' + (ch ? 'Канал' : 'Группа') + ' · ' + gxSub(g) + (g.handle ? ' · @' + esc(g.handle) : '') + '</span>' + (g.about ? '<p>' + esc(g.about) + '</p>' : '') + '</div><div class="acts">';
+    h += '<button class="btn ghost" type="button" data-gxa="invite">Скопировать ссылку-приглашение</button>';
+    if (adm) h += '<button class="btn ghost" type="button" data-gxa="edit">Название и описание</button><button class="btn ghost" type="button" data-gxa="addm">' + (ch ? 'Добавить подписчиков' : 'Добавить участников') + '</button>';
+    if (g.joined && !own) h += '<button class="btn ghost danger" type="button" data-gxa="leave">' + (ch ? 'Отписаться' : 'Покинуть группу') + '</button>';
+    if (own) h += '<button class="btn ghost danger" type="button" data-gxa="del">Удалить ' + (ch ? 'канал' : 'группу') + '</button>';
+    h += '</div>' + ((!ch || adm) && g.joined ? '<div id="gx-ml"><p class="sub" style="margin-top:12px">Загружаем список…</p></div>' : '');
+    openSheet(h); if ((!ch || adm) && g.joined) gxLoadMembers();
+  }
+  function gxLoadMembers() {
+    var g = GX.cur, ids = (g.members || []).slice(0, 40), ch = g.type === 'channel';
+    Promise.all(ids.map(function (id) { return db.collection('users').doc(id).get().then(function (d) { return { id: id, d: d.exists ? d.data() : {} }; }).catch(function () { return { id: id, d: {} }; }); })).then(function (arr) {
+      var box = $('#gx-ml'); if (!box || GX.cur !== g) return;
+      box.innerHTML = '<div class="gx-lb">' + (ch ? 'Подписчики' : 'Участники') + '</div>' + arr.map(function (x) {
+        var nm = x.d.name || 'Пользователь'; GX.mn[x.id] = nm;
+        var role = x.id === g.owner ? 'владелец' : ((g.admins || []).indexOf(x.id) > -1 ? 'админ' : '');
+        return '<button class="gx-mem" type="button" data-gxmem="' + esc(x.id) + '"><div class="avatar" style="background:' + gxColor(x.id) + '">' + avHtml({ n: nm, photo: x.d.photo }) + '</div><span>' + esc(nm) + (x.id === uid ? ' (вы)' : '') + '</span>' + (role ? '<em>' + role + '</em>' : '') + '</button>';
+      }).join('') + (g.members.length > 40 ? '<p class="sub">Показаны первые 40.</p>' : '');
+    });
+  }
+  function gxMemMenu(id) {
+    var g = GX.cur; if (!g || g.owner !== uid || id === uid) return; var isAdm = (g.admins || []).indexOf(id) > -1, ch = g.type === 'channel';
+    openSheet('<div class="grab"></div><h2>' + esc(GX.mn[id] || 'Участник') + '</h2><div class="acts"><button class="btn ghost" type="button" data-gxa="' + (isAdm ? 'unadm' : 'mkadm') + '" data-id="' + esc(id) + '">' + (isAdm ? 'Снять админа' : 'Сделать админом') + '</button><button class="btn ghost danger" type="button" data-gxa="kick" data-id="' + esc(id) + '">Удалить из ' + (ch ? 'канала' : 'группы') + '</button><button class="btn ghost" type="button" data-close>Отмена</button></div>');
+  }
+  function gxUpd(f, msg, after) {
+    var g = GX.cur; if (!g || !db) return;
+    db.collection('groups').doc(g.id).update(f).then(function () { if (msg) toast(msg); if (after) after(); }).catch(function (e) { toast(gxErr(e)); });
+  }
+  function gxEdit() {
+    var g = GX.cur; if (!g) return;
+    openSheet('<div class="grab"></div><h2>Название и описание</h2><div class="field"><div class="input"><input id="gx-en" maxlength="40" autocomplete="off" value="' + esc(g.name) + '"></div></div><div class="field"><div class="input"><input id="gx-ea" maxlength="120" autocomplete="off" placeholder="Описание" value="' + esc(g.about || '') + '"></div></div><div style="height:10px"></div><button class="btn" type="button" data-gxa="edit-go">Сохранить</button>');
+  }
+  function gxAddMembers() {
+    var g = GX.cur; if (!g) return; GX.sel = {}; var peers = gxPeers(g.members || []);
+    openSheet('<div class="grab"></div><h2>' + (g.type === 'channel' ? 'Добавить подписчиков' : 'Добавить участников') + '</h2>' + (peers.length ? '<div class="gx-pl">' + peers.map(function (p) { return gxPickRow(p, false); }).join('') + '</div><button class="btn" type="button" data-gxa="addm-go">Добавить</button>' : '<p class="sub">Все ваши контакты уже здесь. Остальным отправьте ссылку-приглашение.</p><button class="btn ghost" type="button" data-gxa="invite">Скопировать ссылку-приглашение</button>'));
+  }
+  function gxConfirm(title, sub, act) {
+    openSheet('<div class="grab"></div><h2>' + title + '</h2><p class="sub">' + sub + '</p><div class="acts"><button class="btn ghost danger" type="button" data-gxa="' + act + '">Да</button><button class="btn ghost" type="button" data-close>Отмена</button></div>');
+  }
+  function gxLeave() {
+    var g = GX.cur; if (!g) return; g.leaving = true;
+    var f = { members: FV.arrayRemove(uid) }; if ((g.admins || []).indexOf(uid) > -1) f.admins = FV.arrayRemove(uid);
+    db.collection('groups').doc(g.id).update(f).then(function () { closeSheet(); gxClose(); toast('Готово'); }).catch(function (e) { g.leaving = false; toast(gxErr(e)); });
+  }
+  function gxDelete() {
+    var g = GX.cur; if (!g || g.owner !== uid) return; g.leaving = true; var ref = db.collection('groups').doc(g.id);
+    ref.collection('messages').limit(400).get().then(function (s) {
+      var b = db.batch(); s.docs.forEach(function (d) { b.delete(d.ref); }); if (g.handle) b.delete(db.collection('handles').doc(g.handle)); b.delete(ref); return b.commit();
+    }).then(function () { closeSheet(); gxClose(); toast('Удалено'); }).catch(function (e) { g.leaving = false; toast(gxErr(e)); });
+  }
+
+  /* --- события --- */
+  $('#gx-plus').addEventListener('click', gxPlus);
+  $('#gx-back').addEventListener('click', gxClose);
+  $('#gx-info').addEventListener('click', gxInfo);
+  $('#gx-who').addEventListener('click', gxInfo);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey && e.target && e.target.id === 'gx-in') { e.preventDefault(); gxSend(); } });
+  document.addEventListener('click', function (e) {
+    var t = e.target, el;
+    if ((el = t.closest('[data-gxa]'))) {
+      var a = el.dataset.gxa, id = el.dataset.id;
+      if (a === 'send') gxSend();
+      else if (a === 'join') gxJoin();
+      else if (a === 'new-group') gxForm('group');
+      else if (a === 'new-channel') gxForm('channel');
+      else if (a === 'find') gxFind();
+      else if (a === 'find-go') gxFindGo();
+      else if (a === 'create') gxCreate();
+      else if (a === 'photo') gxPickPhoto(function (d) { GX.photo = d; var b = $('#gx-ph'); if (b) { b.innerHTML = '<img alt="" src="' + d + '">'; b.style.borderStyle = 'solid'; } });
+      else if (a === 'invite') gxCopy(gxLink(GX.cur));
+      else if (a === 'edit') gxEdit();
+      else if (a === 'edit-go') { var n = ($('#gx-en').value || '').trim(); if (n.length < 2) { toast('Введите название'); return; } var ab = ($('#gx-ea').value || '').trim(); gxUpd({ name: n, about: ab }, 'Сохранено', function () { if (GX.cur) { GX.cur.name = n; GX.cur.about = ab; gxHead(); } closeSheet(); }); }
+      else if (a === 'addm') gxAddMembers();
+      else if (a === 'addm-go') { var ids = Object.keys(GX.sel); if (!ids.length) { toast('Выберите контакты'); return; } gxUpd({ members: FV.arrayUnion.apply(FV, ids) }, 'Добавлено', closeSheet); }
+      else if (a === 'leave') gxConfirm(GX.cur.type === 'channel' ? 'Отписаться?' : 'Покинуть группу?', 'Вернуться можно по ссылке-приглашению.', 'leave-yes');
+      else if (a === 'leave-yes') gxLeave();
+      else if (a === 'del') gxConfirm('Удалить навсегда?', 'Все сообщения будут стёрты у всех участников. Это нельзя отменить.', 'del-yes');
+      else if (a === 'del-yes') gxDelete();
+      else if (a === 'mkadm') gxUpd({ admins: FV.arrayUnion(id) }, 'Теперь это админ', closeSheet);
+      else if (a === 'unadm') gxUpd({ admins: FV.arrayRemove(id) }, 'Права сняты', closeSheet);
+      else if (a === 'kick') gxUpd({ members: FV.arrayRemove(id), admins: FV.arrayRemove(id) }, 'Удалено', closeSheet);
+      else if (a === 'mcopy') { var mm = null; GX.msgs.forEach(function (x) { if (x.id === id) mm = x; }); closeSheet(); if (mm) gxCopy(mm.text || ''); }
+      else if (a === 'mdel') { closeSheet(); if (GX.cur) db.collection('groups').doc(GX.cur.id).collection('messages').doc(id).delete().catch(function (er) { toast(gxErr(er)); }); }
+      return;
+    }
+    if ((el = t.closest('[data-gxp]'))) { var pid = el.dataset.gxp; if (GX.sel[pid]) delete GX.sel[pid]; else GX.sel[pid] = 1; el.classList.toggle('on', !!GX.sel[pid]); return; }
+    if ((el = t.closest('[data-gxmem]'))) { gxMemMenu(el.dataset.gxmem); return; }
+    if ((el = t.closest('[data-gxm]'))) { if (!window.getSelection || !String(window.getSelection())) gxMsgMenu(el.dataset.gxm); return; }
+    if ((el = t.closest('.chat[data-gx]'))) { var g = gxById(el.dataset.gx); if (g) gxOpen(g); return; }
+  });
+  function gxProfileAct(a) { if (a === 'gxg') gxForm('group'); else if (a === 'gxc') gxForm('channel'); else gxFind(); }
 
   /* --- подключение --- */
   anWatch($('#chat-list'), ':scope > .chat');
