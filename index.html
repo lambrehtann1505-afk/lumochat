@@ -1473,6 +1473,23 @@ body.in-home .auth-bg i{opacity:.4;width:240px;height:240px}
 body.in-home .auth-bg i:nth-child(1){top:-120px}
 body.in-home .auth-bg i:nth-child(2){top:-90px}
 body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
+
+/* ===== Профиль: баннер и новые кнопки ===== */
+.pr-banner{display:flex;align-items:center;justify-content:center;width:100%;height:130px;border:0;border-radius:26px;background:linear-gradient(135deg,rgba(var(--acc),.55),rgba(255,122,176,.38)) center/cover no-repeat;color:var(--fg);font:700 15px var(--font-body);margin:0 0 -56px;padding:0}
+.pr-banner.has{box-shadow:0 12px 30px -14px rgba(0,0,0,.7)}
+.pr-top .pr-av-b{position:relative;z-index:1}
+.pf-banner{height:120px;margin:4px 0 -50px;border-radius:22px;background:center/cover no-repeat var(--surface-2)}
+.pr-r.act{display:flex;align-items:center;gap:14px;justify-content:flex-start;text-align:left;width:100%;margin-top:8px;padding:12px 16px;min-height:64px;border-radius:22px}
+.pr-r.act:first-of-type{margin-top:0}
+.pr-r.act .pic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:21px;flex:none}
+.pr-r.act .pt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pr-r.act .pt b{font:600 17px var(--font-body);overflow-wrap:anywhere}
+.pr-r.act .pt small{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.pr-r.act .pa{color:var(--accent);font-weight:700;font-size:15px;flex:none}
+.pr-r.act .nw{flex:none;font-size:12px;font-weight:800;padding:4px 10px;border-radius:12px;white-space:nowrap}
+.pr-r.act .nw.new{background:#3b9cff;color:#fff}
+.pr-r.act .nw.dev{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.pr-r.act.red .pt b{color:#ff6b7f}
 </style>
 
 <div class="bg-aurora" id="fx" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -3906,6 +3923,7 @@ var BADGES = [
       '<button class="btn ghost danger" type="button" data-act="del:' + esc(p.id) + '">Удалить чат</button></div>');
     db.collection('users').doc(p.id).get().then(function (d) {
       if (!d.exists) return; var x = d.data(), b = $('#pf-bio'), sn = $('#pf-since'); if (!b) return;
+      if (x.banner && safeImg(x.banner)) { var gr = b.parentNode.querySelector('.grab'); if (gr) gr.insertAdjacentHTML('afterend', '<div class="pf-banner" style="background-image:url(' + x.banner + ')"></div>'); }
       p.bio = x.bio || ''; b.textContent = x.bio || ''; setBdg(p.id, x.badges); var pn = $('#pf-n'); if (pn) pn.innerHTML = esc(p.n) + bdgHtml(bdgOf(p.id)); b.hidden = !x.bio; peerMusic(x);
       if (x.created) sn.textContent = 'В LumoChat с ' + new Date(x.created).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' });
     }).catch(function () {});
@@ -5328,7 +5346,40 @@ var BADGES = [
   function birthText(b) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(b || ''); return m ? (+m[3]) + ' ' + MONTHS_RU[+m[2] - 1] + ' ' + m[1] + ' г.' : 'Не указан'; }
   var CHEV = '<svg class="ch" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>';
   function row(label, inner, x, extra) { return '<h3 class="pr-l">' + label + '</h3><' + (x ? 'button type="button" data-x="' + x + '"' : 'div') + ' class="pr-r' + (extra || '') + '">' + inner + '</' + (x ? 'button' : 'div') + '>'; }
+  /* ---------- новые кнопки профиля: баннер, канал, плагины ---------- */
+  function actRow(ic, bg, title, sub, x, right, red, t) {
+    return '<button type="button" class="pr-r act' + (red ? ' red' : '') + '" data-x="' + x + '"' + (t ? ' data-t="' + t + '"' : '') + '><span class="pic" style="background:' + bg + '">' + ic + '</span><span class="pt"><b>' + title + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + '</span>' + (right || '') + '</button>';
+  }
+  function bannerMenu() {
+    var has = !!(me() || {}).banner;
+    openSheet('<div class="grab"></div><h2>Баннер профиля</h2><p class="sub">Широкая картинка над аватаркой. Её увидят все, кто откроет ваш профиль.</p><div class="acts"><button class="btn" type="button" data-x="bnpick">' + (has ? 'Выбрать другую' : 'Выбрать фото') + '</button>' + (has ? '<button class="btn ghost danger" type="button" data-x="bndel">Убрать баннер</button>' : '') + '<button class="btn ghost" type="button" data-close>Отмена</button></div>');
+  }
+  function pickBanner() {
+    var f = document.createElement('input'); f.type = 'file'; f.accept = 'image/*';
+    f.onchange = function () {
+      var file = f.files && f.files[0]; if (!file) return;
+      if (!/^image\//.test(file.type)) { toast('Выберите картинку'); return; }
+      var img = new Image(), url = URL.createObjectURL(file);
+      img.onload = function () {
+        var W = 960, H = 320, c = document.createElement('canvas'); c.width = W; c.height = H;
+        var k = Math.max(W / img.width, H / img.height), w = img.width * k, h = img.height * k;
+        c.getContext('2d').drawImage(img, (W - w) / 2, (H - h) / 2, w, h); URL.revokeObjectURL(url);
+        var d = c.toDataURL('image/jpeg', 0.78), r = me(); if (!r) return;
+        r.banner = d; UC[cur] = r; saveUser({ banner: d }); if (spOpen === 'profile') renderProfile(r); toast('Баннер добавлен');
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); toast('Не удалось открыть картинку'); };
+      img.src = url;
+    };
+    f.click();
+  }
   function renderProfile(r) {
+    var top = document.querySelector('.pr-top');
+    if (top) {
+      var bn = $('#pr-banner');
+      if (!bn) { top.insertAdjacentHTML('afterbegin', '<button type="button" class="pr-banner" id="pr-banner"></button>'); bn = $('#pr-banner'); bn.addEventListener('click', bannerMenu); }
+      if (r.banner && safeImg(r.banner)) { bn.style.backgroundImage = 'url(' + r.banner + ')'; bn.classList.add('has'); bn.textContent = ''; }
+      else { bn.style.backgroundImage = ''; bn.classList.remove('has'); bn.textContent = '+ Добавить баннер'; }
+    }
     avPv($('#pr-av')); $('#pr-n').innerHTML = esc(r.name || '') + bdgHtml(bdgMine(r)); $('#pr-u').textContent = '@' + cur;
     var mu = r.music && safeAud(r.music.d) ? r.music : null;
     var h = '<h3 class="pr-l">Музыка</h3><button type="button" class="pr-r mu" data-x="music"><span class="mi" data-x="play" role="button" aria-label="Играть"><svg viewBox="0 0 24 24" style="fill:currentColor;stroke:none">' + (mu && MUS && !MUS.paused ? '<path d="M7 5h3.500v14H7zM13.500 5H17v14h-3.500z"/>' : (mu ? '<path d="M8 5l11 7-11 7z"/>' : '<path d="M14 3v11.500A3.500 3.500 0 1112 11.500V6l7-1.500v8A3.500 3.500 0 1117 10V3.500z"/>')) + '</svg></span>' +
@@ -5339,6 +5390,13 @@ var BADGES = [
     h += row('Почта', esc(ME_MAIL == null ? '…' : (ME_MAIL || 'Не указана')), 'mail', ME_MAIL ? '' : ' dim');
     h += row('Пол', esc(r.gender || 'Не указан'), 'gender', r.gender ? '' : ' dim');
     h += row('День рождения', esc(birthText(r.birth)), 'birth', r.birth ? '' : ' dim');
+    h += '<h3 class="pr-l">Ещё</h3>' +
+      actRow('🖼', 'linear-gradient(135deg,#3b9cff,#8f6ee8)', 'Баннер', r.banner ? 'Установлен' : 'Не добавлен', 'banner', '<span class="pa">' + (r.banner ? 'Изменить' : 'Добавить') + '</span>') +
+      actRow('📣', 'linear-gradient(135deg,#ffb347,#f5731d)', 'Личный канал', r.channel ? esc(r.channel) : '', 'chan', '<span class="pa">' + (r.channel ? 'Изменить' : 'Добавить') + '</span>') +
+      actRow('✨', 'linear-gradient(135deg,#b06cff,#7a4ff0)', 'Автоматизация чатов', 'Бот будет отвечать от вашего имени', 'soon', '<span class="nw new">NEW</span>', 0, 'Автоматизация чатов скоро появится') +
+      actRow('👤', 'linear-gradient(135deg,#3b9cff,#2b6fe0)', 'Добавить аккаунт', 'Несколько аккаунтов в одном приложении', 'soon', '<span class="nw dev">Скоро</span>', 0, 'Несколько аккаунтов скоро появятся') +
+      actRow('🚪', 'linear-gradient(135deg,#ff7a8a,#e0405a)', 'Выход', '', 'logout', '', 1);
+    h += '<h3 class="pr-l">Плагины</h3>' + actRow('🧩', 'linear-gradient(135deg,#8f6ee8,#ff7ab0)', 'Добавить плагин', 'Темы, боты и виджеты для LumoChat', 'soon', '<span class="nw dev">В разработке</span>', 0, 'Плагины в разработке. Скоро добавим!');
     setHtml('#pr-rows', h);
     if (ME_MAIL == null && db && uid) { ME_MAIL = ''; db.collection('private').doc(uid).get().then(function (d) { ME_MAIL = (d.exists && d.data().email) || ''; if (spOpen === 'profile') renderProfile(me() || r); }).catch(function () { if (spOpen === 'profile') renderProfile(me() || r); }); }
   }
@@ -5411,6 +5469,13 @@ var BADGES = [
     if (a === 'delavs-ok') { var r = me(); if (!r) return; r.photo = ''; r.avs = []; UC[cur] = r; saveUser({ photo: '', avs: [] }); closeSheet(); paintMe(); toast('Аватарки удалены'); return; }
     if (a === 'avset') { var r2 = me(), im = (r2.avs || [])[+el.dataset.i]; if (!im || !safeImg(im)) return; r2.photo = im; UC[cur] = r2; saveUser({ photo: im }); closeSheet(); paintMe(); toast('Аватарка выбрана'); return; }
     if (a === 'avadd') { closeSheet(); setTimeout(function () { var b = $('#s-photo'); if (b) b.click(); }, 260); return; }
+    if (a === 'soon') { toast(el.dataset.t || 'Скоро появится'); return; }
+    if (a === 'banner') { bannerMenu(); return; }
+    if (a === 'bnpick') { closeSheet(); setTimeout(pickBanner, 260); return; }
+    if (a === 'bndel') { var rb = me(); if (rb) { rb.banner = ''; UC[cur] = rb; saveUser({ banner: '' }); closeSheet(); if (spOpen === 'profile') renderProfile(rb); toast('Баннер убран'); } return; }
+    if (a === 'chan') { var c0 = (me() || {}).channel || ''; openSheet('<div class="grab"></div><h2>Личный канал</h2><p class="sub">Название или ссылка вашего канала. Видно в вашем профиле.</p><div class="field"><div class="input"><input id="ch-in" maxlength="40" placeholder="@mychannel" autocomplete="off" value="' + esc(c0) + '"></div></div><div style="height:14px"></div><div class="acts"><button class="btn" type="button" data-x="chset">Сохранить</button>' + (c0 ? '<button class="btn ghost danger" type="button" data-x="chdel">Убрать канал</button>' : '') + '<button class="btn ghost" type="button" data-close>Отмена</button></div>'); return; }
+    if (a === 'chset') { var v0 = (($('#ch-in') || {}).value || '').trim().slice(0, 40), rc = me(); if (rc) { rc.channel = v0; UC[cur] = rc; saveUser({ channel: v0 }); closeSheet(); if (spOpen === 'profile') renderProfile(rc); toast(v0 ? 'Канал сохранён' : 'Канал убран'); } return; }
+    if (a === 'chdel') { var rd = me(); if (rd) { rd.channel = ''; UC[cur] = rd; saveUser({ channel: '' }); closeSheet(); if (spOpen === 'profile') renderProfile(rd); toast('Канал убран'); } return; }
     if (a === 'bio') { openBio(); return; }
     if (a === 'nick') { var nb = $('#s-name'); if (nb) nb.click(); return; }
     if (a === 'gender') { var g = (me() || {}).gender || ''; openSheet('<div class="grab"></div><h2>Пол</h2><div class="acts">' + ['Мужской', 'Женский', 'Не указан'].map(function (v) { return '<button class="btn ' + (g === v || (!g && v === 'Не указан') ? '' : 'ghost') + '" type="button" data-x="gset" data-g="' + v + '">' + v + '</button>'; }).join('') + '</div>'); return; }
