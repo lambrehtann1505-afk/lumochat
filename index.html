@@ -1453,6 +1453,12 @@ body.lite .shimmer{background:none!important;color:var(--fg)!important;-webkit-t
 /* ===== Плашка «Нет интернета» ===== */
 .net-bar{position:fixed;top:max(10px,env(safe-area-inset-top,0px));left:12px;right:64px;z-index:45;display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:16px;background:#ee6a7e;color:#2a0d14;font-weight:700;font-size:14px;box-shadow:0 10px 26px -8px rgba(238,106,126,.7);animation:netIn .3s ease-out}
 .net-bar[hidden]{display:none}
+.conn-top{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:40;display:none;align-items:center;justify-content:center;gap:7px;height:26px;font-weight:700;font-size:12.5px;letter-spacing:.2px;color:var(--muted);pointer-events:none;background:linear-gradient(var(--bg),transparent)}
+body.in-home .conn-top{display:flex}
+.conn-top .conn-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity .2s}
+.conn-top.off{color:#ee6a7e}
+.conn-top.off .conn-dot{opacity:1;background:#ee6a7e;animation:connPulse 1s ease-in-out infinite}
+@keyframes connPulse{0%,100%{transform:scale(.55);opacity:.45}50%{transform:scale(1.15);opacity:1}}
 .net-bar svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 @keyframes netIn{from{transform:translateY(-14px);opacity:0}}
 
@@ -2166,12 +2172,21 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
 
 
   /* ===== ПЛАШКА «НЕТ ИНТЕРНЕТА» ===== */
+  document.body.insertAdjacentHTML('beforeend', '<div class="conn-top" id="conn-top"><i class="conn-dot"></i><span id="conn-txt">LumoChat</span></div>');
+  function connUI() {
+    var bar = $('#conn-top'); if (!bar) return;
+    var off = offline();
+    bar.classList.toggle('off', off);
+    $('#conn-txt').textContent = off ? 'Соединение...' : 'LumoChat';
+  }
+  connUI();
+
   document.body.insertAdjacentHTML('beforeend', '<div class="net-bar" id="net-bar" role="status" aria-live="polite" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8.8a15 15 0 0 1 4-2.4M22 8.8a15 15 0 0 0-9.5-3.3M5.5 12.5a10 10 0 0 1 3-1.8M18.5 12.5a10 10 0 0 0-4-2.2M9 16.2a5 5 0 0 1 2-.9M15 16.2a5 5 0 0 0-1-.7M12 20h.01M3 3l18 18"/></svg><span>Нет интернета</span></div>');
   function netUI() { $('#net-bar').hidden = !offline(); }
   var NET_FB = { 'l-hint': '', 'r-user-hint': USER_HINT, 'r-email-hint': 'Нужна настоящая почта, к которой у вас есть доступ.', 'r-code-hint': 'Код действует 10 минут.', 'r-pass2-hint': '' };
-  window.addEventListener('offline', function () { netUI(); buzz(); });
+  window.addEventListener('offline', function () { netUI(); connUI(); buzz(); });
   window.addEventListener('online', function () {
-    netUI(); toast('Интернет снова есть');
+    netUI(); connUI(); toast('Интернет снова есть');
     Object.keys(NET_FB).forEach(function (id) { var h = $('#' + id); if (h && h.textContent === NET_MSG) { h.classList.remove('err'); h.textContent = NET_FB[id]; } });
   });
   netUI();
@@ -2728,6 +2743,7 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
     }, function () { toast('Нет связи с сервером'); });
   }
   function sendMsg(p, payload, preview, ts0) {
+    if (offline()) { toast(NET_MSG); return Promise.reject(new Error('offline')); }
     if (isBlocked(p.id) || p.blockedMe) { toast(isBlocked(p.id) ? 'Вы заблокировали этого пользователя' : 'Пользователь ограничил вам сообщения'); return Promise.reject(new Error('blocked')); }
     prOnSend();
     var ts = ts0 || Date.now(), ref = db.collection('chats').doc(chatId(uid, p.id));
@@ -5160,19 +5176,29 @@ var BADGES = [
   $('#c-call').addEventListener('click', function () { if (curPeer && !curPeer.fav) startCall(curPeer); });
 
   /* старт */
-  setTimeout(function () { if (window.__stGo) return window.__stGo(); var sp = $('#splash'); sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 450); }, 900);
+  var __splashDone = false, __bootT0 = Date.now();
+  function hideSplash() {
+    if (__splashDone) return; __splashDone = true;
+    var wait = Math.max(0, 350 - (Date.now() - __bootT0));
+    setTimeout(function () {
+      if (window.__stGo) return window.__stGo();
+      var sp = $('#splash'); if (!sp) return;
+      sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 450);
+    }, wait);
+  }
+  setTimeout(hideSplash, 7000); /* страховка: не зависать на загрузке, если что-то пошло не так */
   if (!/^https?:$/.test(location.protocol) && $('#l-hint')) $('#l-hint').textContent = 'Файл открыт из памяти телефона: вход может не работать. Лучше открыть по ссылке https://.';
-  if (!auth) { show('login'); $('#l-hint').textContent = NOCFG; }
+  if (!auth) { show('login'); $('#l-hint').textContent = NOCFG; hideSplash(); }
   else {
     var booted = false;
     auth.onAuthStateChanged(function (u) {
       if (booted) return; booted = true;
-      if (u) loadMe().then(function (r) { enterHome(r.nick); }).catch(function () { show('login'); });
+      if (u) loadMe().then(function (r) { enterHome(r.nick); hideSplash(); }).catch(function () { show('login'); hideSplash(); });
       else {
         var cr = KEEP && credGet();
-        if (cr) authCall(function () { return auth.signInWithEmailAndPassword(cr.u + MAIL, cr.p); }).then(loadMe).then(function (r) { enterHome(r.nick); })
-          .catch(function (e) { if (/invalid-credential|wrong-password|user-not-found/.test((e && e.code) || '')) credClear(); show('login'); });
-        else show('login');
+        if (cr) authCall(function () { return auth.signInWithEmailAndPassword(cr.u + MAIL, cr.p); }).then(loadMe).then(function (r) { enterHome(r.nick); hideSplash(); })
+          .catch(function (e) { if (/invalid-credential|wrong-password|user-not-found/.test((e && e.code) || '')) credClear(); show('login'); hideSplash(); });
+        else { show('login'); hideSplash(); }
       }
     });
   }
@@ -6668,6 +6694,7 @@ var BADGES = [
   function gxSend() {
     var i = $('#gx-in'), g = GX.cur; if (!i || !g || !g.joined || !db) return;
     if (g.type === 'channel' && !gxIsAdm(g)) return;
+    if (offline()) { toast(NET_MSG); return; }
     var t = i.value.trim(); if (!t) return; i.value = '';
     var ts = Date.now(), ref = db.collection('groups').doc(g.id), nm = (me() || {}).name || cur;
     ref.collection('messages').add({ from: uid, name: nm, text: t, ts: ts })
