@@ -1,5 +1,19 @@
 <!DOCTYPE html>
-<html lang="ru"><head><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0e0c14"><script>if("serviceWorker"in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})</script><meta charset="utf-8">
+<html lang="ru"><head>
+<script>
+(function(){
+var DEF='#b8a3f4',LIST=[['Фиолетовый','#b8a3f4'],['Голубой','#7db4ff'],['Мятный','#7fe0c0'],['Розовый','#ff9ec7'],['Персик','#ffb77a'],['Лайм','#c6e87a']];
+function rgb(h){return[1,3,5].map(function(i){return parseInt(h.substr(i,2),16)})}
+function hex(a){return'#'+a.map(function(v){return('0'+Math.max(0,Math.min(255,Math.round(v))).toString(16)).slice(-2)}).join('')}
+function apply(h){var st=document.documentElement.style,P=['--accent','--accent-press','--acc','--acc2','--glow'];
+ if(!/^#[0-9a-f]{6}$/i.test(h)||h.toLowerCase()===DEF){P.forEach(function(k){st.removeProperty(k)});try{localStorage.removeItem('lumo_theme')}catch(e){}return}
+ var c=rgb(h);st.setProperty('--accent',h);st.setProperty('--accent-press',hex(c.map(function(v){return v*.9})));st.setProperty('--acc',c.join(','));
+ st.setProperty('--acc2',c.map(function(v){return Math.round(v+(255-v)*.3)}).join(','));st.setProperty('--glow',c.map(function(v){return Math.round(v*.78)}).join(','));
+ try{localStorage.setItem('lumo_theme',h)}catch(e){}}
+window.LX_THEME={list:LIST,apply:apply,get:function(){try{return localStorage.getItem('lumo_theme')||DEF}catch(e){return DEF}}};
+apply(LX_THEME.get());
+})();
+</script><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0e0c14"><script>if("serviceWorker"in navigator)addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})</script><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover">
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -1647,7 +1661,6 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
   <section class="view" id="v-login" aria-labelledby="t-login">
     <div class="brand">
       <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5c5.2 0 9.5 3.6 9.5 8.3 0 4.7-4.300 8.300-9.500 8.300-.9 0-1.800-.1-2.600-.3L5 21.500v-4.200C3.300 15.800 2.500 13.400 2.500 10.800 2.500 6.100 6.800 2.500 12 2.500z"/></svg></div>
-      <b>LumoChat</b>
     </div>
     <h1 class="login-title" id="t-login">С возвращением</h1>
     <p class="sub">Войдите, чтобы продолжить переписку.</p>
@@ -1976,14 +1989,14 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
     if (!u || !p) { setErr(!u ? 'l-user-box' : 'l-pass-box', 'l-hint', !u ? 'Введите ник.' : 'Введите пароль.'); return; }
     if (offline()) { setErr('l-pass-box', 'l-hint', NET_MSG); return; }
     var lb = $('#l-submit'); if (lb.classList.contains('loading')) return; lb.classList.add('loading');
-    tmo(authCall(function () { return auth.signInWithEmailAndPassword(u + MAIL, p); }), 20000).then(loadMe).then(function (rec) {
+    tmo(authCall(function () { return auth.signInWithEmailAndPassword(u + MAIL, p); }), 20000).then(loadMe).then(tfGate).then(function (rec) {
       $('#f-login').reset(); credSave(u, p);
       celebrate(rec.name, false, function () { lb.classList.remove('loading'); enterHome(rec.nick); });
     }).catch(function (err) {
       lb.classList.remove('loading'); shake($('#l-user-box')); shake($('#l-pass-box'));
       $('#l-hint').classList.add('err');
       var bad = /invalid-credential|user-not-found|wrong-password|invalid-email/.test(err.code || '');
-      $('#l-hint').textContent = bad ? 'Неверный ник или пароль. Проверьте данные и попробуйте снова.' : errText(err);
+      $('#l-hint').textContent = err.code === 'tfa-cancel' ? 'Вход отменён: код не подтверждён.' : bad ? 'Неверный ник или пароль. Проверьте данные и попробуйте снова.' : errText(err);
     });
   });
 
@@ -2089,7 +2102,7 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
         .then(function (warn) { UC[reg.user] = rec; cur = reg.user; if (warn) setTimeout(function () { toast(warn); }, 3000); return rec; });
     }).then(function (rec) {
       $('#f-reg1').reset(); $('#f-reg2').reset(); $('#f-regmail').reset(); $('#f-regcode').reset(); MC = { email: '', code: '', exp: 0, tries: 0, last: 0, ok: false }; $('#meter').dataset.s = 0;
-      celebrate(rec.name, true, function () { done(); enterHome(rec.nick, true); });
+      regSecure().then(function () { celebrate(rec.name, true, function () { done(); enterHome(rec.nick, true); }); });
     }).catch(function (err) {
       done();
       if (err.code === 'auth/email-already-in-use') { show('reg1'); setErr('r-user-box', 'r-user-hint', 'Этот ник уже занят. Если он ваш, вернитесь и нажмите «Войти».'); }
@@ -2285,7 +2298,7 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
     if (document.hidden || !db || !uid || !cur) return;
     db.enableNetwork().catch(function () {}); if (!unChats) watchChats(); if (!unCalls) watchCalls();
   });
-  function doLogout() { closeSP(); credClear(); RC = {}; PRE = {}; if (unChats) unChats(); if (unMsgs) unMsgs(); gxStop(); CH = []; P = {}; SEEN = {}; GCHK = {}; SHOWN = null; RDW = {}; DLW = {}; if (unCalls) unCalls(); endCall(true); auth.signOut(); closeSheet(); cur = null; uid = null; applyTheme(DEF_THEME); BLK = []; CLR = {}; applyPrefs({}); show('login'); }
+  function doLogout() { SEC = null; SECL = 0; ME_MAIL = null; closeSP(); credClear(); RC = {}; PRE = {}; if (unChats) unChats(); if (unMsgs) unMsgs(); gxStop(); CH = []; P = {}; SEEN = {}; GCHK = {}; SHOWN = null; RDW = {}; DLW = {}; if (unCalls) unCalls(); endCall(true); auth.signOut(); closeSheet(); cur = null; uid = null; applyTheme(DEF_THEME); BLK = []; CLR = {}; applyPrefs({}); show('login'); }
   $('#logout').addEventListener('click', function () {
     openSheet('<div class="grab"></div><div class="lo-ic"><svg viewBox="0 0 24 24"><path d="M12 4l9 16H3zM12 10v4M12 17.500v.01"/></svg></div><h2 class="lo-t">Выйти из аккаунта?</h2><p class="sub lo-t">Вы выйдете из @' + esc(cur || '') + '. Чтобы войти снова, понадобятся ник и пароль — запомните их заранее.</p><div style="height:14px"></div><button class="btn" type="button" data-close>Остаться</button><div style="height:8px"></div><button class="btn ghost danger" id="lo-go" type="button">Да, выйти</button>');
   });
@@ -5193,6 +5206,7 @@ var BADGES = [
     var booted = false;
     auth.onAuthStateChanged(function (u) {
       if (booted) return; booted = true;
+      if (u && store.get('lumo_tfa_pending', '') === u.uid) { store.set('lumo_tfa_pending', ''); try { auth.signOut(); } catch (_) {} show('login'); hideSplash(); return; }
       if (u) loadMe().then(function (r) { enterHome(r.nick); hideSplash(); }).catch(function () { show('login'); hideSplash(); });
       else {
         var cr = KEEP && credGet();
@@ -5487,6 +5501,7 @@ var BADGES = [
     h += row('Ник', esc(r.name || ''), 'nick');
     h += row('Имя пользователя', '@' + esc(cur), '');
     h += row('Почта', esc(ME_MAIL == null ? '…' : (ME_MAIL || 'Не указана')), 'mail', ME_MAIL ? '' : ' dim');
+    h += row('Телефон', esc(SEC == null ? '…' : (SEC.phone || 'Не указан')), 'phone', SEC && SEC.phone ? '' : ' dim');
     h += row('Пол', esc(r.gender || 'Не указан'), 'gender', r.gender ? '' : ' dim');
     h += row('День рождения', esc(birthText(r.birth)), 'birth', r.birth ? '' : ' dim');
     h += '<h3 class="pr-l">Группы и каналы</h3>' +
@@ -5498,9 +5513,12 @@ var BADGES = [
       actRow('📣', 'linear-gradient(135deg,#ffb347,#f5731d)', 'Личный канал', r.channel ? esc(r.channel) : '', 'chan', '<span class="pa">' + (r.channel ? 'Изменить' : 'Добавить') + '</span>') +
       actRow('✨', 'linear-gradient(135deg,#b06cff,#7a4ff0)', 'Автоматизация чатов', 'Бот будет отвечать от вашего имени', 'soon', '<span class="nw new">NEW</span>', 0, 'Автоматизация чатов скоро появится') +
       actRow('👤', 'linear-gradient(135deg,#3b9cff,#2b6fe0)', 'Добавить аккаунт', 'Несколько аккаунтов в одном приложении', 'soon', '<span class="nw dev">Скоро</span>', 0, 'Несколько аккаунтов скоро появятся') +
+      actRow('🎨', 'linear-gradient(135deg,#ff9ec7,#7db4ff)', 'Цвет приложения', 'Акцент интерфейса', 'theme', '<span class="pa">Выбрать</span>') +
+      actRow('🛡', 'linear-gradient(135deg,#2bd4c0,#3b9cff)', '2 защита', secState(), 'tfa', '<span class="pa">Настроить</span>') +
       actRow('🚪', 'linear-gradient(135deg,#ff7a8a,#e0405a)', 'Выход', '', 'logout', '', 1);
     h += '<h3 class="pr-l">Плагины</h3>' + plCards();
     setHtml('#pr-rows', h);
+    if (SEC == null) secLoad();
     if (ME_MAIL == null && db && uid) { ME_MAIL = ''; db.collection('private').doc(uid).get().then(function (d) { ME_MAIL = (d.exists && d.data().email) || ''; if (spOpen === 'profile') renderProfile(me() || r); }).catch(function () { if (spOpen === 'profile') renderProfile(me() || r); }); }
   }
 
@@ -5772,7 +5790,161 @@ var BADGES = [
     }
     return false;
   }
+
+  /* ---------- 2 ЗАЩИТА, ТЕЛЕФОН ---------- */
+  /* Для настоящих СМС и Telegram нужен свой сервер: укажите адрес в CODE_API.
+     POST CODE_API/send {phone,channel:'sms'|'telegram'} и POST CODE_API/verify {phone,channel,code} -> 200 если код верный.
+     Пока адрес пустой, работает демо: код показывается на экране. */
+  var CODE_API = '';
+  var SEC = null, SECL = 0;
+  function secState() { if (!SEC) return 'Загрузка…'; var n = (SEC.tfa.mail ? 1 : 0) + (SEC.tfa.phone ? 1 : 0) + (window.LX_PIN && LX_PIN.has() ? 1 : 0); return n ? 'Включено: ' + n : 'Не настроена'; }
+  function secLoad() {
+    if (!db || !uid || SECL) return; SECL = 1;
+    db.collection('private').doc(uid).get().then(function (d) { SECL = 0; var x = d.exists ? d.data() : {}; SEC = { phone: x.phone || '', phoneCh: x.phoneCh || 'sms', tfa: x.tfa || {} }; if (ME_MAIL == null) ME_MAIL = x.email || ''; if (spOpen === 'profile') renderProfile(me() || {}); }).catch(function () { SECL = 0; });
+  }
+  function secSave() { return db.collection('private').doc(uid).set({ phone: SEC.phone, phoneCh: SEC.phoneCh, tfa: SEC.tfa, ts: Date.now() }, { merge: true }); }
+  function phoneNorm(v) { v = String(v || '').replace(/[\s\-()]/g, ''); return /^\+\d{10,15}$/.test(v) ? v : ''; }
+  function tfSendCode(o, st) {
+    if (o.kind === 'mail') {
+      if (!EMAILJS.service || !EMAILJS.template || !EMAILJS.key) return Promise.reject(0);
+      var c = genCode();
+      return fetch('https://api.emailjs.com/api/v1.0/email/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_id: EMAILJS.service, template_id: EMAILJS.template, user_id: EMAILJS.key, template_params: { to_email: o.to, code: c, name: (me() || {}).name || '' } }) })
+        .then(function (r) { if (!r.ok) throw 0; st.code = c; st.server = false; });
+    }
+    if (CODE_API) return fetch(CODE_API + '/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone: o.to, channel: o.ch }) }).then(function (r) { if (!r.ok) throw 0; st.server = true; });
+    st.code = genCode(); st.server = false; var dm = $('#tf-demo'); if (dm) dm.innerHTML = 'Демо-режим: сервер ' + (o.ch === 'telegram' ? 'Telegram' : 'СМС') + ' не подключён. Ваш код: <b>' + st.code + '</b>'; return Promise.resolve();
+  }
+  function tfVerify(o) {
+    return new Promise(function (res) {
+      var st = { code: '', exp: 0, tries: 0, last: 0, server: false }, ov = document.createElement('div'); ov.className = 'tf-ov';
+      ov.innerHTML = '<div class="tf-card"><h2>' + esc(o.title) + '</h2><p class="sub" id="tf-s"></p><div id="tf-demo" class="tf-demo"></div><div class="field"><div class="input"><input id="tf-c" inputmode="numeric" maxlength="6" placeholder="6 цифр" autocomplete="one-time-code"></div></div><div style="height:12px"></div><div class="acts"><button class="btn" type="button" data-q="ok">Подтвердить</button><button class="btn ghost" type="button" data-q="again">Отправить ещё раз</button>' + (o.kind === 'phone' ? '<button class="btn ghost" type="button" data-q="alt"></button>' : '') + '<button class="btn ghost" type="button" data-q="x">Отмена</button></div></div>';
+      document.body.appendChild(ov);
+      function end(v) { ov.remove(); res(v); }
+      function lab() { var a = ov.querySelector('[data-q="alt"]'); if (a) a.textContent = o.ch === 'telegram' ? 'Получить по СМС' : 'Получить в Telegram'; $('#tf-s').textContent = 'Код отправлен на ' + o.to + (o.kind === 'phone' ? (o.ch === 'telegram' ? ' (Telegram)' : ' (СМС)') : '') + '. Действует 10 минут.'; }
+      function send(btn) {
+        if (st.last && Date.now() - st.last < 45000) { toast('Подождите ' + Math.ceil((st.last + 45000 - Date.now()) / 1000) + ' с'); return; }
+        mmBusy(btn, true); lab();
+        tfSendCode(o, st).then(function () { st.exp = Date.now() + 600000; st.tries = 0; st.last = Date.now(); mmBusy(btn, false); var i = $('#tf-c'); if (i) i.focus(); }).catch(function () { mmBusy(btn, false); toast(o.kind === 'mail' ? 'Не удалось отправить письмо' : 'Не удалось отправить код'); });
+      }
+      ov.addEventListener('input', function (e) { if (e.target.id === 'tf-c') e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6); });
+      ov.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-q]'); if (!b) return; var q = b.dataset.q;
+        if (q === 'x') return end(false);
+        if (q === 'again') return send(b);
+        if (q === 'alt') { o.ch = o.ch === 'telegram' ? 'sms' : 'telegram'; st.last = 0; return send(b); }
+        var c = ($('#tf-c').value || '').replace(/\D/g, '');
+        if (c.length !== 6) return toast('Введите 6 цифр');
+        if (!st.exp || Date.now() > st.exp) return toast('Код устарел. Запросите новый.');
+        if (st.tries >= 5) return toast('Слишком много попыток. Запросите новый код.');
+        if (st.server) { mmBusy(b, true); fetch(CODE_API + '/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone: o.to, channel: o.ch, code: c }) }).then(function (r) { mmBusy(b, false); if (r.ok) end(true); else { st.tries++; toast('Неверный код'); } }).catch(function () { mmBusy(b, false); toast('Нет связи'); }); return; }
+        if (c !== st.code) { st.tries++; return toast('Неверный код. Осталось попыток: ' + (5 - st.tries)); }
+        end(true);
+      });
+      lab(); send(null);
+    });
+  }
+  function tfGate(rec) {
+    var cu = auth.currentUser; if (!cu || !db) return rec;
+    return db.collection('private').doc(cu.uid).get().then(function (d) {
+      var x = d.exists ? d.data() : {}, t = x.tfa || {}, f = [];
+      if (t.mail && x.email) f.push({ kind: 'mail', to: x.email, title: 'Код из письма' });
+      if (t.phone && x.phone) f.push({ kind: 'phone', to: x.phone, ch: x.phoneCh || 'sms', title: 'Код с телефона' });
+      if (!f.length) return rec;
+      store.set('lumo_tfa_pending', cu.uid);
+      return f.reduce(function (p, o) { return p.then(function () { return tfVerify(o).then(function (ok) { if (!ok) throw { code: 'tfa-cancel' }; }); }); }, Promise.resolve()).then(function () { store.set('lumo_tfa_pending', ''); return rec; });
+    }).catch(function (e) { try { auth.signOut(); } catch (_) {} throw e; });
+  }
+  /* шаг «Телефон» в конце регистрации */
+  function regSecure() {
+    return new Promise(function (res) {
+      var ov = document.createElement('div'), mail = reg.email || ''; ov.className = 'tf-ov';
+      function end() { ov.remove(); res(); }
+      function view(alt) {
+        ov.style.display = '';
+        ov.innerHTML = '<div class="tf-card"><h2>' + (alt ? 'Другой способ' : 'Добавьте телефон') + '</h2><p class="sub">' +
+          (alt ? 'Если номер добавить не получается, подтверждайте вход кодом на почту <b>' + esc(mail) + '</b>.' : 'По желанию: код при входе придёт в Telegram или по СМС. Отключить можно в профиле, раздел «2 защита».') + '</p>' +
+          (alt ? '' : mmField('rs-num', '+79991234567', 'type="tel" inputmode="tel"')) +
+          '<div class="acts">' + (alt ? '<button class="btn" type="button" data-r="mail">Использовать почту вместо номера</button><button class="btn ghost" type="button" data-r="back">Назад к номеру</button>'
+            : '<button class="btn" type="button" data-r="telegram">Код в Telegram</button><button class="btn" type="button" data-r="sms">Код по СМС</button><button class="btn ghost" type="button" data-r="alt">Не получается добавить номер?</button>') +
+          '<button class="btn ghost" type="button" data-r="skip">Пропустить</button></div></div>';
+      }
+      function save(patch, msg) {
+        if (!db || !uid) { toast('Нет связи с сервером'); view(false); return; }
+        db.collection('private').doc(uid).set(Object.assign({ ts: Date.now() }, patch), { merge: true }).then(function () { toast(msg); end(); }).catch(function (e) { toast(errText(e)); view(false); });
+      }
+      ov.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-r]'); if (!b) return; var r = b.dataset.r;
+        if (r === 'skip') return end();
+        if (r === 'alt') return view(true);
+        if (r === 'back') return view(false);
+        if (r === 'mail') return save({ tfa: { mail: true } }, 'Вход по коду с почты включён');
+        var n = phoneNorm(($('#rs-num') || {}).value); if (!n) { toast('Номер в формате +79991234567'); return; }
+        ov.style.display = 'none';
+        tfVerify({ kind: 'phone', to: n, ch: r, title: 'Подтвердите номер' }).then(function (ok) {
+          if (ok) save({ phone: n, phoneCh: r, tfa: { phone: true } }, 'Телефон привязан'); else ov.style.display = '';
+        });
+      });
+      view(false); document.body.appendChild(ov);
+    });
+  }
+  function tfMenu() {
+    if (!SEC) { secLoad(); toast('Загрузка…'); return; }
+    var pin = window.LX_PIN && LX_PIN.has(), on = function (v) { return v ? ' · включено' : ' · выключено'; };
+    openSheet(mmHead('2 защита', 'Дополнительные проверки для вашего аккаунта.') +
+      '<div class="acts"><button class="btn' + (SEC.tfa.mail ? '' : ' ghost') + '" type="button" data-x="tf-mail">Код с почты при входе' + on(SEC.tfa.mail) + '</button>' +
+      '<button class="btn' + (SEC.tfa.phone ? '' : ' ghost') + '" type="button" data-x="tf-phone">Код с телефона при входе' + on(SEC.tfa.phone) + '</button>' +
+      '<button class="btn' + (pin ? '' : ' ghost') + '" type="button" data-x="tf-pin">PIN-код на приложение' + on(pin) + '</button>' +
+      '<button class="btn ghost" type="button" data-close>Закрыть</button></div><p class="sub" style="font-size:12px;margin-top:10px">Код с почты нужен привязанная почта, код с телефона нужен подтверждённый номер. PIN хранится только на этом устройстве.</p>');
+  }
+  function phMenu() {
+    if (!SEC) { secLoad(); return; }
+    if (SEC.phone) openSheet(mmHead('Телефон', 'Сейчас привязан: <b>' + esc(SEC.phone) + '</b>') + '<div class="acts"><button class="btn" type="button" data-x="ph-chg">Изменить номер</button><button class="btn ghost danger" type="button" data-x="ph-del">Удалить номер</button><button class="btn ghost" type="button" data-close>Закрыть</button></div>');
+    else phAsk();
+  }
+  function phAsk() {
+    openSheet(mmHead('Привязать телефон', 'Введите номер в международном формате и выберите, как получить код.') + mmField('ph-num', '+79991234567', 'type="tel" inputmode="tel"') + '<div class="acts"><button class="btn" type="button" data-x="ph-tg">Код в Telegram</button><button class="btn" type="button" data-x="ph-sms">Код по СМС</button><button class="btn ghost" type="button" data-close>Отмена</button></div>');
+    setTimeout(function () { var i = $('#ph-num'); if (i) i.focus(); }, 300);
+  }
+  function phGo(ch) {
+    var n = phoneNorm(($('#ph-num') || {}).value); if (!n) { toast('Номер в формате +79991234567'); return; }
+    if (n === SEC.phone) { toast('Этот номер уже привязан'); return; }
+    closeSheet(); tfVerify({ kind: 'phone', to: n, ch: ch, title: 'Подтвердите номер' }).then(function (ok) {
+      if (!ok) return; SEC.phone = n; SEC.phoneCh = ch;
+      secSave().then(function () { toast('Телефон привязан'); if (spOpen === 'profile') renderProfile(me() || {}); }).catch(function (e) { toast(errText(e)); });
+    });
+  }
+  function themeMenu() {
+    var now = LX_THEME.get().toLowerCase();
+    openSheet(mmHead('Цвет приложения', 'Акцент кнопок, пузырей и значков. Применяется сразу.') + '<div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin:16px 0">' +
+      LX_THEME.list.map(function (c) { return '<button type="button" data-x="th:' + c[1] + '" aria-label="' + c[0] + '" style="width:54px;height:54px;border-radius:50%;border:3px solid ' + (now === c[1] ? '#fff' : 'transparent') + ';background:' + c[1] + ';box-shadow:0 6px 16px -4px ' + c[1] + '"></button>'; }).join('') +
+      '</div><div class="acts"><button class="btn ghost" type="button" data-close>Готово</button></div>');
+  }
+  function secX(a, el) {
+    if (a === 'theme') { themeMenu(); return true; }
+    if (a.indexOf('th:') === 0) { LX_THEME.apply(a.slice(3)); themeMenu(); return true; }
+    if (a === 'tfa') { tfMenu(); return true; }
+    if (a === 'phone') { phMenu(); return true; }
+    if (a === 'ph-chg') { phAsk(); return true; }
+    if (a === 'ph-tg' || a === 'ph-sms') { phGo(a === 'ph-tg' ? 'telegram' : 'sms'); return true; }
+    if (a === 'ph-del') { SEC.phone = ''; SEC.tfa.phone = false; secSave().then(function () { closeSheet(); toast('Номер удалён'); if (spOpen === 'profile') renderProfile(me() || {}); }); return true; }
+    if (a === 'tf-mail' || a === 'tf-phone') {
+      var k = a === 'tf-mail' ? 'mail' : 'phone';
+      if (k === 'mail' && !ME_MAIL) { toast('Сначала привяжите почту'); return true; }
+      if (k === 'phone' && !SEC.phone) { toast('Сначала привяжите телефон'); return true; }
+      SEC.tfa[k] = !SEC.tfa[k]; secSave().then(function () { tfMenu(); if (spOpen === 'profile') renderProfile(me() || {}); }).catch(function (e) { SEC.tfa[k] = !SEC.tfa[k]; toast(errText(e)); }); return true;
+    }
+    if (a === 'tf-pin') {
+      if (window.LX_PIN && LX_PIN.has()) openSheet(mmHead('PIN-код', 'Приложение просит PIN при запуске и после возвращения из фона.') + '<div class="acts"><button class="btn" type="button" data-x="tf-pin-new">Изменить PIN</button><button class="btn ghost danger" type="button" data-x="tf-pin-off">Выключить PIN</button><button class="btn ghost" type="button" data-x="tf-back">Назад</button></div>');
+      else secX('tf-pin-new'); return true;
+    }
+    if (a === 'tf-back') { tfMenu(); return true; }
+    if (a === 'tf-pin-new') { openSheet(mmHead('Новый PIN', '4 цифры. Запомните его: восстановить нельзя.') + mmField('pin-1', 'PIN', 'type="password" inputmode="numeric" maxlength="4"') + mmField('pin-2', 'Повторите PIN', 'type="password" inputmode="numeric" maxlength="4"') + '<div class="acts"><button class="btn" type="button" data-x="tf-pin-ok">Сохранить</button><button class="btn ghost" type="button" data-x="tf-back">Назад</button></div>'); return true; }
+    if (a === 'tf-pin-ok') { var p1 = ($('#pin-1') || {}).value || '', p2 = ($('#pin-2') || {}).value || ''; if (!/^\d{4}$/.test(p1)) { toast('PIN — ровно 4 цифры'); return true; } if (p1 !== p2) { toast('PIN не совпадает'); return true; } LX_PIN.set(p1).then(function () { toast('PIN включён'); tfMenu(); if (spOpen === 'profile') renderProfile(me() || {}); }); return true; }
+    if (a === 'tf-pin-off') { LX_PIN.clear(); toast('PIN выключен'); tfMenu(); if (spOpen === 'profile') renderProfile(me() || {}); return true; }
+    return false;
+  }
   function onX(a, el) {
+    if (secX(a, el)) return;
     if (mmX(a, el)) return;
     if (plX(a, el)) return;
     if (a === 'gxg' || a === 'gxc' || a === 'gxf') { gxProfileAct(a); return; }
@@ -6652,18 +6824,39 @@ var BADGES = [
   function gxFit() { var el = $('#gx'); if (!el || el.hidden) return; var v = window.visualViewport; if (v) { el.style.height = v.height + 'px'; el.style.top = v.offsetTop + 'px'; } }
   if (window.visualViewport) { visualViewport.addEventListener('resize', gxFit); visualViewport.addEventListener('scroll', gxFit); }
   function gxUnsub() { if (GX.unMsgs) { GX.unMsgs(); GX.unMsgs = null; } }
-  function gxSeen() { if (GX.cur && GX.cur.joined) { GX.seen[GX.cur.id] = Date.now(); store.set('lumo_gx_seen', GX.seen); } }
+  function gxSeen() { if (GX.cur && GX.cur.joined) { GX.seen[GX.cur.id] = Date.now(); store.set('lumo_gx_seen', GX.seen); gxMarkRd(); } }
+  function gxMarkRd() {
+    var g = GX.cur; if (!g || !g.joined || !db || document.hidden) return; var last = 0;
+    GX.msgs.forEach(function (m) { if (m.from !== uid && m.ts > last) last = m.ts; });
+    if (!last || ((g.reads || {})[uid] || 0) >= last) return;
+    (g.reads = g.reads || {})[uid] = Date.now(); var f = {}; f['reads.' + uid] = Date.now();
+    db.collection('groups').doc(g.id).update(f).catch(function () {});
+  }
+  function gxRd(g, m, mine, post) {
+    if (!(mine && !post) && !(post && gxIsAdm(g))) return ''; var r = g.reads || {}, n = 0;
+    (g.members || []).forEach(function (i) { if (i !== m.from && (r[i] || 0) >= m.ts) n++; });
+    return '<span class="gx-rd' + (n ? ' on' : '') + '" data-gxr="' + esc(m.id) + '">' + (n ? '✓✓ ' + n : '✓') + '</span>';
+  }
+  function gxReaders(id) {
+    var g = GX.cur, m = null; GX.msgs.forEach(function (x) { if (x.id === id) m = x; }); if (!g || !m || !db) return;
+    var r = g.reads || {}, ids = (g.members || []).filter(function (i) { return i !== m.from; }), rd = ids.filter(function (i) { return (r[i] || 0) >= m.ts; });
+    Promise.all(rd.slice(0, 30).map(function (i) { return db.collection('users').doc(i).get().then(function (d) { return (d.exists && d.data().name) || 'Пользователь'; }).catch(function () { return 'Пользователь'; }); })).then(function (n) {
+      openSheet('<div class="grab"></div><h2>Прочитали: ' + rd.length + ' из ' + ids.length + '</h2>' + (n.length ? n.map(function (x) { return '<p class="sub" style="color:var(--fg);margin:6px 0">' + esc(x) + '</p>'; }).join('') : '<p class="sub">Пока никто не прочитал.</p>'));
+    });
+  }
   function gxOpen(g) {
     if (!g || !db) return; gxUnsub();
+    if (GX.unDoc) { GX.unDoc(); GX.unDoc = null; }
     g.joined = gxIsMem(g); GX.cur = g; GX.msgs = []; GX.err = null; GX.mn = {};
     var el = $('#gx'); el.hidden = false; el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; gxFit();
     $('#gx-foot').dataset.k = ''; gxHead(); gxFoot(); gxRender(); gxSeen();
+    GX.unDoc = db.collection('groups').doc(g.id).onSnapshot(function (d) { if (GX.cur === g && d.exists) { var x = d.data(), a = JSON.stringify([g.reads || {}, g.members]); g.reads = x.reads || {}; g.members = x.members || g.members; if (a !== JSON.stringify([g.reads, g.members])) gxRender(); } }, function () {});
     GX.unMsgs = db.collection('groups').doc(g.id).collection('messages').orderBy('ts').limitToLast(100).onSnapshot(function (s) {
       GX.msgs = s.docs.map(function (d) { var m = d.data(); m.id = d.id; return m; }); GX.err = null; gxRender(); gxSeen();
     }, function (e) { GX.err = e; gxRender(); });
   }
   function gxClose() {
-    gxUnsub(); gxSeen(); GX.cur = null; var el = $('#gx'); if (el) el.hidden = true;
+    gxUnsub(); gxSeen(); if (GX.unDoc) { GX.unDoc(); GX.unDoc = null; } GX.cur = null; var el = $('#gx'); if (el) el.hidden = true;
     var f = $('#gx-foot'); if (f) { f.innerHTML = ''; f.dataset.k = ''; }
     renderChats();
   }
@@ -6687,7 +6880,7 @@ var BADGES = [
     var post = g.type === 'channel';
     box.innerHTML = GX.msgs.map(function (m) {
       var mine = m.from === uid;
-      return '<div class="gx-m' + (mine && !post ? ' me' : '') + (post ? ' post' : '') + '" data-gxm="' + esc(m.id) + '">' + (post ? '<span class="gx-n">' + esc(g.name) + '</span>' : (!mine ? '<span class="gx-n">' + esc(m.name || 'Участник') + '</span>' : '')) + esc(m.text || '').replace(/\n/g, '<br>') + '<span class="gx-tm">' + fmtTime(m.ts) + '</span></div>';
+      return '<div class="gx-m' + (mine && !post ? ' me' : '') + (post ? ' post' : '') + '" data-gxm="' + esc(m.id) + '">' + (post ? '<span class="gx-n">' + esc(g.name) + '</span>' : (!mine ? '<span class="gx-n">' + esc(m.name || 'Участник') + '</span>' : '')) + esc(m.text || '').replace(/\n/g, '<br>') + '<span class="gx-tm">' + fmtTime(m.ts) + '</span>' + gxRd(g, m, mine, post) + '</div>';
     }).join('');
     if (near) box.scrollTop = box.scrollHeight;
   }
@@ -6864,6 +7057,7 @@ var BADGES = [
     }
     if ((el = t.closest('[data-gxp]'))) { var pid = el.dataset.gxp; if (GX.sel[pid]) delete GX.sel[pid]; else GX.sel[pid] = 1; el.classList.toggle('on', !!GX.sel[pid]); return; }
     if ((el = t.closest('[data-gxmem]'))) { gxMemMenu(el.dataset.gxmem); return; }
+    if ((el = t.closest('[data-gxr]'))) { gxReaders(el.dataset.gxr); return; }
     if ((el = t.closest('[data-gxm]'))) { if (!window.getSelection || !String(window.getSelection())) gxMsgMenu(el.dataset.gxm); return; }
     if ((el = t.closest('.chat[data-gx]'))) { var g = gxById(el.dataset.gx); if (g) gxOpen(g); return; }
   });
@@ -6877,4 +7071,129 @@ var BADGES = [
 })();
 </script>
 
+
+<style id="lx-css">
+.icon-btn,.btn,.tab,.round,.act,.gx-big,.gx-send,.gx-pick,.gx-mem{transition:transform .12s ease,background-color .15s,filter .15s}
+.icon-btn:active,.btn:active,.tab:active,.round:active,.act:active,.gx-big:active,.gx-send:active,.gx-pick:active,.gx-mem:active{transform:scale(.93);filter:brightness(1.12)}
+.chat{transition:background-color .15s,transform .12s}.chat:active{background:rgba(var(--acc),.1);transform:scale(.985)}
+.msgs .b.me{animation:lxMe .28s cubic-bezier(.2,.9,.3,1.15)}
+.msgs .b.them{animation:lxThem .28s cubic-bezier(.2,.9,.3,1.15)}
+@keyframes lxMe{from{opacity:0;transform:translate(18px,12px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes lxThem{from{opacity:0;transform:translate(-18px,8px) scale(.92)}to{opacity:1;transform:none}}
+.msgs .b.lx-press{transform:scale(.96);transition:transform .18s}
+#v-chat:not([hidden]){animation:lxScr .3s cubic-bezier(.25,.8,.25,1)}
+#tab-chats:not([hidden]),#tab-contacts:not([hidden]),#tab-settings:not([hidden]){animation:lxTab .28s ease-out}
+@keyframes lxScr{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes lxTab{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ld{display:flex;gap:12px;align-items:center;padding:12px 4px}
+.ld i,.ld b,.ld u{display:block;border-radius:10px;background:linear-gradient(90deg,var(--surface) 20%,var(--surface-2) 40%,var(--surface) 60%);background-size:300% 100%;animation:lxSh 1.3s linear infinite}
+.ld i{width:48px;height:48px;border-radius:50%;flex:none}.ld div{flex:1}.ld b{height:13px;width:45%;margin-bottom:9px}.ld u{height:11px;width:75%}
+.ldm{display:flex;flex-direction:column;gap:10px;padding:14px 4px}.ldm i{display:block;height:38px;width:55%;border-radius:18px;background:linear-gradient(90deg,var(--surface) 20%,var(--surface-2) 40%,var(--surface) 60%);background-size:300% 100%;animation:lxSh 1.3s linear infinite}
+.ldm i:nth-child(2n){align-self:flex-end;width:42%}.ldm i:nth-child(3){width:68%;height:56px}
+@keyframes lxSh{to{background-position:-300% 0}}
+.dr{color:var(--danger);font-weight:600}
+.lx-pin{display:flex;align-items:center;gap:10px;margin:0 0 6px;padding:7px 12px;border-radius:14px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);font-size:13px;cursor:pointer;animation:lxTab .22s}
+.lx-pin[hidden]{display:none}.lx-pin b{color:var(--accent);font-size:12px;white-space:nowrap}.lx-pin span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}
+.pinned{box-shadow:0 0 0 2px rgba(var(--acc),.45)}
+.gx-rd{display:block;text-align:right;font-size:11px;opacity:.6;cursor:pointer;margin-top:2px}.gx-rd.on{opacity:1;color:#6db3ff}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},L=function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},V=function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+var D=L('lumo_drafts',{}),P=L('lumo_pins',{}),ix={};
+var esc=function(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+function ck(){var g=$('#gx');if(g&&!g.hidden){var n=$('#gx-name');return n?'g:'+n.textContent:null}var v=$('#v-chat'),c=$('#c-gift');return v&&!v.hidden&&c&&c.dataset.giftTo?'c:'+c.dataset.giftTo:null}
+function inp(k){return k&&k.charAt(0)==='g'?$('#gx-in'):$('#m-text')}
+/* скелетоны */
+function skRows(){var h='';for(var i=0;i<6;i++)h+='<div class="ld"><i></i><div><b></b><u></u></div></div>';return h}
+var cl=$('#chat-list');if(cl&&!cl.children.length)cl.innerHTML=skRows();
+var mb=$('#msgs');if(mb)new MutationObserver(function(){var v=$('#v-chat');if(!mb.children.length&&v&&!v.hidden)mb.innerHTML='<div class="ldm"><i></i><i></i><i></i><i></i></div>'}).observe(mb,{childList:true});
+/* долгое нажатие */
+var pt;document.addEventListener('pointerdown',function(e){var b=e.target.closest&&e.target.closest('.msgs .b');if(!b)return;pt=setTimeout(function(){b.classList.add('lx-press')},160)},true);
+['pointerup','pointercancel','pointermove','scroll'].forEach(function(n){document.addEventListener(n,function(){clearTimeout(pt);document.querySelectorAll('.lx-press').forEach(function(b){b.classList.remove('lx-press')})},true)});
+/* черновики */
+function paintDr(){document.querySelectorAll('#chat-list .chat[data-open],#chat-list .chat[data-gx]').forEach(function(r){var k=r.dataset.open?'c:'+r.dataset.open:'g:'+((r.querySelector('.name')||{}).textContent||'').trim(),l=r.querySelector('.last,.t,.meta span');if(!l||!D[k])return;l.innerHTML='<span class="dr">Черновик:</span> '+esc(D[k].slice(0,60))})}
+function restore(){requestAnimationFrame(function(){var k=ck(),i=inp(k);if(i&&!i.value&&D[k]){i.value=D[k];i.dispatchEvent(new Event('input',{bubbles:true}))}paintDr();paint()})}
+document.addEventListener('input',function(e){var t=e.target;if(t.id!=='m-text'&&t.id!=='gx-in')return;var k=ck();if(!k)return;if(t.value.trim())D[k]=t.value;else delete D[k];V('lumo_drafts',D)},true);
+function clr(){setTimeout(function(){var k=ck(),i=inp(k);if(k&&i&&!i.value.trim()&&D[k]){delete D[k];V('lumo_drafts',D)}},80)}
+document.addEventListener('submit',clr,true);document.addEventListener('click',function(e){if(e.target.closest('[data-gxa="send"]'))clr()},true);document.addEventListener('keydown',function(e){if(e.key==='Enter')clr()},true);
+['#v-chat','#gx'].forEach(function(s){var n=$(s);if(n)new MutationObserver(restore).observe(n,{attributes:true,attributeFilter:['hidden']})});
+var gf=$('#gx-foot');if(gf)new MutationObserver(restore).observe(gf,{childList:true});
+if(cl)new MutationObserver(paintDr).observe(cl,{childList:true});
+/* закреплённые */
+function bar(id,host){var b=$('#'+id);if(b||!host)return b;b=document.createElement('div');b.id=id;b.className='lx-pin';b.hidden=true;b.innerHTML='<b></b><span></span>';host.parentNode.insertBefore(b,host);return b}
+function paint(){var k=ck();[['lx-pc','#msgs','[data-mid]','c:'],['lx-pg','#gx-msgs','[data-gxm]','g:']].forEach(function(c){var host=$(c[1]),b=bar(c[0],host);if(!b)return;var key=k&&k.indexOf(c[3])===0?k:null,a=key&&P[key]||[];b.hidden=!a.length;host.querySelectorAll('.pinned').forEach(function(x){x.classList.remove('pinned')});if(!a.length)return;var i=(ix[key]||0)%a.length;b.firstChild.textContent='📌 '+(i+1)+'/'+a.length;b.lastChild.textContent=a[i].t;a.forEach(function(p){var el=host.querySelector(c[2].replace(']','="'+p.id+'"]'));if(el)el.classList.add('pinned')})})}
+['#msgs','#gx-msgs'].forEach(function(s){var n=$(s);if(n)new MutationObserver(paint).observe(n,{childList:true})});
+document.addEventListener('click',function(e){var b=e.target.closest('#lx-pc,#lx-pg');if(!b)return;var k=ck(),a=k&&P[k];if(!a||!a.length)return;var i=(ix[k]||0)%a.length,p=a[i];ix[k]=i+1;var host=$(b.id==='lx-pc'?'#msgs':'#gx-msgs'),el=host.querySelector((b.id==='lx-pc'?'[data-mid="':'[data-gxm="')+p.id+'"]');if(el){el.scrollIntoView({block:'center',behavior:'smooth'})}paint()});
+/* кнопка «Закрепить» в меню сообщения */
+var sb=$('#sheet-body');if(sb)new MutationObserver(function(){if(sb.querySelector('[data-lpin]'))return;var k=ck();if(!k)return;var g=k.charAt(0)==='g',a=sb.querySelector(g?'[data-gxa="mcopy"]':'[data-act][data-id]');if(!a)return;var id=a.dataset.id,host=$(g?'#gx-msgs':'#msgs');if(!host||!host.querySelector((g?'[data-gxm="':'[data-mid="')+id+'"]'))return;var on=(P[k]||[]).some(function(p){return p.id===id}),n=document.createElement('button');n.type='button';n.className=g?'btn ghost':'act';n.dataset.lpin=id;n.innerHTML=g?(on?'Открепить':'Закрепить'):'<span>'+(on?'Открепить':'Закрепить')+'</span>';a.parentNode.insertBefore(n,a)}).observe(sb,{childList:true});
+document.addEventListener('click',function(e){var t=e.target.closest('[data-lpin]');if(!t)return;e.stopPropagation();e.preventDefault();var k=ck(),id=t.dataset.lpin,g=k.charAt(0)==='g',el=$(g?'#gx-msgs':'#msgs').querySelector((g?'[data-gxm="':'[data-mid="')+id+'"]'),a=P[k]||[],j=-1;a.forEach(function(p,i){if(p.id===id)j=i});if(j>=0)a.splice(j,1);else{var c=el?el.cloneNode(true):null;if(c){c.querySelectorAll('.gx-n,.gx-tm,.gx-rd,small,.fw,.rq').forEach(function(x){x.remove()})}var tx=c?(c.textContent||'').trim():'';a.push({id:id,t:(tx||'Вложение').slice(0,80)});if(a.length>5)a.shift()}P[k]=a;if(!a.length)delete P[k];V('lumo_pins',P);var sh=$('#sheet');sh.classList.remove('open');setTimeout(function(){sh.hidden=true},220);paint()},true);
+})();
+</script>
+
+<style id="tf-css">
+.tf-ov{position:fixed;inset:0;z-index:99990;background:rgba(10,8,18,.88);backdrop-filter:blur(8px);display:grid;place-items:center;padding:20px;animation:lxTab .22s}
+.tf-card{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px}
+.tf-demo{font-size:12.5px;line-height:1.4;color:var(--muted);margin:0 0 10px}.tf-demo:empty{display:none}.tf-demo b{color:var(--accent);font-size:15px;letter-spacing:2px}
+#lx-lock{position:fixed;inset:0;z-index:99999;background:var(--bg,#0d0b14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px}
+#lx-lock[hidden]{display:none}#lx-lock h2{margin:0}#lx-lock p{margin:0;color:var(--muted);font-size:13px;min-height:18px}
+.lk-d{display:flex;gap:14px}.lk-d i{width:14px;height:14px;border-radius:50%;border:2px solid var(--accent)}.lk-d i.on{background:var(--accent)}
+.lk-k{display:grid;grid-template-columns:repeat(3,74px);gap:12px}.lk-k button{height:64px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--fg,#fff);font-size:24px;transition:transform .1s}.lk-k button:active{transform:scale(.92)}
+#lx-lock .lk-x{background:none;border:0;color:var(--muted);font-size:13px}
+</style>
+<script>
+(function(){
+var K='lumo_pin',cfg=function(){try{return JSON.parse(localStorage.getItem(K)||'null')}catch(e){return null}};
+function H(p,s){var d=s+':'+p;if(window.crypto&&crypto.subtle&&window.TextEncoder)return crypto.subtle.digest('SHA-256',new TextEncoder().encode(d)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return('0'+x.toString(16)).slice(-2)}).join('')});var h=5381;for(var i=0;i<d.length;i++)h=((h<<5)+h+d.charCodeAt(i))|0;return Promise.resolve(String(h))}
+window.LX_PIN={has:function(){return!!cfg()},set:function(p){var s=String(Math.random()).slice(2);return H(p,s).then(function(h){localStorage.setItem(K,JSON.stringify({h:h,s:s}))})},clear:function(){localStorage.removeItem(K)}};
+var el=document.createElement('div');el.id='lx-lock';el.hidden=true;el.innerHTML='<h2>Введите PIN</h2><div class="lk-d"><i></i><i></i><i></i><i></i></div><p id="lk-m"></p><div class="lk-k"></div><button class="lk-x" type="button">Забыли PIN? Выйти из аккаунта</button>';
+document.body.appendChild(el);
+var kp=el.querySelector('.lk-k'),v='',bad=0,until=0,t0=0;
+'123456789'.split('').concat(['','0','⌫']).forEach(function(c){var b=document.createElement('button');b.type='button';b.textContent=c;if(!c)b.style.visibility='hidden';b.onclick=function(){key(c)};kp.appendChild(b)});
+function dots(){el.querySelectorAll('.lk-d i').forEach(function(d,i){d.classList.toggle('on',i<v.length)})}
+function key(c){if(Date.now()<until){el.querySelector('#lk-m').textContent='Подождите '+Math.ceil((until-Date.now())/1000)+' с';return}if(c==='⌫')v=v.slice(0,-1);else if(v.length<4)v+=c;dots();if(v.length<4)return;var x=cfg();H(v,x.s).then(function(h){if(h===x.h){bad=0;v='';dots();el.hidden=true;el.querySelector('#lk-m').textContent=''}else{bad++;v='';dots();el.querySelector('#lk-m').textContent='Неверный PIN';if(bad>=5){until=Date.now()+30000;bad=0}}})}
+function lock(){if(cfg()){v='';dots();el.hidden=false}}
+el.querySelector('.lk-x').onclick=function(){var go=function(){try{localStorage.removeItem(K);localStorage.removeItem('lumo_cred')}catch(e){}location.reload()};try{firebase.auth().signOut().then(go,go)}catch(e){go()}};
+document.addEventListener('visibilitychange',function(){if(document.hidden)t0=Date.now();else if(t0&&Date.now()-t0>30000)lock()});
+lock();
+})();
+</script>
+
+<style id="dn-css">
+#lx-dn{position:fixed;right:16px;bottom:92px;z-index:50;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--fg,#fff);display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.35);opacity:0;transform:translateY(10px) scale(.9);pointer-events:none;transition:opacity .2s,transform .2s}
+#lx-dn.on{opacity:1;transform:none;pointer-events:auto}#lx-dn:active{transform:scale(.92)}
+#lx-dn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+#lx-dn b{position:absolute;top:-6px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--accent);color:#fff;font-size:11px;display:grid;place-items:center}#lx-dn b:empty{display:none}
+</style>
+<script>
+(function(){
+var btn=document.createElement('button');btn.id='lx-dn';btn.type='button';btn.setAttribute('aria-label','Вниз');btn.innerHTML='<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg><b></b>';document.body.appendChild(btn);
+var cur=null,n=0,mo=null;
+function sc(el){while(el&&el!==document.body){var o=getComputedStyle(el).overflowY;if((o==='auto'||o==='scroll')&&el.scrollHeight>el.clientHeight)return el;el=el.parentElement}return document.scrollingElement}
+function chk(){if(!cur){btn.classList.remove('on');return}var e=sc(cur);if(!e)return;var far=e.scrollHeight-e.scrollTop-e.clientHeight>320;if(!far)n=0;btn.classList.toggle('on',far);btn.lastChild.textContent=far&&n?(n>99?'99+':n):''}
+function bind(id){var m=document.getElementById(id);if(!m)return;var host=m.closest('#v-chat,#gx')||m;
+ var t0b=0;var go=function(){t0b=Date.now();var vis=!host.hidden&&getComputedStyle(host).display!=='none';cur=vis?m:(cur===m?null:cur);n=0;setTimeout(chk,50)};
+ new MutationObserver(go).observe(host,{attributes:true,attributeFilter:['hidden','class']});
+ var seen={};new MutationObserver(function(r){var e=sc(m),far=cur===m&&e&&Date.now()-t0b>800&&e.scrollHeight-e.scrollTop-e.clientHeight>320;r.forEach(function(x){x.addedNodes.forEach(function(a){if(a.nodeType!==1)return;var id=a.getAttribute('data-mid')||a.getAttribute('data-gxm');if(!id||seen[id])return;seen[id]=1;if(far&&a.matches('.b.them,.gx-m:not(.me)'))n++})});if(cur===m)setTimeout(chk,30)}).observe(m,{childList:true});
+ m.addEventListener('scroll',chk,true);var e=sc(m);if(e)e.addEventListener('scroll',chk,{passive:true});go()}
+bind('msgs');bind('gx-msgs');
+btn.addEventListener('click',function(){if(!cur)return;var e=sc(cur);if(e)e.scrollTo({top:e.scrollHeight,behavior:'smooth'});n=0;if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){}});
+document.addEventListener('scroll',chk,true);
+/* лёгкая вибрация при долгом нажатии на сообщение */
+document.addEventListener('contextmenu',function(){if(navigator.vibrate)try{navigator.vibrate(12)}catch(_){}},true);
+})();
+</script>
+
+<style id="pl-css">
+html{-webkit-tap-highlight-color:transparent}
+::selection{background:rgba(var(--acc),.35)}
+*{scrollbar-width:thin;scrollbar-color:rgba(var(--acc),.35) transparent}
+.input{transition:box-shadow .2s}.input:focus-within{box-shadow:0 0 0 2px rgba(var(--acc),.5),0 0 24px -4px rgba(var(--glow),.45)}
+.badge{box-shadow:0 0 12px rgba(var(--glow),.55)}
+.avatar{box-shadow:0 0 0 2px rgba(var(--acc),.22)}
+body:not(.lite) .b.me,body:not(.lite) .gx-m.me{box-shadow:0 6px 20px -6px rgba(var(--glow),.6)}
+body:not(.lite) .gx-send{box-shadow:0 6px 18px -4px rgba(var(--glow),.7)}
+</style>
 </body></html>
