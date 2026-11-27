@@ -1534,6 +1534,29 @@ body.in-home .auth-bg i:nth-child(3){bottom:auto;top:-140px}
 .gx{position:fixed;left:0;right:0;top:0;height:100%;z-index:19;display:flex;flex-direction:column;background:radial-gradient(80% 30% at 85% 100%,rgba(var(--glow),.28),transparent 70%),radial-gradient(60% 24% at 10% 0%,rgba(var(--glow),.16),transparent 70%),var(--bg);animation:gxin .25s ease both}
 .gx[hidden]{display:none}
 @keyframes gxin{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+/* --- Вход и безопасность: аккуратные карточки --- */
+#sp-sec .sec-hero{display:flex;gap:14px;align-items:center;padding:16px;border-radius:22px;margin:6px 0 16px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(var(--acc),.22),rgba(255,255,255,.03)),var(--surface-2);--hc:#8a8fa3}
+#sp-sec .sec-sh{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;font-size:27px;flex:none;background:var(--hc);box-shadow:0 10px 22px -10px var(--hc),inset 0 1px 0 rgba(255,255,255,.35);transition:background .4s}
+#sp-sec .sec-ht{flex:1;min-width:0}#sp-sec .sec-ht b{display:block;font:700 17px/1.2 var(--font-body)}#sp-sec .sec-ht small{display:block;font-size:12.5px;color:var(--muted);line-height:1.35}
+#sp-sec .sec-bar{display:flex;gap:4px;margin:9px 0 7px}#sp-sec .sec-bar i{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.14);transition:background .4s}#sp-sec .sec-bar i.on{background:var(--hc)}
+#sp-sec .sg{background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02)),var(--surface-2);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin:0 0 8px}
+#sp-sec .sg .panel{margin:0!important;padding:0!important;background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+#sp-sec .sg .panel+.panel{border-top:1px solid var(--line)!important}
+#sp-sec .sg .btn{width:100%;border-radius:0!important;background:transparent!important;border:0!important;box-shadow:none!important;text-align:left;padding:12px 14px!important;min-height:0!important;height:auto!important;display:block;font:inherit;color:var(--fg);transition:background .15s}
+#sp-sec .sg .btn:active{background:rgba(255,255,255,.07)!important;transform:none}
+#sp-sec .sr{display:flex;align-items:center;gap:12px;width:100%}
+#sp-sec .sr-i{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:19px;flex:none;box-shadow:0 8px 16px -8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.3)}
+#sp-sec .sr-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;text-align:left}
+#sp-sec .sr-t b{font:600 15px/1.25 var(--font-body);white-space:normal}
+#sp-sec .sr-t small{font-size:12.5px;color:var(--muted);line-height:1.3;overflow-wrap:anywhere}
+#sp-sec .sr-v{font-style:normal;font-size:13px;color:var(--muted);white-space:nowrap;max-width:42%;overflow:hidden;text-overflow:ellipsis}
+#sp-sec .sr-v.ok{color:#5be0a0}#sp-sec .sr-v.warn{color:#ffb454}
+#sp-sec .sr-sw{width:46px;height:28px;border-radius:14px;background:rgba(255,255,255,.16);position:relative;flex:none;transition:background .25s}
+#sp-sec .sr-sw::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.35);transition:transform .25s cubic-bezier(.3,.8,.3,1.2)}
+#sp-sec .sr-sw.on{background:var(--accent)}#sp-sec .sr-sw.on::after{transform:translateX(18px)}
+#sp-sec .sr-ch{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#sp-sec .sg-note{font-size:12.5px;color:var(--muted);margin:2px 8px 16px;line-height:1.4}
+
 .gx.out{animation:gxout .26s cubic-bezier(.4,0,1,1) both;pointer-events:none}
 @keyframes gxout{to{opacity:0;transform:translateX(36px) scale(.98)}}
 .chat.gx-ghost{overflow:hidden;pointer-events:none;animation:gxrm .5s var(--gd,.3s) ease both!important}
@@ -5885,6 +5908,68 @@ var BADGES = [
     set('s-sec-auto', 'Автовыход при долгом отсутствии: ' + optLabel(AUTO, lsGet('lumo_autoout', 0)));
     set('s-tfa', '2 защита: ' + secState().replace(/^./, function (c) { return c.toLowerCase(); }));
   }
+
+  /* --- красивый вид страницы «Вход и безопасность» --- */
+  (function () {
+    var sp = document.getElementById('sp-sec'); if (!sp) return;
+    var CH_SVG = '<svg class="sr-ch" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>';
+    function E(t) { return String(t == null ? '' : t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    var G = function (a, b) { return 'linear-gradient(135deg,' + a + ',' + b + ')'; };
+    var ROWS = {
+      's-keep': { i: '🔐', c: G('#7c5cff', '#b06cff'), t: 'Оставаться в аккаунте', s: 'Не входить заново после закрытия приложения', k: 'sw' },
+      's-pass': { i: '🔑', c: G('#ffb347', '#f5731d'), t: 'Сменить пароль', s: 'Обновите пароль от аккаунта', k: 'go' },
+      's-sec-mail': { i: '✉️', c: G('#3b9cff', '#2b6fe0'), t: 'Почта', k: 'info' },
+      's-sec-phone': { i: '📱', c: G('#2bd4c0', '#1a9bb0'), t: 'Телефон', k: 'info' },
+      's-sec-tfm': { i: '📨', c: G('#7c5cff', '#4f8bff'), t: 'Код с почты при входе', s: 'Подтверждать вход письмом с кодом', k: 'sw' },
+      's-sec-tfp': { i: '💬', c: G('#36c28a', '#1f9d6a'), t: 'Код с телефона при входе', s: 'Подтверждать вход кодом на телефон', k: 'sw' },
+      's-sec-pin': { i: '🔢', c: G('#ff7ab0', '#e0405a'), t: 'PIN-код на приложение', s: 'Запрашивать PIN при открытии', k: 'sw' },
+      's-tfa': { i: '🛡️', c: G('#b06cff', '#7a4ff0'), t: 'Двойная защита', k: 'val', v: 1 },
+      's-sec-lkd': { i: '⏱️', c: G('#8f9bb3', '#5b6784'), t: 'Автоблокировка PIN', s: 'Через сколько блокировать приложение', k: 'val' },
+      's-sec-hide': { i: '🙈', c: G('#ff9ec7', '#c06cff'), t: 'Скрывать экран при сворачивании', s: 'В списке приложений ничего не видно', k: 'sw' },
+      's-sec-auto': { i: '🚪', c: G('#ff7a8a', '#e0405a'), t: 'Автовыход при долгом отсутствии', s: 'Выйти, если вы давно не заходили', k: 'val' }
+    };
+    function deco(b) {
+      var c = ROWS[b.id]; if (!c || b.querySelector('.sr')) return;
+      var t = b.textContent, i = t.indexOf(': '), val = i > 0 ? t.slice(i + 2) : '', sub = c.s || '', right = CH_SVG, vc = '';
+      if (c.k === 'info') { sub = val; }
+      else if (c.k === 'sw') { right = '<i class="sr-sw' + (/^(вкл|включ)/i.test(val) ? ' on' : '') + '"></i>'; }
+      else if (c.k === 'val') {
+        if (c.v) { vc = /^(не |загр|…)/i.test(val) ? ' warn' : ' ok'; val = val.charAt(0).toUpperCase() + val.slice(1); }
+        right = '<em class="sr-v' + vc + '">' + E(val) + '</em>' + CH_SVG;
+      }
+      b.innerHTML = '<span class="sr"><span class="sr-i" style="background:' + c.c + '">' + c.i + '</span><span class="sr-t"><b>' + E(c.t) + '</b>' + (sub ? '<small>' + E(sub) + '</small>' : '') + '</span>' + right + '</span>';
+    }
+    // группы карточками
+    function group(ids, note) {
+      var first = null, box = document.createElement('div'); box.className = 'sg';
+      ids.forEach(function (id) { var b = document.getElementById(id); if (!b) return; var pn = b.parentNode; if (!first) { first = pn; pn.parentNode.insertBefore(box, pn); } box.appendChild(pn); });
+      if (note && box.parentNode) { var n = document.createElement('p'); n.className = 'sg-note'; n.textContent = note; box.parentNode.insertBefore(n, box.nextSibling); }
+    }
+    group(['s-keep', 's-pass']);
+    group(['s-sec-mail', 's-sec-phone', 's-sec-tfm', 's-sec-tfp', 's-sec-pin', 's-tfa'], 'Чем больше включено, тем сложнее взломать аккаунт. Хватит и одной защиты, но лучше две.');
+    group(['s-sec-lkd', 's-sec-hide', 's-sec-auto'], 'Автоблокировка работает только если включён PIN-код.');
+    var hero = document.createElement('div'); hero.className = 'sec-hero'; hero.id = 'sec-hero';
+    var hd = sp.querySelector('.sp-head'); if (hd) hd.parentNode.insertBefore(hero, hd.nextSibling);
+    function level() {
+      var pin = !!(window.LX_PIN && LX_PIN.has()), mail = !!ME_MAIL, ph = !!(SEC && SEC.phone), tm = !!(SEC && SEC.tfa && SEC.tfa.mail), tp = !!(SEC && SEC.tfa && SEC.tfa.phone);
+      var n = (mail ? 1 : 0) + (ph ? 1 : 0) + (tm ? 1 : 0) + (tp ? 1 : 0) + (pin ? 1 : 0), tip = '';
+      if (!SEC) tip = 'Загружаем данные…'; else if (!pin) tip = 'Совет: включите PIN-код на приложение.'; else if (!tm && !tp) tip = 'Совет: включите код при входе: с почты или с телефона.'; else if (!ph) tip = 'Совет: привяжите телефон, чтобы можно было восстановить доступ.'; else tip = 'Отлично, аккаунт хорошо защищён.';
+      var L = n <= 1 ? ['Слабая', '#ff6b6b', '⚠️'] : n <= 3 ? ['Средняя', '#ffb454', '🛡️'] : ['Высокая', '#36c28a', '✅'];
+      return { n: n, L: L, tip: tip };
+    }
+    var lastH = '';
+    function paintHero() {
+      var v = level(), h = v.n + '|' + v.tip + '|' + v.L[0]; if (h === lastH) return; lastH = h;
+      var bar = ''; for (var i = 0; i < 5; i++) bar += '<i' + (i < v.n ? ' class="on"' : '') + '></i>';
+      hero.style.setProperty('--hc', v.L[1]);
+      hero.innerHTML = '<div class="sec-sh">' + v.L[2] + '</div><div class="sec-ht"><b>Защита аккаунта: ' + v.L[0].toLowerCase() + '</b><div class="sec-bar">' + bar + '</div><small>' + E(v.tip) + '</small></div>';
+    }
+    var busy = false;
+    function run() { busy = false; Object.keys(ROWS).forEach(function (id) { var b = document.getElementById(id); if (b) deco(b); }); paintHero(); }
+    new MutationObserver(function () { if (!busy) { busy = true; Promise.resolve().then(run); } }).observe(sp, { childList: true, subtree: true });
+    run(); setInterval(paintHero, 1500);
+  })();
+
   function secState() { if (!SEC) return 'Загрузка…'; var n = (SEC.tfa.mail ? 1 : 0) + (SEC.tfa.phone ? 1 : 0) + (window.LX_PIN && LX_PIN.has() ? 1 : 0); return n ? 'Включено: ' + n : 'Не настроена'; }
   function secLoad() {
     if (!db || !uid || SECL) return; SECL = 1;
