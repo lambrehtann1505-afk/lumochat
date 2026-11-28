@@ -1,5 +1,5 @@
 /* LumoChat service worker: офлайн-оболочка приложения */
-var V = 'lumochat-v7-7';
+var V = 'lumochat-v7-13';
 var SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', function (e) {
