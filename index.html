@@ -5881,7 +5881,7 @@ var BADGES = [
   /* Для настоящих СМС и Telegram нужен свой сервер: укажите адрес в CODE_API.
      POST CODE_API/send {phone,channel:'sms'|'telegram'} и POST CODE_API/verify {phone,channel,code} -> 200 если код верный.
      Пока адрес пустой, работает демо: код показывается на экране. */
-  var CODE_API = '';
+  var CODE_API = 'https://lumochat-codes.lambrehtann1505.workers.dev', CODE_BOT = 'lumochat_codes_bot'; /* адрес сервера кодов (Cloudflare Worker) и имя Telegram-бота без @ */
   var SEC = null, SECL = 0;
   function lsGet(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } }
   function lsSet(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
@@ -5984,8 +5984,11 @@ var BADGES = [
       return fetch('https://api.emailjs.com/api/v1.0/email/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_id: EMAILJS.service, template_id: EMAILJS.template, user_id: EMAILJS.key, template_params: { to_email: o.to, code: c, name: (me() || {}).name || '' } }) })
         .then(function (r) { if (!r.ok) throw 0; st.code = c; st.server = false; });
     }
-    if (CODE_API) return fetch(CODE_API + '/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone: o.to, channel: o.ch }) }).then(function (r) { if (!r.ok) throw 0; st.server = true; });
-    st.code = genCode(); st.server = false; var dm = $('#tf-demo'); if (dm) dm.innerHTML = 'Демо-режим: сервер ' + (o.ch === 'telegram' ? 'Telegram' : 'СМС') + ' не подключён. Ваш код: <b>' + st.code + '</b>'; return Promise.resolve();
+    if (!CODE_API) return Promise.reject({ code: 'noserver' });
+    return fetch(CODE_API + '/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ phone: o.to, channel: o.ch }) }).then(function (r) {
+      if (r.ok) { st.server = true; return; }
+      return r.json().catch(function () { return {}; }).then(function (j) { throw { code: j.error || 'fail' }; });
+    });
   }
   function tfVerify(o) {
     return new Promise(function (res) {
@@ -5997,7 +6000,14 @@ var BADGES = [
       function send(btn) {
         if (st.last && Date.now() - st.last < 45000) { toast('Подождите ' + Math.ceil((st.last + 45000 - Date.now()) / 1000) + ' с'); return; }
         mmBusy(btn, true); lab();
-        tfSendCode(o, st).then(function () { st.exp = Date.now() + 600000; st.tries = 0; st.last = Date.now(); mmBusy(btn, false); var i = $('#tf-c'); if (i) i.focus(); }).catch(function () { mmBusy(btn, false); toast(o.kind === 'mail' ? 'Не удалось отправить письмо' : 'Не удалось отправить код'); });
+        tfSendCode(o, st).then(function () { var dm0 = $('#tf-demo'); if (dm0) dm0.innerHTML = ''; st.exp = Date.now() + 600000; st.tries = 0; st.last = Date.now(); mmBusy(btn, false); var i = $('#tf-c'); if (i) i.focus(); }).catch(function (e) {
+          mmBusy(btn, false); var c = e && e.code, dm = $('#tf-demo');
+          if (c === 'noserver') { toast('Подтверждение по телефону пока недоступно'); end(false); }
+          else if (c === 'start_bot') { if (dm) dm.innerHTML = 'Сначала подключите номер к боту: откройте ' + (CODE_BOT ? '<a href="https://t.me/' + esc(CODE_BOT) + '" target="_blank" rel="noopener">@' + esc(CODE_BOT) + '</a>' : 'бота LumoChat') + ', нажмите «Start» и «Поделиться номером», затем вернитесь и нажмите «Отправить ещё раз».'; toast('Номер ещё не подключён к боту'); }
+          else if (c === 'no_sms') toast('СМС пока недоступны. Выберите Telegram.');
+          else if (c === 'too_fast') toast('Подождите минуту и попробуйте снова');
+          else toast(o.kind === 'mail' ? 'Не удалось отправить письмо' : 'Не удалось отправить код');
+        });
       }
       ov.addEventListener('input', function (e) { if (e.target.id === 'tf-c') e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6); });
       ov.addEventListener('click', function (e) {
@@ -6021,7 +6031,7 @@ var BADGES = [
     return db.collection('private').doc(cu.uid).get().then(function (d) {
       var x = d.exists ? d.data() : {}, t = x.tfa || {}, f = [];
       if (t.mail && x.email) f.push({ kind: 'mail', to: x.email, title: 'Код из письма' });
-      if (t.phone && x.phone) f.push({ kind: 'phone', to: x.phone, ch: x.phoneCh || 'sms', title: 'Код с телефона' });
+      if (t.phone && x.phone && CODE_API) f.push({ kind: 'phone', to: x.phone, ch: x.phoneCh || 'sms', title: 'Код с телефона' });
       if (!f.length) return rec;
       store.set('lumo_tfa_pending', cu.uid);
       return f.reduce(function (p, o) { return p.then(function () { return tfVerify(o).then(function (ok) { if (!ok) throw { code: 'tfa-cancel' }; }); }); }, Promise.resolve()).then(function () { store.set('lumo_tfa_pending', ''); return rec; });
@@ -7364,7 +7374,7 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-lpin
 <style id="tf-css">
 .tf-ov{position:fixed;inset:0;z-index:99990;background:rgba(10,8,18,.88);backdrop-filter:blur(8px);display:grid;place-items:center;padding:20px;animation:lxTab .22s}
 .tf-card{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px}
-.tf-demo{font-size:12.5px;line-height:1.4;color:var(--muted);margin:0 0 10px}.tf-demo:empty{display:none}.tf-demo b{color:var(--accent);font-size:15px;letter-spacing:2px}
+.tf-demo{font-size:12.5px;line-height:1.4;color:var(--muted);margin:0 0 10px}.tf-demo:empty{display:none}.tf-demo b{color:var(--accent);font-size:15px;letter-spacing:2px}.tf-demo a{color:var(--accent);font-weight:600}
 #lx-lock{position:fixed;inset:0;z-index:99999;background:var(--bg,#0d0b14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px}
 #lx-lock[hidden]{display:none}#lx-lock h2{margin:0}#lx-lock p{margin:0;color:var(--muted);font-size:13px;min-height:18px}
 .lk-d{display:flex;gap:14px}.lk-d i{width:14px;height:14px;border-radius:50%;border:2px solid var(--accent)}.lk-d i.on{background:var(--accent)}
